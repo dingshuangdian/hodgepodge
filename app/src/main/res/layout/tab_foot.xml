@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
+    <ImageView
+        android:layout_width="64px"
+        android:id="@+id/foot_iv"
+        android:src="@mipmap/news_n"
+        android:layout_height="64px" />
+
+
+</android.support.constraint.ConstraintLayout>
