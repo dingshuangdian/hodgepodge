@@ -1,4 +1,12 @@
 package com.lsqidsd.hodgepodge.viewmodel;
 
-public class MainViewModel {
+import android.widget.TabHost;
+
+import com.lsqidsd.hodgepodge.utils.TabDb;
+
+public class MainViewModel{
+
+
+
+
 }

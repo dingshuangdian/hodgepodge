@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="TabTopBinding">
+
+        <variable
+            name="tabtopview"
+            type="com.lsqidsd.hodgepodge.viewmodel.TabTopViewModule"></variable>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RadioButton
+            android:id="@+id/rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tab_top_selector"
+            android:button="@null" />
+    </android.support.constraint.ConstraintLayout>
+
+
+</layout>
