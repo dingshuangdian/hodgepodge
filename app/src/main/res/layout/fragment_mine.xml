@@ -2,21 +2,24 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data class="BaseFragmentBinding">
+    <data class="MineFragmentBinding">
 
         <variable
-            name="basefragmentview"
-            type="com.lsqidsd.hodgepodge.viewmodel.basemodel.BaseFragmentModel"></variable>
+            name="mineview"
+            type="com.lsqidsd.hodgepodge.viewmodel.MineViewModule"></variable>
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <TextView
-            android:id="@+id/tv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_mine"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

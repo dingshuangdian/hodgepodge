@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<resources>
+
+    <declare-styleable name="FlexTitle">
+        <attr name="default_text_size" format="dimension" />//未选择文字大小
+        <attr name="selected_text_Size" format="dimension" />//选中文字大小
+        <attr name="default_text_color" format="color" />//未选择文字颜色
+        <attr name="selected_text_color" format="color" />//选择文字颜色
+        <attr name="background_content_color" format="color" />//背景颜色
+        <attr name="line_start_color" format="color" />//线 起始颜色
+        <attr name="line_end_color" format="color" />//线 终止颜色
+        <attr name="line_margins" format="dimension" />//线的间距
+        <attr name="item_margins" format="dimension" />//item间距
+        <attr name="item_top_margins" format="dimension" />//据上高度
+        <attr name="item_bottom_margins" format="dimension" />//距下高度
+        <attr name="line_bottom_margins" format="dimension" />//线 距下高度
+        <attr name="line_height" format="dimension" />// 线的高度
+        <attr name="title_center" format="boolean" />//文字是否左右均留空隙
+        <attr name="line_drag" format="boolean" />//线是否有拖拽效果
+    </declare-styleable>
+    <attr name="text_size" format="dimension" />
+    <attr name="default_color" format="color|reference" />
+    <attr name="changed_color" format="color|reference" />
+
+
+</resources>

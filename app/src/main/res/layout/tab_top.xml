@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:flexTitle="http://schemas.android.com/apk/res-auto">
 
     <data class="TabTopBinding">
 
@@ -8,17 +9,22 @@
             type="com.lsqidsd.hodgepodge.viewmodel.TabTopViewModule"></variable>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <com.lsqidsd.hodgepodge.utils.ViewPagerTitle
+        android:id="@+id/vt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <RadioButton
-            android:id="@+id/rb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/tab_top_selector"
-            android:button="@null" />
-    </android.support.constraint.ConstraintLayout>
-
-
+        android:layout_height="wrap_content"
+        flexTitle:background_content_color="@android:color/white"
+        flexTitle:default_text_size="14sp"
+        flexTitle:item_bottom_margins="8dp"
+        flexTitle:item_margins="40dp"
+        flexTitle:item_top_margins="10dp"
+        flexTitle:line_bottom_margins="10dp"
+        flexTitle:line_drag="true"
+        flexTitle:line_end_color="@android:color/holo_blue_light"
+        flexTitle:line_height="5dp"
+        flexTitle:line_margins="5dp"
+        flexTitle:line_start_color="@android:color/holo_red_dark"
+        flexTitle:selected_text_Size="16sp"
+        flexTitle:selected_text_color="@android:color/holo_orange_dark"
+        flexTitle:title_center="false" />
 </layout>

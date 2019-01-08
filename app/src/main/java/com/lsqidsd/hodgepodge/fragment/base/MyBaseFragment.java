@@ -1,22 +1,27 @@
 package com.lsqidsd.hodgepodge.fragment.base;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.databinding.BaseFragmentBinding;
 import com.lsqidsd.hodgepodge.viewmodel.basemodel.BaseFragmentModel;
 
-public class BaseFragment extends Fragment implements ViewPager.OnPageChangeListener {
+public class MyBaseFragment extends Fragment {
     private BaseFragmentBinding fragmentBinding;
     private BaseFragmentModel baseFragmentModel;
+   public static MyBaseFragment newInstance(String title) {
+        MyBaseFragment myBaseFragment = new MyBaseFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        myBaseFragment.setArguments(bundle);
+        return myBaseFragment;
+    }
 
     @Nullable
     @Override
@@ -24,29 +29,14 @@ public class BaseFragment extends Fragment implements ViewPager.OnPageChangeList
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.base_fragment, container, false);
         baseFragmentModel = new BaseFragmentModel(getActivity().getApplicationContext());
         fragmentBinding.setBasefragmentview(baseFragmentModel);
-        fragmentBinding.rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                fragmentBinding.viewpager.setCurrentItem(i);
-            }
-        });
 
-        return fragmentBinding;
-    }
-
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        return fragmentBinding.getRoot();
     }
 
     @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
+    public void onStart() {
+        super.onStart();
+        Bundle bundle = getArguments();
+        fragmentBinding.tv.setText(bundle.getString("title"));
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class="NewsFragmentBinding">
+
+        <variable
+            name="newsview"
+            type="com.lsqidsd.hodgepodge.viewmodel.NewsViewModule"></variable>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/tab_top"
+            layout="@layout/tab_top"></include>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+
+            >
+
+        </android.support.v4.view.ViewPager>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
