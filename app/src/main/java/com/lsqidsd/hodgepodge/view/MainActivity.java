@@ -1,23 +1,29 @@
 package com.lsqidsd.hodgepodge.view;
 
 import android.databinding.DataBindingUtil;
-import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.base.BaseActivity;
 import com.lsqidsd.hodgepodge.databinding.MainActivityBinding;
 import com.lsqidsd.hodgepodge.databinding.TabFootBinding;
 import com.lsqidsd.hodgepodge.utils.TabDb;
 import com.lsqidsd.hodgepodge.viewmodel.MainViewModel;
-public class MainActivity extends FragmentActivity implements TabHost.OnTabChangeListener {
+
+public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener {
     private MainActivityBinding binding;
     private TabFootBinding footBinding;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+    public int getLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void initView() {
+        binding = getBinding(binding);
         MainViewModel viewModel = new MainViewModel();
         binding.setMainview(viewModel);
         //设置view
@@ -27,6 +33,7 @@ public class MainActivity extends FragmentActivity implements TabHost.OnTabChang
         binding.mainTab.setOnTabChangedListener(this);
         binding.mainTab.onTabChanged(TabDb.getTabsTxt()[0]);
         initTab();
+        viewModel.getHtml1();
     }
 
     public void initTab() {

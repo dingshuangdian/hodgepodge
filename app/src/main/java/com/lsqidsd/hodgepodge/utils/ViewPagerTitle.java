@@ -102,8 +102,8 @@ public class ViewPagerTitle extends HorizontalScrollView {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.FlexTitle);
         defaultTextColor = array.getColor(R.styleable.FlexTitle_default_text_color, Color.GRAY);
         selectedTextColor = array.getColor(R.styleable.FlexTitle_selected_text_color, Color.BLACK);
-        defaultTextSize = Tool.px2sp(context, array.getDimension(R.styleable.FlexTitle_default_text_size, 18));
-        selectedTextSize = Tool.px2sp(context, array.getDimension(R.styleable.FlexTitle_selected_text_Size, 18));
+        defaultTextSize = Tool.px2sp(context, array.getDimension(R.styleable.FlexTitle_default_text_size, 14));
+        selectedTextSize = Tool.px2sp(context, array.getDimension(R.styleable.FlexTitle_selected_text_Size, 14));
         textTopMargins = Tool.px2dip(context, array.getDimension(R.styleable.FlexTitle_item_top_margins, 0));
         textBottomMargins = Tool.px2dip(context, array.getDimension(R.styleable.FlexTitle_item_bottom_margins, 0));
         lineMargins = Tool.px2dip(context, array.getDimension(R.styleable.FlexTitle_line_margins, 0));

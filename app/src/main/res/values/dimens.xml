@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="search_view_height">35dp</dimen>
+    <dimen name="search_view_padding_top">8dp</dimen>
+    <dimen name="search_view_padding_bottom">8dp</dimen>
+    <dimen name="search_view_padding_right">8dp</dimen>
+    <dimen name="btn_back_margin_right">8dp</dimen>
+    <dimen name="btn_clear_margin_left">8dp</dimen>
+    <dimen name="edit_text_size">14sp</dimen>
+    <dimen name="btn_cancel_text_size">16sp</dimen>
+    <dimen name="edit_padding_left">8dp</dimen>
+
+    <dimen name="edit_corner_radius">4dp</dimen>
+    <dimen name="edit_stroke_width">1dp</dimen>
+
+</resources>

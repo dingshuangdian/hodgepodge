@@ -8,7 +8,6 @@
             name="tabtopview"
             type="com.lsqidsd.hodgepodge.viewmodel.TabTopViewModule"></variable>
     </data>
-
     <com.lsqidsd.hodgepodge.utils.ViewPagerTitle
         android:id="@+id/vt"
         android:layout_width="match_parent"
@@ -16,15 +15,14 @@
         flexTitle:background_content_color="@android:color/white"
         flexTitle:default_text_size="14sp"
         flexTitle:item_bottom_margins="8dp"
-        flexTitle:item_margins="40dp"
+        flexTitle:item_margins="55dp"
         flexTitle:item_top_margins="10dp"
         flexTitle:line_bottom_margins="10dp"
-        flexTitle:line_drag="true"
+        flexTitle:line_drag="false"
         flexTitle:line_end_color="@android:color/holo_blue_light"
         flexTitle:line_height="5dp"
         flexTitle:line_margins="5dp"
-        flexTitle:line_start_color="@android:color/holo_red_dark"
-        flexTitle:selected_text_Size="16sp"
-        flexTitle:selected_text_color="@android:color/holo_orange_dark"
+        flexTitle:line_start_color="@android:color/holo_blue_light"
+        flexTitle:selected_text_Size="14sp"
         flexTitle:title_center="false" />
 </layout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-
 <resources>
 
     <declare-styleable name="FlexTitle">
@@ -24,6 +23,26 @@
     <attr name="text_size" format="dimension" />
     <attr name="default_color" format="color|reference" />
     <attr name="changed_color" format="color|reference" />
+
+    <declare-styleable name="HodgeSearchView">
+        <attr name="searchViewHeight" format="dimension|reference" />
+        <attr name="showBackButton" format="boolean" />
+        <attr name="backIcon" format="reference" />
+        <attr name="showSearchIcon" format="boolean" />
+        <attr name="searchIcon" format="reference" />
+        <attr name="showClearButton" format="boolean" />
+        <attr name="clearIcon" format="reference" />
+        <attr name="showCancelButton" format="boolean" />
+        <attr name="cancelText" format="string|reference" />
+        <attr name="cancelTextSize" format="dimension|reference" />
+        <attr name="cancelTextColor" format="color|reference" />
+        <attr name="searchText" format="string|reference" />
+        <attr name="searchTextSize" format="dimension|reference" />
+        <attr name="searchTextColor" format="color|reference" />
+        <attr name="searchHint" format="string|reference" />
+        <attr name="searchHintColor" format="color|reference" />
+        <attr name="maxSearchLength" format="integer" />
+    </declare-styleable>
 
 
 </resources>
