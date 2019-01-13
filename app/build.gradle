@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -20,10 +20,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-}
-android {
     dataBinding {
         enabled = true
+    }
+    greendao {
+        //版本号，升级时可配置
+        schemaVersion 1
     }
 }
 
@@ -47,4 +49,8 @@ dependencies {
     // 必要依赖，解析json字符所用
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     //非必要依赖， log依赖，如果需要打印OkHttpLog需要添加
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.github.hotchemi:permissionsdispatcher:2.3.2'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.2'
+    //implementation 'net.zetetic:android-database-sqlcipher:4.0.1@aar'
 }

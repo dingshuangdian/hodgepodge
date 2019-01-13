@@ -11,10 +11,12 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="#fff"
         android:layout_height="match_parent">
 
         <com.lsqidsd.hodgepodge.utils.HodgeSearchView
             android:id="@+id/searchview"
+            android:background="#fff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:maxSearchLength="100">
@@ -27,16 +29,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/searchview"></include>
-
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
+            android:background="@color/colorBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/tab_top"
-
-
             >
-
         </android.support.v4.view.ViewPager>
 
     </android.support.constraint.ConstraintLayout>

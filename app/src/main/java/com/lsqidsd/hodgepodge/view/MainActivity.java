@@ -9,6 +9,7 @@ import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
 import com.lsqidsd.hodgepodge.databinding.MainActivityBinding;
 import com.lsqidsd.hodgepodge.databinding.TabFootBinding;
+import com.lsqidsd.hodgepodge.fragment.NewsFragment;
 import com.lsqidsd.hodgepodge.utils.TabDb;
 import com.lsqidsd.hodgepodge.viewmodel.MainViewModel;
 
@@ -26,14 +27,22 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         binding = getBinding(binding);
         MainViewModel viewModel = new MainViewModel();
         binding.setMainview(viewModel);
-        //设置view
-        binding.mainTab.setup(this, getSupportFragmentManager(), binding.mainView.getId());
-        //去除分割线
-        binding.mainTab.getTabWidget().setDividerDrawable(null);
-        binding.mainTab.setOnTabChangedListener(this);
-        binding.mainTab.onTabChanged(TabDb.getTabsTxt()[0]);
-        initTab();
-        viewModel.getHtml1();
+        //6.0权限适配
+        requestReadAndWriteSDPermission(new BaseActivity.PermissionHandler() {
+            @Override
+            public void onGranted() {
+                viewModel.getHtml1();
+                //设置view
+                binding.mainTab.setup(MainActivity.this, getSupportFragmentManager(), binding.mainView.getId());
+                //去除分割线
+                binding.mainTab.getTabWidget().setDividerDrawable(null);
+                binding.mainTab.setOnTabChangedListener(MainActivity.this);
+                binding.mainTab.onTabChanged(TabDb.getTabsTxt()[0]);
+                initTab();
+            }
+        });
+
+
     }
 
     public void initTab() {
@@ -41,6 +50,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         String[] tabs = TabDb.getTabsTxt();
         for (int i = 0; i < tabs.length; i++) {
             TabHost.TabSpec tabSpec = binding.mainTab.newTabSpec(tabs[i]);
+
             footBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.tab_foot, null, false);
             footBinding.footTv.setText(tabs[i]);
             footBinding.footIv.setImageResource(TabDb.getTabsImg()[i]);
