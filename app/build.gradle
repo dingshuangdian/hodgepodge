@@ -52,5 +52,7 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'com.github.hotchemi:permissionsdispatcher:2.3.2'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.2'
+    implementation 'com.orhanobut:logger:1.15'
     //implementation 'net.zetetic:android-database-sqlcipher:4.0.1@aar'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
 }
