@@ -1,11 +1,13 @@
 package com.lsqidsd.hodgepodge.view;
-
 import android.databinding.DataBindingUtil;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TabHost;
 import android.widget.TabWidget;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
@@ -16,67 +18,64 @@ import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultListener;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultSub;
 import com.lsqidsd.hodgepodge.utils.TabDb;
 import com.lsqidsd.hodgepodge.viewmodel.MainViewModel;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
-import java.io.IOException;
-
 public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener {
     private MainActivityBinding binding;
     private TabFootBinding footBinding;
-
     @Override
     public int getLayout() {
         return R.layout.activity_main;
     }
-
     @Override
     public void initView() {
         binding = getBinding(binding);
-        MainViewModel viewModel = new MainViewModel();
+        MainViewModel viewModel = new MainViewModel(this);
         binding.setMainview(viewModel);
-        //6.0权限适配
+        //设置view
+        binding.mainTab.setup(MainActivity.this, getSupportFragmentManager(), binding.mainView.getId());
+        //去除分割线
+        binding.mainTab.getTabWidget().setDividerDrawable(null);
+        binding.mainTab.setOnTabChangedListener(MainActivity.this);
+        binding.mainTab.onTabChanged(TabDb.getTabsTxt()[0]);
+        //initTab();
         requestReadAndWriteSDPermission(new BaseActivity.PermissionHandler() {
             @Override
             public void onGranted() {
-
-
-             /*   viewModel.getMainViewData(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                binding.webview.getSettings().setJavaScriptEnabled(true);
+                binding.webview.getSettings().setJavaScriptEnabled(true);
+                binding.webview.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
+                binding.webview.getSettings().setSupportZoom(true);
+                binding.webview.getSettings().setDomStorageEnabled(true);
+                binding.webview.requestFocus();
+                binding.webview.getSettings().setUseWideViewPort(true);
+                binding.webview.getSettings().setLoadWithOverviewMode(true);
+                binding.webview.getSettings().setSupportZoom(true);
+                binding.webview.getSettings().setBuiltInZoomControls(true);
+                binding.webview.setWebViewClient(new WebViewClient(){
                     @Override
-                    public void onSuccess(String result) {
-                        Document document = Jsoup.parse(result, BaseConstant.BASE_URL);
-                        viewModel.getCategoriesBeans(document, new OnWriteDataFinishListener() {
-                            @Override
-                            public void onSuccess() {
-                                //设置view
-                                binding.mainTab.setup(MainActivity.this, getSupportFragmentManager(), binding.mainView.getId());
-                                //去除分割线
-                                binding.mainTab.getTabWidget().setDividerDrawable(null);
-                                binding.mainTab.setOnTabChangedListener(MainActivity.this);
-                                binding.mainTab.onTabChanged(TabDb.getTabsTxt()[0]);
-                                initTab();
-                            }
-                            @Override
-                            public void onFault() {
-                            }
-                        });
+                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                        view.loadUrl(BaseConstant.BASE_URL);
+                        return true;
                     }
 
                     @Override
-                    public void onFault(String errorMsg) {
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        view.loadUrl("javascript:window.local_obj.showSource('<head>'+"
+                                + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
                     }
-                }, MainActivity.this));*/
+                });
+                binding.webview.loadUrl(BaseConstant.BASE_URL);
             }
         });
-      viewModel.getData();
-        //设置view
-//        binding.mainTab.setup(MainActivity.this, getSupportFragmentManager(), binding.mainView.getId());
-//        //去除分割线
-//        binding.mainTab.getTabWidget().setDividerDrawable(null);
-//        binding.mainTab.setOnTabChangedListener(MainActivity.this);
-//        binding.mainTab.onTabChanged(TabDb.getTabsTxt()[0]);
-//        initTab();
+    }
+
+    final class InJavaScriptLocalObj {
+        @JavascriptInterface
+        public void showSource(String html) {
+            Log.e("====>html=",html);
+        }
     }
 
     public void initTab() {

@@ -10,22 +10,28 @@
             type="com.lsqidsd.hodgepodge.viewmodel.MainViewModel"></variable>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <FrameLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <WebView
+            android:id="@+id/webview"
             android:layout_width="match_parent"
-            android:id="@+id/main_view"
-            app:layout_constraintBottom_toTopOf="@+id/main_tab"
             android:layout_height="match_parent">
-        </FrameLayout>
+
+        </WebView>
+
+        <FrameLayout
+            android:id="@+id/main_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
+
         <android.support.v4.app.FragmentTabHost
             android:id="@+id/main_tab"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </android.support.v4.app.FragmentTabHost>
-    </android.support.constraint.ConstraintLayout>
+            android:layout_height="wrap_content"></android.support.v4.app.FragmentTabHost>
+    </LinearLayout>
 
 
 </layout>

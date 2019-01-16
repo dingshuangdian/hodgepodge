@@ -1,44 +1,31 @@
 package com.lsqidsd.hodgepodge.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Unique;
-import org.greenrobot.greendao.annotation.Generated;
+import java.io.Serializable;
 
-@Entity
-public class CategoriesBean {
-    @Id(autoincrement = true)
-    private Long id;
-    @Unique
+public class CategoriesBean implements Serializable {
+
     private String title;
-    @Unique
+
     private String url;
-    @Generated(hash = 906128666)
-    public CategoriesBean(Long id, String title, String url) {
-        this.id = id;
+
+    public CategoriesBean(String title, String url) {
         this.title = title;
         this.url = url;
     }
-    @Generated(hash = 1835422631)
-    public CategoriesBean() {
-    }
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
+
     public String getTitle() {
-        return this.title;
+        return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
+
     public String getUrl() {
-        return this.url;
+        return url;
     }
+
     public void setUrl(String url) {
         this.url = url;
     }
-
 }

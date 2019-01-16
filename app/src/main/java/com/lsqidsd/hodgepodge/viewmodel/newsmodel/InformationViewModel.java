@@ -17,6 +17,7 @@ public class InformationViewModel {
 
     public InformationViewModel(String url) {
         this.url = url;
+        Log.e("url",url);
     }
 
     public void getNewsInformation(DisposableObserver<ResponseBody> subscriber) {
@@ -27,8 +28,8 @@ public class InformationViewModel {
     }
 
     public void getSliderImg(Document document, OnWriteDataFinishListener onWriteDataFinishListener) {
-        Log.e("document+++++++",document.outerHtml());
-        Elements elements = document.select(".nav-2sgjEBc8").select(".clearfix").select(".nav");
+        Log.e("document+++++++", document.outerHtml());
+        Elements elements = document.select(".channel_mod");
         Log.e("elements+++++++++", elements.toString());
 
 
