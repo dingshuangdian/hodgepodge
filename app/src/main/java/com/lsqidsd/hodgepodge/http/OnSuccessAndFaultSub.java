@@ -3,6 +3,10 @@ package com.lsqidsd.hodgepodge.http;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
+
+import com.lsqidsd.hodgepodge.bean.NewsItem;
+
+import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -18,7 +22,7 @@ import retrofit2.HttpException;
  * 回调结果为String，需要手动序列化
  */
 
-public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
+public class OnSuccessAndFaultSub extends DisposableObserver<NewsItem>
         implements ProgressCancelListener {
     /**
      * 是否需要显示默认Loading
@@ -151,13 +155,8 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
      * String str = body.string();//获取字符串数据
      */
     @Override
-    public void onNext(ResponseBody body) {
-        try {
-            final String result = CompressUtils.decompress(body.byteStream());
-            mOnSuccessAndFaultListener.onSuccess(result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void onNext(NewsItem body) {
+            mOnSuccessAndFaultListener.onSuccess(body);
     }
 
     /**

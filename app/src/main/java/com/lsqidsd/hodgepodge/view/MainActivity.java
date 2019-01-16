@@ -2,24 +2,17 @@ package com.lsqidsd.hodgepodge.view;
 import android.databinding.DataBindingUtil;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
-import com.lsqidsd.hodgepodge.base.BaseConstant;
-import com.lsqidsd.hodgepodge.base.OnWriteDataFinishListener;
+import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.databinding.MainActivityBinding;
 import com.lsqidsd.hodgepodge.databinding.TabFootBinding;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultListener;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultSub;
 import com.lsqidsd.hodgepodge.utils.TabDb;
 import com.lsqidsd.hodgepodge.viewmodel.MainViewModel;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener {
     private MainActivityBinding binding;
     private TabFootBinding footBinding;
@@ -38,46 +31,24 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         binding.mainTab.getTabWidget().setDividerDrawable(null);
         binding.mainTab.setOnTabChangedListener(MainActivity.this);
         binding.mainTab.onTabChanged(TabDb.getTabsTxt()[0]);
-        //initTab();
+        initTab();
         requestReadAndWriteSDPermission(new BaseActivity.PermissionHandler() {
             @Override
             public void onGranted() {
-                binding.webview.getSettings().setJavaScriptEnabled(true);
-                binding.webview.getSettings().setJavaScriptEnabled(true);
-                binding.webview.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
-                binding.webview.getSettings().setSupportZoom(true);
-                binding.webview.getSettings().setDomStorageEnabled(true);
-                binding.webview.requestFocus();
-                binding.webview.getSettings().setUseWideViewPort(true);
-                binding.webview.getSettings().setLoadWithOverviewMode(true);
-                binding.webview.getSettings().setSupportZoom(true);
-                binding.webview.getSettings().setBuiltInZoomControls(true);
-                binding.webview.setWebViewClient(new WebViewClient(){
+                viewModel.getMainViewData(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
                     @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                        view.loadUrl(BaseConstant.BASE_URL);
-                        return true;
+                    public void onSuccess(NewsItem result) {
+                        for (NewsItem.DataBean dataBean : result.getData()) {
+                            Log.e("title", dataBean.getTitle());
+                        }
                     }
-
                     @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        view.loadUrl("javascript:window.local_obj.showSource('<head>'+"
-                                + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+                    public void onFault(String errorMsg) {
                     }
-                });
-                binding.webview.loadUrl(BaseConstant.BASE_URL);
+                }));
             }
         });
     }
-
-    final class InJavaScriptLocalObj {
-        @JavascriptInterface
-        public void showSource(String html) {
-            Log.e("====>html=",html);
-        }
-    }
-
     public void initTab() {
         String[] tabs = TabDb.getTabsTxt();
         for (int i = 0; i < tabs.length; i++) {
@@ -89,7 +60,6 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
             binding.mainTab.addTab(tabSpec, TabDb.getFragment()[i], null);
         }
     }
-
     @Override
     public void onTabChanged(String s) {
         TabWidget tabWidget = binding.mainTab.getTabWidget();

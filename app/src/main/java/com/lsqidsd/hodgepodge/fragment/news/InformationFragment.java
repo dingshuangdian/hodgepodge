@@ -51,30 +51,30 @@ public class InformationFragment extends Fragment {
         Bundle bundle = getArguments();
         informationViewModel = new InformationViewModel(bundle.getString("url"));
         fragmentBinding.setInformationview(informationViewModel);
-        informationViewModel.getNewsInformation(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                Document document = Jsoup.parse(result, bundle.getString("url"));
-                informationViewModel.getSliderImg(document, new OnWriteDataFinishListener() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onFault() {
-
-                    }
-                });
-
-
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-
-            }
-        }));
+//        informationViewModel.getNewsInformation(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+//            @Override
+//            public void onSuccess(String result) {
+//                Document document = Jsoup.parse(result, bundle.getString("url"));
+//                informationViewModel.getSliderImg(document, new OnWriteDataFinishListener() {
+//                    @Override
+//                    public void onSuccess() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFault() {
+//
+//                    }
+//                });
+//
+//
+//            }
+//
+//            @Override
+//            public void onFault(String errorMsg) {
+//
+//            }
+//        }));
 
     }
 }

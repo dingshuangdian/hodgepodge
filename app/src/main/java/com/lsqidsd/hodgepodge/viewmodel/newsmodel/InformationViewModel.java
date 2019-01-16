@@ -20,12 +20,12 @@ public class InformationViewModel {
         Log.e("url",url);
     }
 
-    public void getNewsInformation(DisposableObserver<ResponseBody> subscriber) {
-        {
-            Observable<ResponseBody> observable = RetrofitServiceManager.getInstance().getHttpApi().getAllNews(url);
-            RetrofitServiceManager.getInstance().toSubscribe(observable, subscriber);
-        }
-    }
+//    public void getNewsInformation(DisposableObserver<ResponseBody> subscriber) {
+//        {
+//            Observable<ResponseBody> observable = RetrofitServiceManager.getInstance().getHttpApi().getAllNews(url);
+//            RetrofitServiceManager.getInstance().toSubscribe(observable, subscriber);
+//        }
+//    }
 
     public void getSliderImg(Document document, OnWriteDataFinishListener onWriteDataFinishListener) {
         Log.e("document+++++++", document.outerHtml());
