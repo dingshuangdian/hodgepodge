@@ -1,25 +1,29 @@
 package com.lsqidsd.hodgepodge.view;
 import android.databinding.DataBindingUtil;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.adapter.YWAdapter;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
+import com.lsqidsd.hodgepodge.base.OnWriteDataFinishListener;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.databinding.MainActivityBinding;
 import com.lsqidsd.hodgepodge.databinding.TabFootBinding;
-import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultListener;
-import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultSub;
 import com.lsqidsd.hodgepodge.utils.TabDb;
 import com.lsqidsd.hodgepodge.viewmodel.MainViewModel;
+
+import java.util.List;
+
 public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener {
     private MainActivityBinding binding;
     private TabFootBinding footBinding;
+
     @Override
     public int getLayout() {
         return R.layout.activity_main;
     }
+
     @Override
     public void initView() {
         binding = getBinding(binding);
@@ -35,20 +39,10 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         requestReadAndWriteSDPermission(new BaseActivity.PermissionHandler() {
             @Override
             public void onGranted() {
-                viewModel.getMainViewData(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-                    @Override
-                    public void onSuccess(NewsItem result) {
-                        for (NewsItem.DataBean dataBean : result.getData()) {
-                            Log.e("title", dataBean.getTitle());
-                        }
-                    }
-                    @Override
-                    public void onFault(String errorMsg) {
-                    }
-                }));
             }
         });
     }
+
     public void initTab() {
         String[] tabs = TabDb.getTabsTxt();
         for (int i = 0; i < tabs.length; i++) {

@@ -1,37 +1,44 @@
 package com.lsqidsd.hodgepodge.viewmodel.newsmodel;
 
+
 import android.util.Log;
 
 import com.lsqidsd.hodgepodge.base.OnWriteDataFinishListener;
+import com.lsqidsd.hodgepodge.bean.NewsItem;
+import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultListener;
+import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultSub;
 import com.lsqidsd.hodgepodge.http.RetrofitServiceManager;
-
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
-import okhttp3.ResponseBody;
 
 public class InformationViewModel {
     private String url;
 
     public InformationViewModel(String url) {
         this.url = url;
-        Log.e("url",url);
-    }
-
-//    public void getNewsInformation(DisposableObserver<ResponseBody> subscriber) {
-//        {
-//            Observable<ResponseBody> observable = RetrofitServiceManager.getInstance().getHttpApi().getAllNews(url);
-//            RetrofitServiceManager.getInstance().toSubscribe(observable, subscriber);
-//        }
-//    }
-
-    public void getSliderImg(Document document, OnWriteDataFinishListener onWriteDataFinishListener) {
-        Log.e("document+++++++", document.outerHtml());
-        Elements elements = document.select(".channel_mod");
-        Log.e("elements+++++++++", elements.toString());
-
 
     }
+
+    public void getNewsData(OnWriteDataFinishListener listener) {
+        getMainViewData(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(NewsItem result) {
+                if (listener != null) {
+                    for (NewsItem.DataBean dataBean : result.getData()) {
+                        Log.e("result", dataBean.getTitle());
+                    }
+                    listener.onSuccess(result.getData());
+                }
+            }
+            @Override
+            public void onFault(String errorMsg) {
+            }
+        }));
+    }
+    public void getMainViewData(DisposableObserver<NewsItem> subscriber) {
+        Observable<NewsItem> observable = RetrofitServiceManager.getInstance().getHttpApi().getMainNews(0);
+        RetrofitServiceManager.getInstance().toSubscribe(observable, subscriber);
+    }
+
 }

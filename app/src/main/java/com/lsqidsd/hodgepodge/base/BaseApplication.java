@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.lsqidsd.hodgepodge.bean.DaoMaster;
 import com.lsqidsd.hodgepodge.bean.DaoSession;
+import com.squareup.picasso.Picasso;
 
 
 public class BaseApplication extends Application {
