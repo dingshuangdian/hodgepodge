@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -16,55 +15,83 @@ import com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel;
 
 import java.util.List;
 
-public class YWAdapter extends RecyclerView.Adapter<YWAdapter.YWViwHolder> {
+public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     private Context context;
     private List<NewsItem.DataBean> list;
+    private static final int LOAD_MORE = -1;
+    private static final int NEWS_ITEM_TYPE_01 = 0;
+    private static final int NEWS_ITEM_TYPE_02 = 1;
+
 
     public YWAdapter(Context context, List<NewsItem.DataBean> list) {
         this.context = context;
         this.list = list;
     }
 
+
     @NonNull
     @Override
-    public YWViwHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        NewsItem01Binding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.news_item_01, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder myViewHolder = null;
+        NewsItem01Binding binding;
+        switch (viewType) {
+            case LOAD_MORE:
+                binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.loadmore, parent, false);
+                myViewHolder = new LoadMoreHolder(binding);
+                break;
+            case NEWS_ITEM_TYPE_01:
+                binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.news_item_01, parent, false);
+                myViewHolder = new YWViwHolder(binding);
+                break;
+        }
+        return myViewHolder;
 
-        return new YWViwHolder(binding);
     }
+
     @Override
-    public void onBindViewHolder(@NonNull YWViwHolder holder, int position) {
-        NewsItem.DataBean dataBean = list.get(position);
-        holder.bindData(dataBean);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        switch (holder.getItemViewType()) {
+            case LOAD_MORE:
+                LoadMoreHolder loadMoreHolder = (LoadMoreHolder) holder;
+            case NEWS_ITEM_TYPE_01:
+                YWViwHolder ywViwHolder = (YWViwHolder) holder;
+                NewsItem.DataBean dataBean = list.get(position);
+                ywViwHolder.bindData(dataBean);
+        }
+
     }
-    /**
-     * 由于RecyclerView的onBindViewHolder()方法，只有在getItemViewType()返回类型不同时才会调用，这点是跟ListView的getView()方法不同的地方，
-     * 所以如果想要每次都调用onBindViewHolder()刷新item数据，就要重写getItemViewType()，让其返回position，否则很容易产生数据错乱的现象。
-     *
-     * @param position
-     * @return
-     */
-    @Override
-    public int getItemViewType(int position) {
-        return position;
-    }
+
     @Override
     public int getItemCount() {
         return list.size();
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == list.size()) {
+            return LOAD_MORE;
+        } else {
+            return NEWS_ITEM_TYPE_01;
+        }
+    }
+
     public class YWViwHolder extends ViewHolder {
         NewsItem01Binding binding;
 
         public YWViwHolder(@NonNull NewsItem01Binding itemView) {
-            super(itemView.newsview);
+            super(itemView.view);
             this.binding = itemView;
         }
+
         public void bindData(NewsItem.DataBean bean) {
-            if (binding.getNewsitem() == null) {
-                binding.setNewsitem(new NewsItemModel(context, bean));
-            } else {
-                binding.getNewsitem().setDataBean(bean);
-            }
+            binding.setNewsitem(new NewsItemModel(context, bean));
+        }
+    }
+
+    public class LoadMoreHolder extends ViewHolder {
+
+        public LoadMoreHolder(@NonNull NewsItem01Binding itemView) {
+            super(itemView);
         }
     }
 }

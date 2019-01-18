@@ -11,20 +11,20 @@
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/newsview"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:padding="15dp">
+        android:id="@+id/view"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="110dp"
+            android:lineSpacingExtra="5dp"
             android:maxLines="3"
+            android:textColor="#000"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintHorizontal_weight="3"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/iv_image"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,23 +33,25 @@
 
         <ImageView
             android:id="@+id/iv_image"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="130dp"
+            android:layout_height="0dp"
             android:layout_marginLeft="10dp"
-            app:imageUrl="@{newsitem.imageUrl}"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintDimensionRatio="h,2:1"
             app:layout_constraintLeft_toRightOf="@+id/title"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1"
+            tools:imageUrl="@{newsitem.imageUrl}" />
 
         <TextView
             android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            app:layout_constraintTop_toBottomOf="@+id/title"
+            android:layout_marginBottom="10dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="@{newsitem.author}" />
 
         <TextView
@@ -57,16 +59,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/author"
-            app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="@{newsitem.time}" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/edit_hint_text"
+            android:background="#aaa"
             app:layout_constraintBottom_toBottomOf="parent"></View>
 
     </android.support.constraint.ConstraintLayout>
