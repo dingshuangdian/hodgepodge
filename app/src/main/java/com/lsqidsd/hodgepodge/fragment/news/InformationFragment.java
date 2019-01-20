@@ -13,24 +13,23 @@ import android.view.ViewGroup;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.YWAdapter;
-import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.base.OnWriteDataFinishListener;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
-import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultListener;
-import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultSub;
-import com.lsqidsd.hodgepodge.view.MainActivity;
+import com.lsqidsd.hodgepodge.utils.EndlessRecyclerOnScrollListener;
 import com.lsqidsd.hodgepodge.viewmodel.newsmodel.InformationViewModel;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class InformationFragment extends Fragment {
     private InformationDataBinding fragmentBinding;
     private InformationViewModel informationViewModel;
     private static InformationFragment informationFragment;
+    private YWAdapter adapter;
+    private int page = 0;
+    private List<NewsItem.DataBean> dataBeanList = new ArrayList<>();
+
 
     public static InformationFragment getInstance(String url) {
 
@@ -47,27 +46,51 @@ public class InformationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.information_fragment, container, false);
+        loadMore();
         return fragmentBinding.getRoot();
     }
+
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getData();
+
+    }
+
+    private void getData() {
         Bundle bundle = getArguments();
-        informationViewModel = new InformationViewModel(bundle.getString("url"));
+        informationViewModel = new InformationViewModel(getContext(), bundle.getString("url"));
         fragmentBinding.setInformationview(informationViewModel);
         informationViewModel.getNewsData(new OnWriteDataFinishListener() {
             @Override
             public void onSuccess(List<NewsItem.DataBean> list) {
-                YWAdapter adapter = new YWAdapter(getContext(), list);
+                for (NewsItem.DataBean dataBean : list) {
+                    dataBeanList.add(dataBean);
+                }
+                for (NewsItem.DataBean dataBean : dataBeanList) {
+                    Log.e("title", dataBean.getTitle());
+                }
+                adapter = new YWAdapter(getContext(), dataBeanList);
                 fragmentBinding.recyview.setLayoutManager(new LinearLayoutManager(getContext()));
                 fragmentBinding.recyview.setAdapter(adapter);
-
             }
+
             @Override
             public void onFault() {
+            }
+        }, page++);
+    }
+
+    private void loadMore() {
+        fragmentBinding.recyview.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadMore() {
+                adapter.setLoadState(adapter.LOADING);
+                getData();
 
             }
         });
 
     }
+
 }
