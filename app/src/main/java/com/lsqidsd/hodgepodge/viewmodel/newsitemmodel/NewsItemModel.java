@@ -29,15 +29,12 @@ public class NewsItemModel {
     private Context context;
     public ObservableInt progressVisibility = new ObservableInt(View.VISIBLE);
     public ObservableInt lineVisibility = new ObservableInt(View.GONE);
-
     private List<NewsItem.DataBean> dataBeans = new ArrayList<>();
     private NewsItem.DataBean dataBean;
-
     public NewsItemModel(Context context, NewsItem.DataBean dataBean) {
         this.context = context;
         this.dataBean = dataBean;
     }
-
     public NewsItemModel(Context context, List<NewsItem.DataBean> dataBeans) {
         this.context = context;
         this.dataBeans = dataBeans;
@@ -62,22 +59,17 @@ public class NewsItemModel {
         if (!TextUtils.isEmpty(imageUrl)) {
             Picasso.get().load(imageUrl).into(imageView);
         }
-
     }
-
     public String getImageUrl() {
         return dataBean.getBimg();
     }
-
     public String getTitle() {
         return dataBean.getTitle();
     }
-
     public void getMoreData(int page, ItemNewsDataListener listener) {
         this.newsDataListener = listener;
         getNewsData(page);
     }
-
     public void getNewsData(int page) {
         getMainViewData(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
@@ -100,7 +92,6 @@ public class NewsItemModel {
                     }
                 }
             }
-
             @Override
             public void onFault(String errorMsg) {
                 progressVisibility.set(View.GONE);
@@ -113,7 +104,6 @@ public class NewsItemModel {
         Observable<NewsItem> observable = RetrofitServiceManager.getInstance().getHttpApi().getMainNews(page);
         RetrofitServiceManager.getInstance().toSubscribe(observable, subscriber);
     }
-
     public interface ItemNewsDataListener {
         void dataBeanChange(List<NewsItem.DataBean> dataBeans);
     }
