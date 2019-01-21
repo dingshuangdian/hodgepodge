@@ -18,11 +18,11 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="35dp"
+            android:layout_height="32dp"
             android:src="@mipmap/logo"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="35px"
+            android:layout_marginLeft="32px"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

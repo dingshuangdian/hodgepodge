@@ -64,13 +64,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/author"
             tools:text="@{newsitem.time}" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="#aaa"
             app:layout_constraintBottom_toBottomOf="parent"></View>
-
     </android.support.constraint.ConstraintLayout>
 
 

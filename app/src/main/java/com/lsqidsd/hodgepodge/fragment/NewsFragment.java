@@ -5,30 +5,23 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.BaseFragmentAdapter;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.bean.CategoriesBean;
 import com.lsqidsd.hodgepodge.fragment.news.InformationFragment;
-import com.lsqidsd.hodgepodge.utils.BaseDataDao;
 import com.lsqidsd.hodgepodge.databinding.NewsFragmentBinding;
-import com.lsqidsd.hodgepodge.fragment.base.MyBaseFragment;
 import com.lsqidsd.hodgepodge.utils.CategoriesUtils;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class NewsFragment extends Fragment {
     private NewsFragmentBinding fragmentBinding;
     private List<Fragment> fragmentArrayList = new ArrayList<>();
     private BaseFragmentAdapter basePagerAdapter;
     private List<CategoriesBean> list = CategoriesUtils.getCategories();
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

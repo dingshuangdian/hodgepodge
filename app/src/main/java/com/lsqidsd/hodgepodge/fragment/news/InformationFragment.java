@@ -6,34 +6,24 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.YWAdapter;
-import com.lsqidsd.hodgepodge.base.OnWriteDataFinishListener;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
-import com.lsqidsd.hodgepodge.utils.EndlessRecyclerOnScrollListener;
-import com.lsqidsd.hodgepodge.viewmodel.newsmodel.InformationViewModel;
+import com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class InformationFragment extends Fragment {
+public class InformationFragment extends Fragment implements NewsItemModel.ItemNewsDataListener {
     private InformationDataBinding fragmentBinding;
-    private InformationViewModel informationViewModel;
+    private NewsItemModel informationViewModel;
     private static InformationFragment informationFragment;
-    private YWAdapter adapter;
-    private int page = 0;
-    private List<NewsItem.DataBean> dataBeanList = new ArrayList<>();
-
 
     public static InformationFragment getInstance(String url) {
-
-
         informationFragment = new InformationFragment();
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
@@ -41,15 +31,17 @@ public class InformationFragment extends Fragment {
         return informationFragment;
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.information_fragment, container, false);
-        loadMore();
         return fragmentBinding.getRoot();
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -59,38 +51,15 @@ public class InformationFragment extends Fragment {
 
     private void getData() {
         Bundle bundle = getArguments();
-        informationViewModel = new InformationViewModel(getContext(), bundle.getString("url"));
+        informationViewModel = new NewsItemModel(bundle.getString("url"), getContext(), this);
         fragmentBinding.setInformationview(informationViewModel);
-        informationViewModel.getNewsData(new OnWriteDataFinishListener() {
-            @Override
-            public void onSuccess(List<NewsItem.DataBean> list) {
-                for (NewsItem.DataBean dataBean : list) {
-                    dataBeanList.add(dataBean);
-                }
-                for (NewsItem.DataBean dataBean : dataBeanList) {
-                    Log.e("title", dataBean.getTitle());
-                }
-                adapter = new YWAdapter(getContext(), dataBeanList);
-                fragmentBinding.recyview.setLayoutManager(new LinearLayoutManager(getContext()));
-                fragmentBinding.recyview.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFault() {
-            }
-        }, page++);
+        informationViewModel.getNewsData(0);
     }
 
-    private void loadMore() {
-        fragmentBinding.recyview.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
-            @Override
-            public void onLoadMore() {
-                adapter.setLoadState(adapter.LOADING);
-                getData();
-
-            }
-        });
-
+    @Override
+    public void dataBeanChange(List<NewsItem.DataBean> dataBeans) {
+        YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans);
+        fragmentBinding.recyview.setLayoutManager(new LinearLayoutManager(getContext()));
+        fragmentBinding.recyview.setAdapter(ywAdapter);
     }
-
 }

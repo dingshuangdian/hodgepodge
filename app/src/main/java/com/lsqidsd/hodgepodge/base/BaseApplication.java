@@ -17,7 +17,7 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
-        setupDatabase();
+        //setupDatabase();
     }
 
     public static Context getmContext() {

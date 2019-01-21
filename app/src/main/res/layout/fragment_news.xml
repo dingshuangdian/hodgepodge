@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <data class="NewsFragmentBinding">
-
         <variable
             name="newsview"
             type="com.lsqidsd.hodgepodge.viewmodel.NewsViewModule"></variable>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:background="#fff"
         android:layout_height="match_parent">
@@ -20,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:maxSearchLength="100">
-
         </com.lsqidsd.hodgepodge.utils.HodgeSearchView>
 
         <include
@@ -28,16 +26,14 @@
             layout="@layout/tab_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/searchview"></include>
+            app:layout_constraintTop_toBottomOf="@+id/searchview"></include>
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:background="@color/colorBackground"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tab_top"
+            android:layout_height="match_parent"
             >
         </android.support.v4.view.ViewPager>
-
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
 </layout>
