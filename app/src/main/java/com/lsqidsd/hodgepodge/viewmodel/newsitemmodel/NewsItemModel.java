@@ -17,6 +17,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
@@ -86,7 +88,12 @@ public class NewsItemModel {
                             dataBeans.add(dataBeann);
                         }
                         newsDataListener.dataBeanChange(dataBeans);
-                        progressVisibility.set(View.GONE);
+                        new Timer().schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                progressVisibility.set(View.GONE);
+                            }
+                        }, 1000);
                     } else {
                         lineVisibility.set(View.VISIBLE);
                         progressVisibility.set(View.GONE);

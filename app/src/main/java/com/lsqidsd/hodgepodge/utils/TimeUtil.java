@@ -3,6 +3,8 @@ package com.lsqidsd.hodgepodge.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TimeUtil {
     public static String formatTime(String time) {
@@ -27,5 +29,14 @@ public class TimeUtil {
         } else {
             return hour + "小时前";
         }
+    }
+
+    public static void delayLoad() {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+            }
+        }, 1000);
     }
 }
