@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.lsqidsd.hodgepodge.bean.NewsItem;
+import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultListener;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultSub;
@@ -29,18 +30,25 @@ import io.reactivex.observers.DisposableObserver;
 public class NewsItemModel<T> {
     private String url;
     private ItemNewsDataListener newsDataListener;
-    private ItemNewsDataListener01 newsDataListener01;
     private Context context;
     public ObservableInt progressVisibility = new ObservableInt(View.VISIBLE);
     public ObservableInt lineVisibility = new ObservableInt(View.GONE);
     private List<NewsItem.DataBean> dataBeans = new ArrayList<>();
     private NewsItem.DataBean dataBean;
-    private List<NewsTop> newsTopList = new ArrayList<>();
+    private NewsTop newsTop;
+    private NewsMain newsMain = new NewsMain();
 
-    public NewsItemModel(Context context, T dataBean) {
+    public NewsItemModel(Context context, T t) {
         this.context = context;
-        this.dataBean = (NewsItem.DataBean) dataBean;
+        if (t instanceof NewsTop) {
+            this.newsTop = (NewsTop) t;
+        }
+        if (t instanceof NewsItem.DataBean) {
+            this.dataBean = (NewsItem.DataBean) t;
+        }
+
     }
+
 
     public NewsItemModel(Context context, List<NewsItem.DataBean> dataBeans) {
         this.context = context;
@@ -63,9 +71,24 @@ public class NewsItemModel<T> {
         context.startActivity(intent);
     }
 
+    public void topClick(View view) {
+        Intent intent = new Intent(context, WebViewActivity.class);
+        intent.putExtra("url", getTopUrl());
+        context.startActivity(intent);
+    }
+
+    public String getTopUrl() {
+        return newsTop.getUrl();
+    }
+
     public String getUrl() {
         return dataBean.getUrl();
     }
+
+    public String getTopTitle() {
+        return newsTop.getTitle();
+    }
+
 
     public String getTime() {
         return TimeUtil.formatTime(dataBean.getPublish_time());
@@ -96,22 +119,23 @@ public class NewsItemModel<T> {
             @Override
             public void onSuccess(Object result) {
                 NewsItem newsItem = (NewsItem) result;
-                if (newsDataListener != null) {
-                    if (newsItem.getData().size() > 0) {
-                        for (NewsItem.DataBean dataBeann : newsItem.getData()) {
-                            dataBeans.add(dataBeann);
-                        }
-                        newsDataListener.dataBeanChange(dataBeans);
-                        new Timer().schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                progressVisibility.set(View.GONE);
-                            }
-                        }, 1000);
-                    } else {
-                        lineVisibility.set(View.VISIBLE);
-                        progressVisibility.set(View.GONE);
+
+                if (newsItem.getData().size() > 0) {
+                    for (NewsItem.DataBean dataBeann : newsItem.getData()) {
+                        dataBeans.add(dataBeann);
                     }
+                    newsMain.setNewsItems(dataBeans);
+                    getTopNews();
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            progressVisibility.set(View.GONE);
+                        }
+                    }, 1000);
+                } else {
+                    lineVisibility.set(View.VISIBLE);
+                    progressVisibility.set(View.GONE);
+
                 }
             }
 
@@ -127,33 +151,26 @@ public class NewsItemModel<T> {
         Observable<NewsItem> observable = RetrofitServiceManager.getInstance().getHttpApi().getMainNews(page);
         RetrofitServiceManager.getInstance().toSubscribe(observable, subscriber);
     }
-
     public void getTopNews() {
         Observable<List<NewsTop>> observable = RetrofitServiceManager.getInstance().getHttpApi().getTop();
         RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(Object o) {
-                newsTopList = (List<NewsTop>) o;
-                for (NewsTop newsTop1 : newsTopList) {
-                    Log.e("title", newsTop1.getTitle());
+                newsMain.setNewsTops((List<NewsTop>) o);
+                for (NewsTop newsTop : (List<NewsTop>) o) {
+                    Log.e("title", newsTop.getTitle());
                 }
-                if (newsDataListener01 != null) {
-                    newsDataListener01.dataTopBeanChange(newsTopList);
+                if (newsDataListener != null) {
+                    newsDataListener.dataBeanChange(newsMain);
                 }
             }
-
             @Override
             public void onFault(String errorMsg) {
-
             }
         }));
     }
 
     public interface ItemNewsDataListener {
-        void dataBeanChange(List<NewsItem.DataBean> dataBeans);
-    }
-
-    public interface ItemNewsDataListener01 {
-        void dataTopBeanChange(List<NewsTop> dataBeans);
+        void dataBeanChange(NewsMain dataBeans);
     }
 }

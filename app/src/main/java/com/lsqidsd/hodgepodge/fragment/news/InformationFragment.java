@@ -15,13 +15,14 @@ import android.view.ViewGroup;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.YWAdapter;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
+import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
 import com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel;
 
 import java.util.List;
 
-public class InformationFragment extends Fragment implements NewsItemModel.ItemNewsDataListener, NewsItemModel.ItemNewsDataListener01 {
+public class InformationFragment extends Fragment implements NewsItemModel.ItemNewsDataListener {
     private InformationDataBinding fragmentBinding;
     private NewsItemModel informationViewModel;
     private static InformationFragment informationFragment;
@@ -74,21 +75,14 @@ public class InformationFragment extends Fragment implements NewsItemModel.ItemN
         informationViewModel = new NewsItemModel(bundle.getString("url"), getContext(), this);
         fragmentBinding.setInformationview(informationViewModel);
         informationViewModel.getNewsData(0);
-        informationViewModel.getTopNews();
     }
 
 
     @Override
-    public void dataBeanChange(List<NewsItem.DataBean> dataBeans) {
+    public void dataBeanChange(NewsMain dataBeans) {
         YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans);
         fragmentBinding.recyview.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentBinding.recyview.setAdapter(ywAdapter);
     }
 
-    @Override
-    public void dataTopBeanChange(List<NewsTop> dataBeans) {
-        YWAdapter ywAdapter = new YWAdapter(dataBeans);
-        fragmentBinding.recyview.setLayoutManager(new LinearLayoutManager(getContext()));
-        fragmentBinding.recyview.setAdapter(ywAdapter);
-    }
 }

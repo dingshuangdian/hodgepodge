@@ -14,7 +14,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{newsitem.click}"
+        android:onClick="@{newsitem.topClick}"
         android:padding="10dp">
         <TextView
             android:layout_marginBottom="5dp"
@@ -29,7 +29,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@{newsitem.title}" />
+            tools:text="@{newsitem.topTitle}" />
         <TextView
             android:id="@+id/flag"
             android:layout_width="wrap_content"
@@ -47,8 +47,7 @@
             android:textSize="12sp"
             android:layout_marginLeft="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/flag"
-            tools:text="@{newsitem.author}" />
+            app:layout_constraintLeft_toRightOf="@+id/flag" />
 
         <TextView
             android:id="@+id/time"
@@ -58,8 +57,7 @@
             android:layout_marginBottom="10dp"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/author"
-            tools:text="@{newsitem.time}" />
+            app:layout_constraintLeft_toRightOf="@+id/author" />
 
         <View
             android:layout_width="match_parent"

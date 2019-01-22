@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
+import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.databinding.Loadbinding;
 import com.lsqidsd.hodgepodge.databinding.NewsItem01Binding;
@@ -24,20 +25,17 @@ import java.util.List;
 public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     private Context context;
     private int page = 1;
-    private List<NewsItem.DataBean> list;
-    private List<NewsTop>newsTopList;
+    private List<NewsItem.DataBean> dataBeanList;
+    private List<NewsTop> newsTopList;
     private final int LOAD_MORE = -1;
     private final int NEWS_ITEM_TYPE_01 = 0;
     private final int NEWS_ITEM_TYPE_02 = 1;
     private final int NEWS_ITEM_TYPE_03 = 2;
 
-    public YWAdapter(Context context, List<NewsItem.DataBean> list) {
+    public YWAdapter(Context context, NewsMain list) {
         this.context = context;
-        this.list = list;
-    }
-
-    public YWAdapter(List<NewsTop> newsTopList) {
-        this.newsTopList = newsTopList;
+        this.dataBeanList = list.getNewsItems();
+        this.newsTopList = list.getNewsTops();
     }
 
     @NonNull
@@ -45,7 +43,6 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder myViewHolder = null;
         NewsItem01Binding binding1;
-        NewsItem02Binding binding2;
         NewsItem03Binding binding3;
         Loadbinding loadmoreBinding;
         switch (viewType) {
@@ -58,14 +55,9 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
                 myViewHolder = new YWViwHolder(binding1);
                 break;
 
-            case NEWS_ITEM_TYPE_02:
-                binding2 = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.news_item_02, parent, false);
-                myViewHolder = new TopHolder(binding2);
-                break;
-
             case NEWS_ITEM_TYPE_03:
                 binding3 = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.news_item_03, parent, false);
-                myViewHolder = new TopHolder01(binding3);
+                myViewHolder = new TopHolder(binding3);
                 break;
         }
         return myViewHolder;
@@ -79,26 +71,26 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
             loadMoreHolder.loadMoreData();
         } else if (holder instanceof YWViwHolder) {
             YWViwHolder ywViwHolder = (YWViwHolder) holder;
-            NewsItem.DataBean dataBean = list.get(position);
+            NewsItem.DataBean dataBean = dataBeanList.get(position-3);
             ywViwHolder.bindData(dataBean);
-        }else if(holder instanceof TopHolder){
-            TopHolder topHolder= (TopHolder) holder;
-
+        } else if (holder instanceof TopHolder) {
+            TopHolder topHolder = (TopHolder) holder;
+            if (position < 3) {
+                topHolder.bindData(newsTopList.get(position));
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        return list.size() + 1;
+        return dataBeanList.size() + 4;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()) {
             return LOAD_MORE;
-        } else if (position == 0) {
-            return NEWS_ITEM_TYPE_02;
-        } else if (position == 1) {
+        } else if (position == 0 || position == 1 || position == 2) {
             return NEWS_ITEM_TYPE_03;
         } else {
             return NEWS_ITEM_TYPE_01;
@@ -107,17 +99,14 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public class YWViwHolder extends ViewHolder {
         NewsItem01Binding binding;
-
         public YWViwHolder(@NonNull NewsItem01Binding itemView) {
             super(itemView.view);
             this.binding = itemView;
         }
-
         public void bindData(NewsItem.DataBean bean) {
             binding.setNewsitem(new NewsItemModel(context, bean));
         }
     }
-
     public class LoadMoreHolder extends ViewHolder {
         Loadbinding loadmoreBinding;
 
@@ -127,10 +116,10 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
 
         public void loadMoreData() {
-            loadmoreBinding.setLoadview(new NewsItemModel(context, list));
+            loadmoreBinding.setLoadview(new NewsItemModel(context, dataBeanList));
             loadmoreBinding.getLoadview().getMoreData(page, new NewsItemModel.ItemNewsDataListener() {
                 @Override
-                public void dataBeanChange(List<NewsItem.DataBean> dataBeans) {
+                public void dataBeanChange(NewsMain dataBeans) {
                     page++;
                 }
             });
@@ -138,27 +127,16 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public class TopHolder extends ViewHolder {
-        NewsItem02Binding newsItem02Binding;
-
-        public TopHolder(NewsItem02Binding itemView) {
-            super(itemView.getRoot());
-            newsItem02Binding=itemView;
-        }
-
-        public void bindData(NewsTop top) {
-            newsItem02Binding.setNewsitem(new NewsItemModel(context, top));
-        }
-    }
-
-    public class TopHolder01 extends ViewHolder {
         NewsItem03Binding newsItem03Binding;
-        public TopHolder01(NewsItem03Binding itemView) {
+
+        public TopHolder(NewsItem03Binding itemView) {
             super(itemView.getRoot());
-            newsItem03Binding=itemView;
+            newsItem03Binding = itemView;
+
         }
 
         public void bindData(NewsTop top) {
-
+            newsItem03Binding.setNewsitem(new NewsItemModel(context, top));
         }
     }
 }
