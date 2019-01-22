@@ -1,5 +1,4 @@
 package com.lsqidsd.hodgepodge.fragment;
-
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,12 +28,10 @@ public class NewsFragment extends Fragment {
         initFlexTitle();
         return fragmentBinding.getRoot();
     }
-
     @Override
     public void onStart() {
         super.onStart();
     }
-
     private void initFlexTitle() {
         fragmentBinding.tabTop.vt.initData(list, fragmentBinding.viewpager, 0);
         if (fragmentArrayList != null) {

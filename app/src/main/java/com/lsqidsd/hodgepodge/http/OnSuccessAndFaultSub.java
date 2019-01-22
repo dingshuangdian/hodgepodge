@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+
 import javax.net.ssl.SSLHandshakeException;
+
 import io.reactivex.observers.DisposableObserver;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
@@ -22,7 +24,7 @@ import retrofit2.HttpException;
  * 回调结果为String，需要手动序列化
  */
 
-public class OnSuccessAndFaultSub extends DisposableObserver<NewsItem>
+public class OnSuccessAndFaultSub<T> extends DisposableObserver<T>
         implements ProgressCancelListener {
     /**
      * 是否需要显示默认Loading
@@ -100,6 +102,11 @@ public class OnSuccessAndFaultSub extends DisposableObserver<NewsItem>
     }
 
 
+    @Override
+    public void onNext(T t) {
+        mOnSuccessAndFaultListener.onSuccess(t);
+    }
+
     /**
      * 对错误进行统一处理
      * 隐藏ProgressDialog
@@ -144,19 +151,6 @@ public class OnSuccessAndFaultSub extends DisposableObserver<NewsItem>
 
         }
 
-    }
-
-
-    /**
-     * 当result等于1回调给调用者，否则自动显示错误信息，若错误信息为401跳转登录页面。
-     * ResponseBody  body = response.body();//获取响应体
-     * InputStream inputStream = body.byteStream();//获取输入流
-     * byte[] bytes = body.bytes();//获取字节数组
-     * String str = body.string();//获取字符串数据
-     */
-    @Override
-    public void onNext(NewsItem body) {
-            mOnSuccessAndFaultListener.onSuccess(body);
     }
 
     /**

@@ -1,12 +1,7 @@
 package com.lsqidsd.hodgepodge.http;
 
-import com.lsqidsd.hodgepodge.bean.NewsItem;
 
-/**
- * Created by 眼神 on 2018/3/27.
- */
-public interface OnSuccessAndFaultListener {
-    void onSuccess(NewsItem result);
-
+public interface OnSuccessAndFaultListener<T> {
+    void onSuccess(T t);
     void onFault(String errorMsg);
 }

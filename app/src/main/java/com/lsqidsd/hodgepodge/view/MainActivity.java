@@ -4,16 +4,10 @@ import android.view.LayoutInflater;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import com.lsqidsd.hodgepodge.R;
-import com.lsqidsd.hodgepodge.adapter.YWAdapter;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
-import com.lsqidsd.hodgepodge.base.OnWriteDataFinishListener;
-import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.databinding.MainActivityBinding;
 import com.lsqidsd.hodgepodge.databinding.TabFootBinding;
 import com.lsqidsd.hodgepodge.utils.TabDb;
-import com.lsqidsd.hodgepodge.viewmodel.MainViewModel;
-
-import java.util.List;
 
 public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener {
     private MainActivityBinding binding;
@@ -27,8 +21,6 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
     @Override
     public void initView() {
         binding = getBinding(binding);
-        MainViewModel viewModel = new MainViewModel(this);
-        binding.setMainview(viewModel);
         //设置view
         binding.mainTab.setup(MainActivity.this, getSupportFragmentManager(), binding.mainView.getId());
         //去除分割线

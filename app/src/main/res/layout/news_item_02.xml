@@ -9,12 +9,14 @@
             name="newsitem"
             type="com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel"></variable>
     </data>
+
     <android.support.constraint.ConstraintLayout
-        android:onClick="@{newsitem.click}"
-        android:layout_width="match_parent"
         android:id="@+id/view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{newsitem.click}"
         android:padding="10dp">
+
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
@@ -43,14 +45,24 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1"
             tools:imageUrl="@{newsitem.imageUrl}" />
-
+        <TextView
+            android:id="@+id/flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="置顶"
+            android:textColor="@color/colorSelect"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent" />
         <TextView
             android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:textSize="12sp"
+            android:layout_marginLeft="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/flag"
             tools:text="@{newsitem.author}" />
 
         <TextView
@@ -63,12 +75,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/author"
             tools:text="@{newsitem.time}" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="#aaa"
-            app:layout_constraintBottom_toBottomOf="parent">
-        </View>
+            app:layout_constraintBottom_toBottomOf="parent"></View>
     </android.support.constraint.ConstraintLayout>
 
 
