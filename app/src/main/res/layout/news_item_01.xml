@@ -2,23 +2,24 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
+    <data class="TopBinding">
         <variable
             name="newsitem"
             type="com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel"></variable>
     </data>
     <android.support.constraint.ConstraintLayout
-        android:onClick="@{newsitem.click}"
-        android:layout_width="match_parent"
         android:id="@+id/view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:onClick="@{newsitem.topClick}"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
-            android:layout_height="110dp"
+            android:layout_height="90dp"
+            android:layout_marginBottom="5dp"
             android:lineSpacingExtra="5dp"
             android:maxLines="3"
             android:textColor="#000"
@@ -27,48 +28,70 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/iv_image"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
-            tools:text="@{newsitem.title}" />
+            tools:text="@{newsitem.topTitle}" />
 
         <ImageView
             android:id="@+id/iv_image"
             android:layout_width="130dp"
             android:layout_height="0dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="h,2:1.5"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintDimensionRatio="h,2.:1.5"
             app:layout_constraintLeft_toRightOf="@+id/title"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1"
-            tools:imageUrl="@{newsitem.imageUrl}" />
+            app:layout_constraintTop_toTopOf="@id/title"
+            tools:topImageUrl="@{newsitem.topImageUrl}" />
 
         <TextView
-            android:id="@+id/author"
+            android:id="@+id/flag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:text="置顶"
+            android:textColor="@color/colorSelect"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="@{newsitem.author}" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/flag"
+            tools:text="@{newsitem.topAuthor}" />
+
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/author"
-            tools:text="@{newsitem.time}" />
+            tools:text="@{newsitem.topComment}"
+            tools:visibility="@{newsitem.commentTopVisibility}" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/comment"
+            tools:text="@{newsitem.topTime}" />
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#aaa"
-            app:layout_constraintBottom_toBottomOf="parent">
-        </View>
+            android:layout_height="1.5dp"
+            android:background="@color/edit_hint_text"
+            app:layout_constraintBottom_toBottomOf="parent"></View>
     </android.support.constraint.ConstraintLayout>
 
 

@@ -33,6 +33,8 @@ public class NewsItemModel<T> {
     private Context context;
     public ObservableInt progressVisibility = new ObservableInt(View.VISIBLE);
     public ObservableInt lineVisibility = new ObservableInt(View.GONE);
+    public ObservableInt commentVisibility = new ObservableInt(View.GONE);
+    public ObservableInt commentTopVisibility = new ObservableInt(View.GONE);
     private List<NewsItem.DataBean> dataBeans = new ArrayList<>();
     private NewsItem.DataBean dataBean;
     private NewsTop newsTop;
@@ -65,6 +67,28 @@ public class NewsItemModel<T> {
         return dataBean.getSource();
     }
 
+    public String getTopAuthor() {
+        return newsTop.getSource();
+    }
+
+    public String getComment() {
+        if (dataBean.getComment_num() == 0) {
+            commentVisibility.set(View.GONE);
+        } else {
+            commentVisibility.set(View.VISIBLE);
+        }
+        return dataBean.getComment_num() + "评";
+    }
+
+    public String getTopComment() {
+        if (newsTop.getComment_num() == 0) {
+            commentTopVisibility.set(View.GONE);
+        } else {
+            commentTopVisibility.set(View.VISIBLE);
+        }
+        return newsTop.getComment_num() + "评";
+    }
+
     public void click(View view) {
         Intent intent = new Intent(context, WebViewActivity.class);
         intent.putExtra("url", getUrl());
@@ -89,6 +113,9 @@ public class NewsItemModel<T> {
         return newsTop.getTitle();
     }
 
+    public String getTopTime() {
+        return TimeUtil.formatTime(newsTop.getPublish_time());
+    }
 
     public String getTime() {
         return TimeUtil.formatTime(dataBean.getPublish_time());
@@ -99,6 +126,17 @@ public class NewsItemModel<T> {
         if (!TextUtils.isEmpty(imageUrl)) {
             Picasso.get().load(imageUrl).into(imageView);
         }
+    }
+
+    @BindingAdapter({"topImageUrl"})
+    public static void setTopImageView(ImageView imageView, String imageUrl) {
+        if (!TextUtils.isEmpty(imageUrl)) {
+            Picasso.get().load(imageUrl).into(imageView);
+        }
+    }
+
+    public String getTopImageUrl() {
+        return newsTop.getBimg();
     }
 
     public String getImageUrl() {
@@ -125,7 +163,9 @@ public class NewsItemModel<T> {
                         dataBeans.add(dataBeann);
                     }
                     newsMain.setNewsItems(dataBeans);
-                    getTopNews();
+                    if (newsDataListener != null) {
+                        newsDataListener.dataBeanChange(newsMain);
+                    }
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -151,6 +191,7 @@ public class NewsItemModel<T> {
         Observable<NewsItem> observable = RetrofitServiceManager.getInstance().getHttpApi().getMainNews(page);
         RetrofitServiceManager.getInstance().toSubscribe(observable, subscriber);
     }
+
     public void getTopNews() {
         Observable<List<NewsTop>> observable = RetrofitServiceManager.getInstance().getHttpApi().getTop();
         RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
@@ -160,10 +201,9 @@ public class NewsItemModel<T> {
                 for (NewsTop newsTop : (List<NewsTop>) o) {
                     Log.e("title", newsTop.getTitle());
                 }
-                if (newsDataListener != null) {
-                    newsDataListener.dataBeanChange(newsMain);
-                }
+
             }
+
             @Override
             public void onFault(String errorMsg) {
             }

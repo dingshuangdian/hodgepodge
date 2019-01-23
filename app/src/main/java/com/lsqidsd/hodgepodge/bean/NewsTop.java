@@ -1,18 +1,45 @@
 package com.lsqidsd.hodgepodge.bean;
 
 public class NewsTop {
-    /**
-     * title : 如何打好防范化解重大风险之战，习近平这样部署
-     * url : https://new.qq.com/omn/20190122/20190122A0ANVP.html
-     * article_id : 20190122a0anvp
-     * comment_id : 0
-     * group : 0
-     */
+    private int comment_num;
+    private String source;
     private String title;
+    private String publish_time;
     private String url;
-    private String article_id;
-    private String comment_id;
-    private String group;
+    private String bimg;
+
+
+    public NewsTop(int comment_num, String source, String title, String publish_time, String url, String bimg) {
+        this.comment_num = comment_num;
+        this.source = source;
+        this.title = title;
+        this.publish_time = publish_time;
+        this.url = url;
+        this.bimg = bimg;
+    }
+
+    public int getComment_num() {
+        return comment_num;
+    }
+
+    public void setComment_num(int comment_num) {
+        this.comment_num = comment_num;
+    }
+
+    public String getBimg() {
+        return bimg;
+    }
+
+    public void setBimg(String bimg) {
+        this.bimg = bimg;
+    }
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     public String getTitle() {
         return title;
@@ -22,35 +49,19 @@ public class NewsTop {
         this.title = title;
     }
 
+    public String getPublish_time() {
+        return publish_time;
+    }
+
+    public void setPublish_time(String publish_time) {
+        this.publish_time = publish_time;
+    }
+
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getArticle_id() {
-        return article_id;
-    }
-
-    public void setArticle_id(String article_id) {
-        this.article_id = article_id;
-    }
-
-    public String getComment_id() {
-        return comment_id;
-    }
-
-    public void setComment_id(String comment_id) {
-        this.comment_id = comment_id;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
     }
 }

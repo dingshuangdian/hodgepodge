@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+    <data class="HotBinding">
 
         <variable
             name="newsitem"
@@ -11,76 +11,52 @@
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{newsitem.click}"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="110dp"
-            android:lineSpacingExtra="5dp"
-            android:maxLines="3"
-            android:textColor="#000"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/iv_image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
-            tools:text="@{newsitem.title}" />
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <ImageView
-            android:id="@+id/iv_image"
-            android:layout_width="130dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
+            app:layout_constraintVertical_bias="0.3"
+            android:id="@+id/iv_hot"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@mipmap/hoti"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="h,2:1.5"
-            app:layout_constraintLeft_toRightOf="@+id/title"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1"
-            tools:imageUrl="@{newsitem.imageUrl}" />
-        <TextView
-            android:id="@+id/flag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="置顶"
-            android:textColor="@color/colorSelect"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent" />
-        <TextView
-            android:id="@+id/author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:textSize="12sp"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/flag"
-            tools:text="@{newsitem.author}" />
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+        <ViewFlipper
+            app:layout_constraintVertical_bias="0.3"
+            android:id="@+id/vf"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:textSize="12sp"
+            android:autoStart="true"
+            android:flipInterval="2500"
+            android:inAnimation="@anim/anim_marquee_in"
+            android:outAnimation="@anim/anim_marquee_out"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/author"
-            tools:text="@{newsitem.time}" />
+            app:layout_constraintLeft_toRightOf="@+id/view"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </ViewFlipper>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="1.5dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/edit_hint_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/iv_hot"
+            app:layout_constraintTop_toTopOf="parent"></View>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#aaa"
-            app:layout_constraintBottom_toBottomOf="parent"></View>
+            android:layout_height="1.5dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/edit_hint_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_hot"></View>
     </android.support.constraint.ConstraintLayout>
 
 

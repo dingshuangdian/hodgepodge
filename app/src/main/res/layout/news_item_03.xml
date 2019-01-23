@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+    <data class="OtherBinding">
 
         <variable
             name="newsitem"
@@ -12,60 +12,78 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/view"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{newsitem.topClick}"
-        android:padding="10dp">
+        android:onClick="@{newsitem.click}">
+
         <TextView
-            android:layout_marginBottom="5dp"
             android:id="@+id/title"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="90dp"
             android:lineSpacingExtra="5dp"
-            android:maxLines="1"
+            android:maxLines="3"
             android:textColor="#000"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/flag"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintRight_toLeftOf="@+id/iv_image"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@{newsitem.topTitle}" />
-        <TextView
-            android:id="@+id/flag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="置顶"
-            android:textColor="@color/colorSelect"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            tools:text="@{newsitem.title}" />
+
+        <ImageView
+            android:layout_marginBottom="5dp"
+            android:id="@+id/iv_image"
+            android:layout_width="130dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintDimensionRatio="h,2.:1.5"
+            app:layout_constraintLeft_toRightOf="@+id/title"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title"
+            tools:imageUrl="@{newsitem.imageUrl}" />
+
         <TextView
             android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:textSize="12sp"
-            android:layout_marginLeft="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/flag" />
+            tools:text="@{newsitem.author}" />
+
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/author"
+            tools:text="@{newsitem.comment}"
+            tools:visibility="@{newsitem.commentVisibility}" />
 
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginBottom="10dp"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/author" />
+            app:layout_constraintLeft_toRightOf="@+id/comment"
+            tools:text="@{newsitem.time}" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#aaa"
-            android:layout_marginBottom="1dp"
+            android:layout_height="1.5dp"
+            android:background="@color/edit_hint_text"
+            android:layout_marginBottom="2dp"
             app:layout_constraintBottom_toBottomOf="parent"></View>
     </android.support.constraint.ConstraintLayout>
-
 
 </layout>

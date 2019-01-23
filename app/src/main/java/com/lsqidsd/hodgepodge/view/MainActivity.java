@@ -12,7 +12,6 @@ import com.lsqidsd.hodgepodge.utils.TabDb;
 public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener {
     private MainActivityBinding binding;
     private TabFootBinding footBinding;
-
     @Override
     public int getLayout() {
         return R.layout.activity_main;

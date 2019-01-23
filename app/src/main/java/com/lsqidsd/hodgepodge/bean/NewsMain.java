@@ -22,11 +22,9 @@ public class NewsMain implements Serializable {
     public void setNewsTops(List<NewsTop> newsTops) {
         this.newsTops = newsTops;
     }
-
     public List<NewsItem.DataBean> getNewsItems() {
         return newsItems;
     }
-
     public void setNewsItems(List<NewsItem.DataBean> newsItems) {
         this.newsItems = newsItems;
     }
