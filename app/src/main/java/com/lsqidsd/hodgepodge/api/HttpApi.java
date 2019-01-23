@@ -16,8 +16,8 @@ public interface HttpApi {
     @GET("irs/rcd?cid=108&token=349ee24cdf9327a050ddad8c166bd3e3")
     Observable<NewsItem> getMainNews(@Query("page") int page);
 
-    @GET("https://i.match.qq.com/ninja/fragcontent?pull_urls=news_top_2018")
-    Observable<List<NewsTop>> getTop();
+    @GET("om/mediaArticles?mid=5278151&num=15")
+    Observable<NewsTop> getTopNews(@Query("page") int page);
 
     @POST()
     Observable<ResponseBody> getNews(@Url String url);

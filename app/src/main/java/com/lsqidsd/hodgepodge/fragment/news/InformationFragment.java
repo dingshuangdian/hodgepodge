@@ -64,7 +64,7 @@ public class InformationFragment extends Fragment implements NewsItemModel.ItemN
         Bundle bundle = getArguments();
         informationViewModel = new NewsItemModel(bundle.getString("url"), getContext(), this);
         fragmentBinding.setInformationview(informationViewModel);
-        informationViewModel.getNewsData(0);
+        informationViewModel.getTopNews();
     }
     @Override
     public void dataBeanChange(NewsMain dataBeans) {

@@ -29,7 +29,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     private Context context;
     private int page = 1;
     private List<NewsItem.DataBean> dataBeanList;
-    private List<NewsTop> newsTopList;
+    private List<NewsTop.DataBean> newsTopList;
     private final int LOAD_MORE = -1;//上拉加载
     private final int NEWS_ITEM_TYPE_01 = 0;//置顶
     private final int NEWS_ITEM_TYPE_02 = 1;//热点精选
@@ -78,12 +78,12 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
             loadMoreHolder.loadMoreData();
         } else if (holder instanceof YWViwHolder) {
             YWViwHolder ywViwHolder = (YWViwHolder) holder;
-            NewsItem.DataBean dataBean = dataBeanList.get(position - 2);
+            NewsItem.DataBean dataBean = dataBeanList.get(position - 4);
             ywViwHolder.bindData(dataBean);
         } else if (holder instanceof TopHolder) {
             TopHolder topHolder = (TopHolder) holder;
-            NewsTop newsTop = new NewsTop(dataBeanList.get(0).getComment_num(), dataBeanList.get(0).getSource(), dataBeanList.get(0).getTitle(), dataBeanList.get(0).getPublish_time(), dataBeanList.get(0).getUrl(), dataBeanList.get(0).getBimg());
-            topHolder.bindData(newsTop);
+            newsTopList.get(0).setFlag("showImg");
+            topHolder.bindData(newsTopList.get(position));
         } else if (holder instanceof HotHolder) {
             HotHolder hotHolder = (HotHolder) holder;
         }
@@ -91,16 +91,16 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return dataBeanList.size() + 3;
+        return dataBeanList.size() + 5;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()) {
             return LOAD_MORE;
-        } else if (position == 0) {
+        } else if (position == 0 || position == 1 || position == 2) {
             return NEWS_ITEM_TYPE_01;
-        } else if (position == 1) {
+        } else if (position == 3) {
             return NEWS_ITEM_TYPE_02;
         } else {
             return NEWS_ITEM_TYPE_03;
@@ -147,7 +147,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
             topBinding = itemView;
         }
 
-        public void bindData(NewsTop top) {
+        public void bindData(NewsTop.DataBean top) {
             topBinding.setNewsitem(new NewsItemModel(context, top));
         }
     }
@@ -169,6 +169,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
                 textView.setLayoutParams(params);
                 textView.setTextColor(Color.parseColor("#2d3444"));
                 textView.setTextSize(14);
+                textView.setLineSpacing(7, 1f);
                 textView.setText(dataBeanList.get(i).getTitle());
                 hotBinding.vf.addView(textView);
             }

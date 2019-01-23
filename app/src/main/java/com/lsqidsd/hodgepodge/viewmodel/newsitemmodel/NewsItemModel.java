@@ -26,6 +26,7 @@ import java.util.TimerTask;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
+import okhttp3.internal.Util;
 
 public class NewsItemModel<T> {
     private String url;
@@ -35,22 +36,24 @@ public class NewsItemModel<T> {
     public ObservableInt lineVisibility = new ObservableInt(View.GONE);
     public ObservableInt commentVisibility = new ObservableInt(View.GONE);
     public ObservableInt commentTopVisibility = new ObservableInt(View.GONE);
+    public ObservableInt imgVisbility = new ObservableInt(View.VISIBLE);
     private List<NewsItem.DataBean> dataBeans = new ArrayList<>();
+    private List<NewsTop.DataBean> topBeans = new ArrayList<>();
+
     private NewsItem.DataBean dataBean;
-    private NewsTop newsTop;
+    private NewsTop.DataBean newsTop;
     private NewsMain newsMain = new NewsMain();
 
     public NewsItemModel(Context context, T t) {
         this.context = context;
-        if (t instanceof NewsTop) {
-            this.newsTop = (NewsTop) t;
+        if (t instanceof NewsTop.DataBean) {
+            this.newsTop = (NewsTop.DataBean) t;
         }
         if (t instanceof NewsItem.DataBean) {
             this.dataBean = (NewsItem.DataBean) t;
         }
 
     }
-
 
     public NewsItemModel(Context context, List<NewsItem.DataBean> dataBeans) {
         this.context = context;
@@ -81,12 +84,12 @@ public class NewsItemModel<T> {
     }
 
     public String getTopComment() {
-        if (newsTop.getComment_num() == 0) {
+        if (newsTop.getComments() == 0) {
             commentTopVisibility.set(View.GONE);
         } else {
             commentTopVisibility.set(View.VISIBLE);
         }
-        return newsTop.getComment_num() + "评";
+        return newsTop.getComments() + "评";
     }
 
     public void click(View view) {
@@ -113,10 +116,6 @@ public class NewsItemModel<T> {
         return newsTop.getTitle();
     }
 
-    public String getTopTime() {
-        return TimeUtil.formatTime(newsTop.getPublish_time());
-    }
-
     public String getTime() {
         return TimeUtil.formatTime(dataBean.getPublish_time());
     }
@@ -136,7 +135,12 @@ public class NewsItemModel<T> {
     }
 
     public String getTopImageUrl() {
-        return newsTop.getBimg();
+        if (!newsTop.getFlag().isEmpty()) {
+            imgVisbility.set(View.VISIBLE);
+        } else {
+            imgVisbility.set(View.GONE);
+        }
+        return newsTop.getThumbnails().get(0);
     }
 
     public String getImageUrl() {
@@ -193,15 +197,16 @@ public class NewsItemModel<T> {
     }
 
     public void getTopNews() {
-        Observable<List<NewsTop>> observable = RetrofitServiceManager.getInstance().getHttpApi().getTop();
+        Observable<NewsTop> observable = RetrofitServiceManager.getInstance().getHttpApi().getTopNews(0);
         RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(Object o) {
-                newsMain.setNewsTops((List<NewsTop>) o);
-                for (NewsTop newsTop : (List<NewsTop>) o) {
-                    Log.e("title", newsTop.getTitle());
+                NewsTop newsTop = (NewsTop) o;
+                for (NewsTop.DataBean dataBean : newsTop.getData()) {
+                    topBeans.add(dataBean);
                 }
-
+                newsMain.setNewsTops(topBeans);
+                getNewsData(0);
             }
 
             @Override
