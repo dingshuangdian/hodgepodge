@@ -1,4 +1,5 @@
 package com.lsqidsd.hodgepodge.fragment;
+
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.BaseFragmentAdapter;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
@@ -15,6 +17,7 @@ import com.lsqidsd.hodgepodge.fragment.news.InformationFragment;
 import com.lsqidsd.hodgepodge.databinding.NewsFragmentBinding;
 import com.lsqidsd.hodgepodge.utils.CategoriesUtils;
 import com.lsqidsd.hodgepodge.viewmodel.NewsViewModule;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +26,6 @@ public class NewsFragment extends Fragment implements NewsViewModule.HasFinish {
     private List<Fragment> fragmentArrayList = new ArrayList<>();
     private BaseFragmentAdapter basePagerAdapter;
     private NewsViewModule newsViewModule;
-    private List<CategoriesBean> list = CategoriesUtils.getCategories();
     private NewsViewModule.HasFinish hasFinish;
 
     @Nullable
@@ -52,12 +54,13 @@ public class NewsFragment extends Fragment implements NewsViewModule.HasFinish {
             }
         }).start();
     }
+
     private void initFlexTitle() {
-        fragmentBinding.tabTop.vt.initData(list, fragmentBinding.viewpager, 0);
+        fragmentBinding.tabTop.vt.initData(CategoriesUtils.getCategories(), fragmentBinding.viewpager, 0);
         if (fragmentArrayList != null) {
             fragmentArrayList.clear();
         }
-        fragmentArrayList.add(InformationFragment.getInstance(BaseConstant.BASE_URL.concat(list.get(0).getUrl())));
+        fragmentArrayList.add(InformationFragment.getInstance());
         basePagerAdapter = new BaseFragmentAdapter(getChildFragmentManager(), fragmentArrayList);
         fragmentBinding.viewpager.setAdapter(basePagerAdapter);
     }

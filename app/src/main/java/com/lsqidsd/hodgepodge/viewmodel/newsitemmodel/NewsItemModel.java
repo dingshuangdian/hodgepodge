@@ -39,7 +39,6 @@ public class NewsItemModel<T> {
     public ObservableInt imgVisbility = new ObservableInt(View.VISIBLE);
     private List<NewsItem.DataBean> dataBeans = new ArrayList<>();
     private List<NewsTop.DataBean> topBeans = new ArrayList<>();
-
     private NewsItem.DataBean dataBean;
     private NewsTop.DataBean newsTop;
     private NewsMain newsMain = new NewsMain();

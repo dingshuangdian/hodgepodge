@@ -19,6 +19,6 @@ public interface HttpApi {
     @GET("om/mediaArticles?mid=5278151&num=15")
     Observable<NewsTop> getTopNews(@Query("page") int page);
 
-    @GET("https://mat1.gtimg.com/pingjs/ext2020/configF2017/5a9cf828.js")
-    Observable<ResponseBody> getCategories();
+    @GET("https://pacaio.match.qq.com/vlike/relate?num=15&id=c0029aqw3zm")
+    Observable<ResponseBody> getVideos(@Query("page") int page);
 }

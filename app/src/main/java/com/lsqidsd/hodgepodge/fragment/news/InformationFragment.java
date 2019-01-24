@@ -21,10 +21,10 @@ public class InformationFragment extends Fragment implements NewsItemModel.ItemN
     private NewsItemModel informationViewModel;
     private static InformationFragment informationFragment;
 
-    public static InformationFragment getInstance(String url) {
+    public static InformationFragment getInstance() {
         informationFragment = new InformationFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("url", url);
+        bundle.putString("url", "");
         informationFragment.setArguments(bundle);
         return informationFragment;
     }

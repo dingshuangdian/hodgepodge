@@ -7,6 +7,7 @@ package com.lsqidsd.hodgepodge.utils;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
 import android.util.AttributeSet;
@@ -33,7 +34,6 @@ public class ViewPagerTitle extends HorizontalScrollView {
     private OnTextViewClick onTextViewClick;
     private DynamicLine dynamicLine;
     private ViewPager viewPager;
-    private List<CategoriesBean> list;
     private MyOnPageChangeListener onPageChangeListener;
     private int margin;
     private LinearLayout.LayoutParams contentParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -131,19 +131,18 @@ public class ViewPagerTitle extends HorizontalScrollView {
      */
     public void initData(List<CategoriesBean> t, ViewPager viewPager, int selectedIndex) {
         this.viewPager = viewPager;
-        this.list = t;
         createDynamicLine();
-        createTextViews(list);
+        createTextViews(t);
         onPageChangeListener = new MyOnPageChangeListener(getContext(), viewPager, dynamicLine, this, margin, defaultTextSize, selectedTextSize, titleCenter, lineDrag, lineMargins);
         setSelectedIndex(selectedIndex);
         viewPager.addOnPageChangeListener(onPageChangeListener);
 
     }
 
-    private int getFixLeftDis() {
+    private int getFixLeftDis(List<CategoriesBean> t) {
         TextView textView = new TextView(getContext());
         textView.setTextSize(defaultTextSize);
-        textView.setText(list.get(0).getTitle());
+        textView.setText(t.get(0).getTitle());
         float defaultTextSize = getTextViewLength(textView);
         textView.setTextSize(selectedTextSize);
         float selectTextSize = getTextViewLength(textView);
@@ -182,6 +181,7 @@ public class ViewPagerTitle extends HorizontalScrollView {
             TextView textView = new TextView(getContext());
             textView.setText(titles.get(i).getTitle());
             textView.setTextColor(Color.GRAY);
+            textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             textView.setTextSize(defaultTextSize);
             if (titleCenter) {
                 textViewParams2.setMargins(margin, (int) textTopMargins, margin, (int) textBottomMargins);

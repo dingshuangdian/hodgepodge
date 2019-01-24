@@ -62,7 +62,7 @@ public class WebViewActivity extends BaseActivity {
         webSettings.setLoadsImagesAutomatically(true);  //支持自动加载图片
         webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
         //webSettings.setStandardFontFamily("");//设置 WebView 的字体，默认字体为 "sans-serif"
-        //webSettings.setDefaultFontSize(20);//设置 WebView 字体的大小，默认大小为 16
+        webSettings.setDefaultFontSize(14);//设置 WebView 字体的大小，默认大小为 16
         //webSettings.setMinimumFontSize(12);//设置 WebView 支持的最小字体大小，默认为 8
         if (NetUtil.isNetworkConnected()) {
             webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
