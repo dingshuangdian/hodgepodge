@@ -6,13 +6,11 @@
             name="newsview"
             type="com.lsqidsd.hodgepodge.viewmodel.NewsViewModule"></variable>
     </data>
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:background="#fff"
         android:layout_height="match_parent">
-
         <com.lsqidsd.hodgepodge.utils.HodgeSearchView
             android:id="@+id/searchview"
             android:background="#fff"
@@ -20,7 +18,6 @@
             android:layout_height="wrap_content"
             app:maxSearchLength="100">
         </com.lsqidsd.hodgepodge.utils.HodgeSearchView>
-
         <include
             android:id="@+id/tab_top"
             layout="@layout/tab_top"

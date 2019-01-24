@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.constraint.ConstraintLayout;
@@ -16,12 +19,17 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.databinding.SearchViewBinding;
+
+import java.util.List;
+
+import static android.os.Looper.getMainLooper;
 
 public class HodgeSearchView extends ConstraintLayout {
     private int searchIcon = R.mipmap.ic_search_gray;
@@ -36,7 +44,7 @@ public class HodgeSearchView extends ConstraintLayout {
     private OnEditChangeListener onEditChangeListener;
     private OnEnterClickListener onEnterClickListener;
     private SearchViewBinding searchViewBinding;
-
+    private Context context;
     public HodgeSearchView(Context context) {
         this(context, null);
     }
@@ -49,6 +57,7 @@ public class HodgeSearchView extends ConstraintLayout {
         super(context, attrs, defStyleAttr);
         initAttrs(context, attrs);
         initViews(context);
+        this.context = context;
     }
 
     //初始化属性
@@ -124,7 +133,6 @@ public class HodgeSearchView extends ConstraintLayout {
                 clear();
             }
         });
-
 
     }
 
@@ -217,6 +225,23 @@ public class HodgeSearchView extends ConstraintLayout {
     public void setClearIcon(@DrawableRes int icon) {
         this.clearIcon = icon;
         searchViewBinding.btnClear.setImageResource(clearIcon);
+    }
+    public void setTopRoll(List<String> stringList) {
+        Handler handler = new Handler(getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < stringList.size(); i++) {
+                    ConstraintLayout.LayoutParams constraintLayout = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    TextView textView = new TextView(context);
+                    textView.setLayoutParams(constraintLayout);
+                    textView.setTextColor(Color.parseColor("#2d3444"));
+                    textView.setTextSize(14);
+                    textView.setText(stringList.get(i));
+                    searchViewBinding.vf.addView(textView);
+                }
+            }
+        });
     }
 
 
