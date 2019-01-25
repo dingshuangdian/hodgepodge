@@ -7,6 +7,6 @@ public class BaseConstant {
     /**
      * Jsoup
      */
-    public static String SEARCH_URL = "https://www.sogou.com/tx?query=%D0%C2%CE%C5%D6%D0%D0%C4&hdq=sogou-wsse-b58ac8403eb9cf17-0003";
+    public static String SEARCH_URL = "https://s.weibo.com/top/summary?cate=realtimehot";
 
 }

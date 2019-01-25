@@ -16,6 +16,7 @@ import com.lsqidsd.hodgepodge.bean.CategoriesBean;
 import com.lsqidsd.hodgepodge.fragment.news.InformationFragment;
 import com.lsqidsd.hodgepodge.databinding.NewsFragmentBinding;
 import com.lsqidsd.hodgepodge.utils.CategoriesUtils;
+import com.lsqidsd.hodgepodge.utils.TabDb;
 import com.lsqidsd.hodgepodge.viewmodel.NewsViewModule;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class NewsFragment extends Fragment implements NewsViewModule.HasFinish {
     }
 
     private void initFlexTitle() {
-        fragmentBinding.tabTop.vt.initData(CategoriesUtils.getCategories(), fragmentBinding.viewpager, 0);
+        fragmentBinding.tabTop.vt.initData(TabDb.getTopsTxt(), fragmentBinding.viewpager, 0);
         if (fragmentArrayList != null) {
             fragmentArrayList.clear();
         }

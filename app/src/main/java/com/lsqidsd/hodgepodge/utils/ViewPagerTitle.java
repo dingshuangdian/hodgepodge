@@ -129,7 +129,7 @@ public class ViewPagerTitle extends HorizontalScrollView {
      * @param viewPager
      * @param selectedIndex 默认选择的第几个页面
      */
-    public void initData(List<CategoriesBean> t, ViewPager viewPager, int selectedIndex) {
+    public void initData(String[] t, ViewPager viewPager, int selectedIndex) {
         this.viewPager = viewPager;
         createDynamicLine();
         createTextViews(t);
@@ -162,7 +162,7 @@ public class ViewPagerTitle extends HorizontalScrollView {
     }
 
 
-    private void createTextViews(List<CategoriesBean> titles) {
+    private void createTextViews(String[] titles) {
         LinearLayout contentLl = new LinearLayout(getContext());
         contentLl.setBackgroundColor(backgroundColor);
         contentLl.setLayoutParams(contentParams);
@@ -177,9 +177,9 @@ public class ViewPagerTitle extends HorizontalScrollView {
         margin = getTextViewMargins(titles);
 
 
-        for (int i = 0; i < titles.size(); i++) {
+        for (int i = 0; i < titles.length; i++) {
             TextView textView = new TextView(getContext());
-            textView.setText(titles.get(i).getTitle());
+            textView.setText(titles[i]);
             textView.setTextColor(Color.GRAY);
             textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             textView.setTextSize(defaultTextSize);
@@ -187,7 +187,7 @@ public class ViewPagerTitle extends HorizontalScrollView {
                 textViewParams2.setMargins(margin, (int) textTopMargins, margin, (int) textBottomMargins);
                 textView.setLayoutParams(textViewParams2);
             } else {
-                if (i == titles.size() - 1) {
+                if (i == titles.length - 1) {
                     textViewParams2.setMargins(margin, (int) textTopMargins, margin, (int) textBottomMargins);
                     textView.setLayoutParams(textViewParams2);
                 } else {
@@ -206,7 +206,7 @@ public class ViewPagerTitle extends HorizontalScrollView {
         contentLl.addView(dynamicLine);
     }
 
-    private int getTextViewMargins(List<CategoriesBean> titles) {
+    private int getTextViewMargins(String[] titles) {
         float countLength = 0;
         float textLength = 0;//文字总长度
         TextView textView = new TextView(getContext());
@@ -216,30 +216,30 @@ public class ViewPagerTitle extends HorizontalScrollView {
         textView2.setTextSize(selectedTextSize);
         TextPaint paint2 = textView2.getPaint();
         if (titleCenter) {
-            for (int i = 0; i < titles.size(); i++) {
-                countLength = countLength + itemMargins + paint.measureText(titles.get(i).getTitle()) + itemMargins;
-                textLength = textLength + paint.measureText(titles.get(i).getTitle());
+            for (int i = 0; i < titles.length; i++) {
+                countLength = countLength + itemMargins + paint.measureText(titles[i] + itemMargins);
+                textLength = textLength + paint.measureText(titles[i]);
             }
-            countLength = countLength + 2 * itemMargins + paint2.measureText(titles.get(titles.size() - 1).getTitle());
-            textLength = textLength + paint.measureText(titles.get(titles.size() - 1).getTitle());
+            countLength = countLength + 2 * itemMargins + paint2.measureText(titles[titles.length-1]);
+            textLength = textLength + paint.measureText(titles[titles.length-1]);
             int screenWidth = getScreenWidth(getContext());
 
             if (countLength <= screenWidth) {
-                return (screenWidth - (int) textLength) / (titles.size() * 2);
+                return (screenWidth - (int) textLength) / (titles.length * 2);
             } else {
                 return (int) itemMargins;
             }
         } else {
-            for (int i = 0; i < titles.size() - 1; i++) {
-                countLength = countLength + itemMargins + paint.measureText(titles.get(i).getTitle());
-                textLength = textLength + paint.measureText(titles.get(i).getTitle());
+            for (int i = 0; i < titles.length - 1; i++) {
+                countLength = countLength + itemMargins + paint.measureText(titles[i]);
+                textLength = textLength + paint.measureText(titles[i]);
             }
-            countLength = countLength + 2 * itemMargins + paint2.measureText(titles.get(titles.size() - 1).getTitle());
-            textLength = textLength + paint.measureText(titles.get(titles.size() - 1).getTitle());
+            countLength = countLength + 2 * itemMargins + paint2.measureText(titles[titles.length - 1]);
+            textLength = textLength + paint.measureText(titles[titles.length - 1]);
             int screenWidth = getScreenWidth(getContext());
 
             if (countLength <= screenWidth) {
-                return (screenWidth - (int) textLength) / (titles.size() + 1);
+                return (screenWidth - (int) textLength) / (titles.length + 1);
             } else {
                 return (int) itemMargins;
             }

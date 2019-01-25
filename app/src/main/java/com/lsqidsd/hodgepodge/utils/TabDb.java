@@ -16,6 +16,11 @@ public class TabDb {
         return tabs;
     }
 
+    public static String[] getTopsTxt() {
+        String[] tabs = {"要闻", "视频", "推荐", "娱乐", "军事", "体育", "国际", "财经"};
+        return tabs;
+    }
+
     /**
      * 获得所有碎片
      */

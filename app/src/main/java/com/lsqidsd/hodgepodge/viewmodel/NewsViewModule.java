@@ -22,7 +22,7 @@ public class NewsViewModule {
     public void getHotKey(HasFinish finish) {
         try {
             Document document = Jsoup.connect(BaseConstant.SEARCH_URL).get();
-            Elements elements = document.select("ol.news-recommend").first().select("li").select("a");
+            Elements elements = document.select("td").select("a");
             for (Element element : elements) {
                 top.add(element.text());
             }
