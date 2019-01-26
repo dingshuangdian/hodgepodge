@@ -1,6 +1,7 @@
 package com.lsqidsd.hodgepodge.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -10,9 +11,11 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
@@ -21,7 +24,12 @@ import com.lsqidsd.hodgepodge.databinding.HotBinding;
 import com.lsqidsd.hodgepodge.databinding.Loadbinding;
 import com.lsqidsd.hodgepodge.databinding.TopBinding;
 import com.lsqidsd.hodgepodge.databinding.OtherBinding;
+import com.lsqidsd.hodgepodge.view.WebViewActivity;
 import com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -78,7 +86,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
             loadMoreHolder.loadMoreData();
         } else if (holder instanceof YWViwHolder) {
             YWViwHolder ywViwHolder = (YWViwHolder) holder;
-            NewsItem.DataBean dataBean = dataBeanList.get(position - 4);
+            NewsItem.DataBean dataBean = dataBeanList.get(position - 3);
             ywViwHolder.bindData(dataBean);
         } else if (holder instanceof TopHolder) {
             TopHolder topHolder = (TopHolder) holder;
@@ -91,16 +99,16 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return dataBeanList.size() + 5;
+        return dataBeanList.size() + 4;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()) {
             return LOAD_MORE;
-        } else if (position == 0 || position == 1 || position == 2) {
+        } else if (position == 0 || position == 1) {
             return NEWS_ITEM_TYPE_01;
-        } else if (position == 3) {
+        } else if (position == 2) {
             return NEWS_ITEM_TYPE_02;
         } else {
             return NEWS_ITEM_TYPE_03;
@@ -111,12 +119,28 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         OtherBinding otherBinding;
 
         public YWViwHolder(@NonNull OtherBinding itemView) {
-            super(itemView.view);
+            super(itemView.getRoot());
             this.otherBinding = itemView;
         }
 
         public void bindData(NewsItem.DataBean bean) {
-            otherBinding.setNewsitem(new NewsItemModel(context, bean));
+            Gson gson = new Gson();
+            String obj = gson.toJson(bean.getIrs_imgs());
+            JSONArray jsonArray = null;
+            try {
+                JSONObject jsonObject = new JSONObject(obj);
+                if (jsonObject.has("227X148")) {
+                    jsonArray = (JSONArray) jsonObject.opt("227X148");
+                    if (jsonArray.length() == 3) {
+                        GridViewImgAdapter gridViewImgAdapter;
+                        gridViewImgAdapter = new GridViewImgAdapter(jsonArray,bean.getUrl(), context);
+                        otherBinding.gv.setAdapter(gridViewImgAdapter);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            otherBinding.setNewsitem(new NewsItemModel(context, bean, jsonArray));
         }
     }
 
@@ -141,6 +165,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public class TopHolder extends ViewHolder {
         TopBinding topBinding;
+        JSONArray jsonArray=null;
 
         public TopHolder(TopBinding itemView) {
             super(itemView.getRoot());
@@ -148,8 +173,9 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
 
         public void bindData(NewsTop.DataBean top) {
-            topBinding.setNewsitem(new NewsItemModel(context, top));
+            topBinding.setNewsitem(new NewsItemModel(context, top,jsonArray));
         }
+
     }
 
     public class HotHolder extends ViewHolder {

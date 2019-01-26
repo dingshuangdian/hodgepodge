@@ -9,14 +9,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.YWAdapter;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
 import com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel;
-public class InformationFragment extends Fragment implements NewsItemModel.ItemNewsDataListener {
+
+public class InformationFragment extends Fragment implements NewsItemModel.ItemNewsDataListener{
     private InformationDataBinding fragmentBinding;
     private NewsItemModel informationViewModel;
     private static InformationFragment informationFragment;
@@ -28,6 +31,7 @@ public class InformationFragment extends Fragment implements NewsItemModel.ItemN
         informationFragment.setArguments(bundle);
         return informationFragment;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class InformationFragment extends Fragment implements NewsItemModel.ItemN
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -60,12 +65,14 @@ public class InformationFragment extends Fragment implements NewsItemModel.ItemN
             }
         });
     }
+
     private void getData() {
         Bundle bundle = getArguments();
         informationViewModel = new NewsItemModel(bundle.getString("url"), getContext(), this);
         fragmentBinding.setInformationview(informationViewModel);
         informationViewModel.getTopNews();
     }
+
     @Override
     public void dataBeanChange(NewsMain dataBeans) {
         YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans);

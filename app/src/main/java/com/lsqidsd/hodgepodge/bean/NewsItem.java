@@ -624,7 +624,7 @@ public class NewsItem {
             }
         }
 
-        public static class IrsImgsBean {
+        public static class IrsImgsBean{
             @SerializedName("227X148")
             private List<String> _$227X148;
             @SerializedName("273X145")

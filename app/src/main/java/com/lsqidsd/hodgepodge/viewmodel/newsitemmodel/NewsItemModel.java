@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
@@ -19,6 +19,8 @@ import com.lsqidsd.hodgepodge.utils.TimeUtil;
 import com.lsqidsd.hodgepodge.view.WebViewActivity;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -26,7 +28,6 @@ import java.util.TimerTask;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
-import okhttp3.internal.Util;
 
 public class NewsItemModel<T> {
     private String url;
@@ -37,21 +38,24 @@ public class NewsItemModel<T> {
     public ObservableInt commentVisibility = new ObservableInt(View.GONE);
     public ObservableInt commentTopVisibility = new ObservableInt(View.GONE);
     public ObservableInt imgVisbility = new ObservableInt(View.VISIBLE);
+    public ObservableInt gvVisbility = new ObservableInt(View.GONE);
+    public ObservableInt imgfVisbility = new ObservableInt(View.VISIBLE);
     private List<NewsItem.DataBean> dataBeans = new ArrayList<>();
     private List<NewsTop.DataBean> topBeans = new ArrayList<>();
     private NewsItem.DataBean dataBean;
     private NewsTop.DataBean newsTop;
+    private JSONArray jsonArray;
     private NewsMain newsMain = new NewsMain();
 
-    public NewsItemModel(Context context, T t) {
+    public NewsItemModel(Context context, T t, JSONArray jsonArray) {
         this.context = context;
+        this.jsonArray = jsonArray;
         if (t instanceof NewsTop.DataBean) {
             this.newsTop = (NewsTop.DataBean) t;
         }
         if (t instanceof NewsItem.DataBean) {
             this.dataBean = (NewsItem.DataBean) t;
         }
-
     }
 
     public NewsItemModel(Context context, List<NewsItem.DataBean> dataBeans) {
@@ -93,14 +97,16 @@ public class NewsItemModel<T> {
 
     public void click(View view) {
         Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra("url", getUrl());
-        context.startActivity(intent);
-    }
-
-    public void topClick(View view) {
-        Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra("url", getTopUrl());
-        context.startActivity(intent);
+        switch (view.getId()) {
+            case R.id.view_01:
+                intent.putExtra("url", getTopUrl());
+                context.startActivity(intent);
+                break;
+            case R.id.view_03:
+                intent.putExtra("url", getUrl());
+                context.startActivity(intent);
+                break;
+        }
     }
 
     public String getTopUrl() {
@@ -143,6 +149,15 @@ public class NewsItemModel<T> {
     }
 
     public String getImageUrl() {
+        if (jsonArray != null) {
+            if (jsonArray.length() == 3) {
+                gvVisbility.set(View.VISIBLE);
+                imgfVisbility.set(View.GONE);
+            } else {
+                gvVisbility.set(View.GONE);
+                imgfVisbility.set(View.VISIBLE);
+            }
+        }
         return dataBean.getBimg();
     }
 

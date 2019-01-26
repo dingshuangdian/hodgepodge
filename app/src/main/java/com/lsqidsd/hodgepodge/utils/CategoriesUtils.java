@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriesUtils {
-    private static List<CategoriesBean> categoriesBeans = new ArrayList<>();
+    private static List<CategoriesBean> categoriesBeans=null;
     public static List<CategoriesBean> getCategories() {
         categoriesBeans.add(new CategoriesBean("要闻"));
         categoriesBeans.add(new CategoriesBean("视频"));

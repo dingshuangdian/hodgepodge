@@ -13,7 +13,7 @@
         android:thickness="3dp"
         android:useLevel="false">
         <gradient
-            android:centerColor="@color/edit_hint_text"
+            android:centerColor="#aaa"
             android:endColor="@color/edit_background"
             android:startColor="@color/edit_background"
             android:type="sweep"></gradient>
