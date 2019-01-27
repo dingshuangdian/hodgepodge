@@ -13,6 +13,7 @@ import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.databinding.Image01Binding;
 import com.lsqidsd.hodgepodge.utils.JsonUtils;
+import com.lsqidsd.hodgepodge.utils.TimeUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -42,10 +43,14 @@ public class ViewPageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Image01Binding binding = DataBindingUtil.inflate(layoutInflater, R.layout.image_01, container, false);
-        Picasso.get().load(JsonUtils.jsonKey(newsHotList.get(position).getImgs(),2)).into(binding.ivImage);
+        Picasso.get().load(JsonUtils.jsonKey(newsHotList.get(position).getImgs(), 2)).into(binding.ivImage);
+        binding.author.setText(newsHotList.get(position).getSource());
+        binding.title.setText(newsHotList.get(position).getTitle());
+        binding.time.setText(TimeUtil.formatTime(newsHotList.get(position).getPublish_time()));
         container.addView(binding.imgView);
         return binding.imgView;
     }
+
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
