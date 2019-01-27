@@ -5,12 +5,16 @@ import java.util.List;
 
 public class NewsMain implements Serializable {
 
-    public List<NewsTop.DataBean> newsTops;
-    public List<NewsItem.DataBean> newsItems;
+    private List<NewsTop.DataBean> newsTops;
+    private List<NewsItem.DataBean> newsItems;
+    private List<NewsHot.DataBean> newsHot;
 
-    public NewsMain(List<NewsTop.DataBean> newsTops, List<NewsItem.DataBean> newsItems) {
-        this.newsTops = newsTops;
-        this.newsItems = newsItems;
+    public List<NewsHot.DataBean> getNewsHot() {
+        return newsHot;
+    }
+
+    public void setNewsHot(List<NewsHot.DataBean> newsHot) {
+        this.newsHot = newsHot;
     }
 
     public NewsMain() {
@@ -24,6 +28,7 @@ public class NewsMain implements Serializable {
         this.newsTops = newsTops;
 
     }
+
     public List<NewsItem.DataBean> getNewsItems() {
         return newsItems;
     }

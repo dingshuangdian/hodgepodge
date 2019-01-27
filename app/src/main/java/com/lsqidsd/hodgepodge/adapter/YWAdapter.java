@@ -1,5 +1,6 @@
 package com.lsqidsd.hodgepodge.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -8,15 +9,22 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.base.BaseApplication;
+import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
@@ -24,6 +32,8 @@ import com.lsqidsd.hodgepodge.databinding.HotBinding;
 import com.lsqidsd.hodgepodge.databinding.Loadbinding;
 import com.lsqidsd.hodgepodge.databinding.TopBinding;
 import com.lsqidsd.hodgepodge.databinding.OtherBinding;
+import com.lsqidsd.hodgepodge.utils.JsonUtils;
+import com.lsqidsd.hodgepodge.utils.Tool;
 import com.lsqidsd.hodgepodge.view.WebViewActivity;
 import com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel;
 
@@ -38,15 +48,17 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     private int page = 1;
     private List<NewsItem.DataBean> dataBeanList;
     private List<NewsTop.DataBean> newsTopList;
+    private List<NewsHot.DataBean> newsHotList;
     private final int LOAD_MORE = -1;//上拉加载
     private final int NEWS_ITEM_TYPE_01 = 0;//置顶
     private final int NEWS_ITEM_TYPE_02 = 1;//热点精选
     private final int NEWS_ITEM_TYPE_03 = 2;//列表
 
-    public YWAdapter(Context context, NewsMain list) {
+    public YWAdapter(Context context, NewsMain list, Activity activity) {
         this.context = context;
         this.dataBeanList = list.getNewsItems();
         this.newsTopList = list.getNewsTops();
+        this.newsHotList = list.getNewsHot();
     }
 
     @NonNull
@@ -124,21 +136,15 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
 
         public void bindData(NewsItem.DataBean bean) {
-            Gson gson = new Gson();
-            String obj = gson.toJson(bean.getIrs_imgs());
+            JSONObject jsonObject = JsonUtils.toJsonObject(bean.getIrs_imgs());
             JSONArray jsonArray = null;
-            try {
-                JSONObject jsonObject = new JSONObject(obj);
-                if (jsonObject.has("227X148")) {
-                    jsonArray = (JSONArray) jsonObject.opt("227X148");
-                    if (jsonArray.length() == 3) {
-                        GridViewImgAdapter gridViewImgAdapter;
-                        gridViewImgAdapter = new GridViewImgAdapter(jsonArray,bean.getUrl(), context);
-                        otherBinding.gv.setAdapter(gridViewImgAdapter);
-                    }
+            if (jsonObject.has("227X148")) {
+                jsonArray = (JSONArray) jsonObject.opt("227X148");
+                if (jsonArray.length() == 3) {
+                    GridViewImgAdapter gridViewImgAdapter;
+                    gridViewImgAdapter = new GridViewImgAdapter(jsonArray, bean.getUrl(), context);
+                    otherBinding.gv.setAdapter(gridViewImgAdapter);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
             otherBinding.setNewsitem(new NewsItemModel(context, bean, jsonArray));
         }
@@ -165,7 +171,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public class TopHolder extends ViewHolder {
         TopBinding topBinding;
-        JSONArray jsonArray=null;
+        JSONArray jsonArray = null;
 
         public TopHolder(TopBinding itemView) {
             super(itemView.getRoot());
@@ -173,7 +179,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
 
         public void bindData(NewsTop.DataBean top) {
-            topBinding.setNewsitem(new NewsItemModel(context, top,jsonArray));
+            topBinding.setNewsitem(new NewsItemModel(context, top, jsonArray));
         }
 
     }
@@ -185,10 +191,14 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         public HotHolder(HotBinding itemView) {
             super(itemView.getRoot());
             hotBinding = itemView;
-            bindRollView();
+            bindHotView();
         }
 
-        public void bindRollView() {
+        public void bindHotView() {
+            ViewPageAdapter viewPageAdapter = new ViewPageAdapter(context, newsHotList);
+            hotBinding.vp.setAdapter(viewPageAdapter);
+            hotBinding.vp.setPageMargin((int) (context.getResources().getDisplayMetrics().density * 10));
+            hotBinding.vp.setOffscreenPageLimit(2);//预加载2个
             for (int i = 0; i < dataBeanList.size(); i++) {
                 ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 textView = new TextView(context);

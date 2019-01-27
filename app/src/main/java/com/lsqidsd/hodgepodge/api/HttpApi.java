@@ -1,5 +1,6 @@
 package com.lsqidsd.hodgepodge.api;
 
+import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
 
@@ -18,6 +19,9 @@ public interface HttpApi {
 
     @GET("om/mediaArticles?mid=5278151&num=15")
     Observable<NewsTop> getTopNews(@Query("page") int page);
+
+    @GET("irs/rcd?cid=4&token=9513f1a78a663e1d25b46a826f248c3c&page=0")
+    Observable<NewsHot> getHotNews();
 
     @GET("https://pacaio.match.qq.com/vlike/relate?num=15&id=c0029aqw3zm")
     Observable<ResponseBody> getVideos(@Query("page") int page);

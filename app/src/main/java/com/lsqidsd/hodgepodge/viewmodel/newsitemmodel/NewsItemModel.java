@@ -5,23 +5,28 @@ import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultListener;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultSub;
 import com.lsqidsd.hodgepodge.http.RetrofitServiceManager;
+import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
 import com.lsqidsd.hodgepodge.view.WebViewActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -42,6 +47,7 @@ public class NewsItemModel<T> {
     public ObservableInt imgfVisbility = new ObservableInt(View.VISIBLE);
     private List<NewsItem.DataBean> dataBeans = new ArrayList<>();
     private List<NewsTop.DataBean> topBeans = new ArrayList<>();
+    private List<NewsHot.DataBean> hotBeans = new ArrayList<>();
     private NewsItem.DataBean dataBean;
     private NewsTop.DataBean newsTop;
     private JSONArray jsonArray;
@@ -158,7 +164,7 @@ public class NewsItemModel<T> {
                 imgfVisbility.set(View.VISIBLE);
             }
         }
-        return dataBean.getBimg();
+        return JsonUtils.jsonKey(dataBean.getImgs(), 0);
     }
 
     public String getTitle() {
@@ -170,7 +176,7 @@ public class NewsItemModel<T> {
         getNewsData(page);
     }
 
-    public void getNewsData(int page) {
+    private void getNewsData(int page) {
         getMainViewData(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(Object result) {
@@ -220,6 +226,25 @@ public class NewsItemModel<T> {
                     topBeans.add(dataBean);
                 }
                 newsMain.setNewsTops(topBeans);
+                getHotNews();
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+            }
+        }));
+    }
+
+    private void getHotNews() {
+        Observable<NewsHot> observable = RetrofitServiceManager.getInstance().getHttpApi().getHotNews();
+        RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(Object o) {
+                NewsHot newsHot = (NewsHot) o;
+                for (NewsHot.DataBean hot : newsHot.getData()) {
+                    hotBeans.add(hot);
+                }
+                newsMain.setNewsHot(hotBeans);
                 getNewsData(0);
             }
 

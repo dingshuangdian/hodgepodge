@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,7 +18,7 @@ import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
 import com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel;
 
-public class InformationFragment extends Fragment implements NewsItemModel.ItemNewsDataListener{
+public class InformationFragment extends Fragment implements NewsItemModel.ItemNewsDataListener {
     private InformationDataBinding fragmentBinding;
     private NewsItemModel informationViewModel;
     private static InformationFragment informationFragment;
@@ -75,7 +74,7 @@ public class InformationFragment extends Fragment implements NewsItemModel.ItemN
 
     @Override
     public void dataBeanChange(NewsMain dataBeans) {
-        YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans);
+        YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans, getActivity());
         fragmentBinding.recyview.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentBinding.recyview.setAdapter(ywAdapter);
     }

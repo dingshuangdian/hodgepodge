@@ -23,7 +23,8 @@
             layout="@layout/tab_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/searchview"></include>
+            app:layout_constraintTop_toBottomOf="@+id/searchview">
+        </include>
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:background="@color/colorBackground"

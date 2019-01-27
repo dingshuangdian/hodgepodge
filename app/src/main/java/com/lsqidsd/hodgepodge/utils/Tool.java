@@ -37,7 +37,6 @@ public class Tool {
         int px = (int) (dp * density + 0.5f);
         return px;
     }
-
     public static float px2dip(Context ctx, float px) {
         float density = ctx.getResources().getDisplayMetrics().density;
         float dp = px / density;

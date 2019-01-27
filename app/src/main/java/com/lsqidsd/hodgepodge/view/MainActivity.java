@@ -1,9 +1,12 @@
 package com.lsqidsd.hodgepodge.view;
+
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.adapter.YWAdapter;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
 import com.lsqidsd.hodgepodge.databinding.MainActivityBinding;
 import com.lsqidsd.hodgepodge.databinding.TabFootBinding;
@@ -45,6 +48,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
             binding.mainTab.addTab(tabSpec, TabDb.getFragment()[i], null);
         }
     }
+
     @Override
     public void onTabChanged(String s) {
         TabWidget tabWidget = binding.mainTab.getTabWidget();
