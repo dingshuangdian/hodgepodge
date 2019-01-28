@@ -7,15 +7,13 @@
             name="newsitem"
             type="com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel"></variable>
     </data>
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/view_01"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{newsitem.click}"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
-
+        android:paddingLeft="17dp"
+        android:paddingRight="17dp">
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
@@ -30,14 +28,14 @@
             app:layout_constraintRight_toLeftOf="@+id/iv_image"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@{newsitem.topTitle}" />
-
-        <ImageView
+        <com.lsqidsd.hodgepodge.diyview.RoundImageView
             android:id="@+id/iv_image"
             android:layout_width="110dp"
             android:layout_height="0dp"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="5dp"
             android:padding="5dp"
+            app:riv_corner_radius="5dp"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintDimensionRatio="h,5:4"
             app:layout_constraintLeft_toRightOf="@+id/title"

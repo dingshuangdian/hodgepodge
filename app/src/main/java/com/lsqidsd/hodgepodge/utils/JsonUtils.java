@@ -25,7 +25,12 @@ public class JsonUtils {
                 list.add(key);
             }
             if (!list.isEmpty()) {
-                url = jsonObject.get(list.get(i)).toString();
+                try {
+                    url = jsonObject.get(list.get(i)).toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    url = jsonObject.get(list.get(0)).toString();
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

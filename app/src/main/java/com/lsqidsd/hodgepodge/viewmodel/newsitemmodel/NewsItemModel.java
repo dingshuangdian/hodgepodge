@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -44,6 +45,8 @@ public class NewsItemModel<T> {
     public ObservableInt commentTopVisibility = new ObservableInt(View.GONE);
     public ObservableInt imgVisbility = new ObservableInt(View.VISIBLE);
     public ObservableInt gvVisbility = new ObservableInt(View.GONE);
+    public ObservableInt roundVisbility = new ObservableInt(View.GONE);
+    public ObservableInt vpVisbility = new ObservableInt(View.GONE);
     public ObservableInt imgfVisbility = new ObservableInt(View.VISIBLE);
     private List<NewsItem.DataBean> dataBeans = new ArrayList<>();
     private List<NewsTop.DataBean> topBeans = new ArrayList<>();
@@ -51,6 +54,7 @@ public class NewsItemModel<T> {
     private NewsItem.DataBean dataBean;
     private NewsTop.DataBean newsTop;
     private JSONArray jsonArray;
+    private int[] radom = {0, 8};
     private NewsMain newsMain = new NewsMain();
 
     public NewsItemModel(Context context, T t, JSONArray jsonArray) {
@@ -62,6 +66,21 @@ public class NewsItemModel<T> {
         if (t instanceof NewsItem.DataBean) {
             this.dataBean = (NewsItem.DataBean) t;
         }
+    }
+
+    public NewsItemModel(Context context, ItemShowListener itemShowListener) {
+        Random random = new Random();
+        int x = radom[random.nextInt(radom.length)];
+        roundVisbility.set(x);
+        if (roundVisbility.get() == 0) {
+            vpVisbility.set(View.GONE);
+        } else {
+            vpVisbility.set(View.VISIBLE);
+        }
+        if (itemShowListener != null) {
+            itemShowListener.itemShow(roundVisbility, vpVisbility);
+        }
+        this.context = context;
     }
 
     public NewsItemModel(Context context, List<NewsItem.DataBean> dataBeans) {
@@ -181,7 +200,6 @@ public class NewsItemModel<T> {
             @Override
             public void onSuccess(Object result) {
                 NewsItem newsItem = (NewsItem) result;
-
                 if (newsItem.getData().size() > 0) {
                     for (NewsItem.DataBean dataBeann : newsItem.getData()) {
                         dataBeans.add(dataBeann);
@@ -201,6 +219,7 @@ public class NewsItemModel<T> {
                     progressVisibility.set(View.GONE);
 
                 }
+
             }
 
             @Override
@@ -256,5 +275,9 @@ public class NewsItemModel<T> {
 
     public interface ItemNewsDataListener {
         void dataBeanChange(NewsMain dataBeans);
+    }
+
+    public interface ItemShowListener {
+        void itemShow(ObservableInt... observableInt);
     }
 }

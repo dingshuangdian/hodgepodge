@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableInt;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.DisplayMetrics;
@@ -41,6 +43,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
@@ -181,35 +184,28 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         public void bindData(NewsTop.DataBean top) {
             topBinding.setNewsitem(new NewsItemModel(context, top, jsonArray));
         }
-
     }
 
-    public class HotHolder extends ViewHolder {
+    public class HotHolder extends ViewHolder implements NewsItemModel.ItemShowListener {
         HotBinding hotBinding;
-        TextView textView;
 
         public HotHolder(HotBinding itemView) {
             super(itemView.getRoot());
             hotBinding = itemView;
-            bindHotView();
+            hotBinding.setNewsitem(new NewsItemModel(context, this));
+
         }
 
-        public void bindHotView() {
-            ViewPageAdapter viewPageAdapter = new ViewPageAdapter(context, newsHotList);
-            hotBinding.vp.setAdapter(viewPageAdapter);
-            hotBinding.vp.setPageMargin((int) (context.getResources().getDisplayMetrics().density * 10));
-            hotBinding.vp.setOffscreenPageLimit(2);//预加载2个
-            for (int i = 0; i < dataBeanList.size(); i++) {
-                ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                textView = new TextView(context);
-                textView.setLayoutParams(params);
-                textView.setTextColor(Color.parseColor("#2d3444"));
-                textView.setTextSize(14);
-                textView.setLineSpacing(7, 1f);
-                textView.setText(dataBeanList.get(i).getTitle());
-                hotBinding.vf.addView(textView);
+        @Override
+        public void itemShow(ObservableInt... observableInt) {
+            List<ObservableInt> observableInts = new ArrayList<>();
+            for (ObservableInt obi : observableInt) {
+                observableInts.add(obi);
             }
+            NewsHotAdapter newsHotAdapter = new NewsHotAdapter(observableInts, context, dataBeanList, newsHotList);
+            hotBinding.itemRv.setLayoutManager(new LinearLayoutManager(context));
+            hotBinding.itemRv.setAdapter(newsHotAdapter);
+
         }
     }
-
 }
