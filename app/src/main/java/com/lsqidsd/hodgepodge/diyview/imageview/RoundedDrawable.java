@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package com.lsqidsd.hodgepodge.diyview;
+package com.lsqidsd.hodgepodge.diyview.imageview;
 
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;

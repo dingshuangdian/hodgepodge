@@ -203,7 +203,9 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
                 observableInts.add(obi);
             }
             NewsHotAdapter newsHotAdapter = new NewsHotAdapter(observableInts, context, dataBeanList, newsHotList);
-            hotBinding.itemRv.setLayoutManager(new LinearLayoutManager(context));
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            hotBinding.itemRv.setLayoutManager(linearLayoutManager);
             hotBinding.itemRv.setAdapter(newsHotAdapter);
 
         }

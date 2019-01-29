@@ -20,9 +20,9 @@
             android:layout_height="0dp"
             android:layout_marginLeft="17dp"
             android:layout_marginRight="30dp"
-            android:clipChildren="false"
             app:layout_constraintDimensionRatio="h,3:1.7"
-            app:layout_constraintTop_toTopOf="parent"></android.support.v4.view.ViewPager>
+            app:layout_constraintTop_toTopOf="parent">
+        </android.support.v4.view.ViewPager>
 
         <View
             android:id="@+id/v"
@@ -30,9 +30,6 @@
             android:layout_height="6dp"
             android:layout_marginTop="5dp"
             android:background="@color/edit_hint_text"
-            app:layout_constraintTop_toBottomOf="@id/vp">
-
-        </View>
+            app:layout_constraintTop_toBottomOf="@id/vp"></View>
     </android.support.constraint.ConstraintLayout>
-
 </layout>

@@ -1,4 +1,4 @@
-package com.lsqidsd.hodgepodge.diyview;
+package com.lsqidsd.hodgepodge.diyview.imageview;
 
 import android.support.annotation.IntDef;
 

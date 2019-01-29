@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:id="@+id/img_view"
         android:layout_height="match_parent">
-        <com.lsqidsd.hodgepodge.diyview.RoundImageView
+        <com.lsqidsd.hodgepodge.diyview.imageview.RoundImageView
             android:id="@+id/iv_image"
             android:layout_width="110dp"
             android:layout_height="0dp"

@@ -1,13 +1,13 @@
 package com.lsqidsd.hodgepodge.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableInt;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,9 +15,11 @@ import android.widget.TextView;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
-import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.databinding.RoItemBinding;
+import com.lsqidsd.hodgepodge.databinding.RvhMoreBinding;
 import com.lsqidsd.hodgepodge.databinding.VpItemBinding;
+import com.lsqidsd.hodgepodge.diyview.viewpager.FlexibleViewPager;
+import com.lsqidsd.hodgepodge.diyview.viewpager.ViewPagerOnPageChangeListener;
 
 import java.util.List;
 
@@ -45,21 +47,16 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder = new RolViewHolder(roItemBinding);
         }
         if (observableInt.get(1).get() == 0) {
+
             vpItemBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.vp_item, parent, false);
             viewHolder = new VpViewHolder(vpItemBinding);
         }
-
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return super.getItemViewType(position);
     }
 
     @Override
@@ -86,22 +83,27 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 textView.setText(dataBeanList.get(i).getTitle());
                 roItemBinding.vf.addView(textView);
             }
-
         }
     }
 
     public class VpViewHolder extends RecyclerView.ViewHolder {
+        RvhMoreBinding rvhMoreBinding;
+        ViewPagerOnPageChangeListener viewPagerOnPageChangeListener = new ViewPagerOnPageChangeListener();
 
         public VpViewHolder(VpItemBinding itemView) {
             super(itemView.getRoot());
             loadData(itemView);
         }
-    }
 
-    public void loadData(VpItemBinding vpItemBinding) {
-        ViewPageAdapter viewPageAdapter = new ViewPageAdapter(context, newsHotList);
-        vpItemBinding.vp.setAdapter(viewPageAdapter);
-        vpItemBinding.vp.setPageMargin((int) (context.getResources().getDisplayMetrics().density * 10));
-        vpItemBinding.vp.setOffscreenPageLimit(2);//预加载2个
+        public void loadData(VpItemBinding vpItemBinding) {
+            viewPagerOnPageChangeListener=new
+            ViewPageAdapter viewPageAdapter = new ViewPageAdapter(context, newsHotList);
+            rvhMoreBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.rvh_more, null, false);
+            vpItemBinding.vp.setAdapter(viewPageAdapter);
+            vpItemBinding.vp.setOnPageChangeListener(viewPagerOnPageChangeListener);
+            vpItemBinding.vp.setPageMargin((int) (context.getResources().getDisplayMetrics().density * 10));
+            vpItemBinding.vp.setOffscreenPageLimit(2);//预加载2个
+        }
+
     }
 }

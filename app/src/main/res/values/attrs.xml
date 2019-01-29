@@ -70,5 +70,10 @@
             <enum name="mirror" value="2" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="BounceBackViewPager">
+        <attr name="overscroll_translation_bounce" format="dimension" />
+        <!-- Duration of animation when user releases the over scroll. Default is 400 ms. -->
+        <attr name="overscroll_animation_duration_bounce" format="integer" />
+    </declare-styleable>
 
 </resources>

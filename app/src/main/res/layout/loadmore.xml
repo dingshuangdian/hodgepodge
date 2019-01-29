@@ -15,6 +15,7 @@
         android:id="@+id/progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ProgressBar
             android:id="@+id/progress_circular"
             android:layout_width="wrap_content"
@@ -24,7 +25,9 @@
             app:layout_constraintHorizontal_bias="0.35"
             app:layout_constraintRight_toLeftOf="@+id/tv"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:visibility="@{loadview.progressVisibility}" />
+
         <TextView
             android:id="@+id/tv"
             android:layout_width="wrap_content"
@@ -35,15 +38,16 @@
             app:layout_constraintLeft_toRightOf="@+id/progress_circular"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="@{loadview.progressVisibility}" />
-            <TextView
-                tools:visibility="@{loadview.lineVisibility}"
-                android:id="@+id/tv_"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="------------没有更多数据------------"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="------------没有更多数据------------"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="@{loadview.lineVisibility}" />
     </android.support.constraint.ConstraintLayout>
 </layout>
