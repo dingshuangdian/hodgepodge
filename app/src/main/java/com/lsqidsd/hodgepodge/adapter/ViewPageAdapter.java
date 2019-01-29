@@ -25,11 +25,13 @@ public class ViewPageAdapter extends PagerAdapter {
     private Context context;
     private List<NewsHot.DataBean> newsHotList;
     private LayoutInflater layoutInflater;
+    private ViewLoadFinish viewLoadFinish;
 
-    public ViewPageAdapter(Context context, List<NewsHot.DataBean> newsHotList) {
+    public ViewPageAdapter(Context context, List<NewsHot.DataBean> newsHotList, ViewLoadFinish viewLoadFinish) {
         this.context = context;
-        layoutInflater = LayoutInflater.from(context);
         this.newsHotList = newsHotList;
+        this.layoutInflater = LayoutInflater.from(context);
+        this.viewLoadFinish = viewLoadFinish;
     }
 
     @Override
@@ -64,6 +66,9 @@ public class ViewPageAdapter extends PagerAdapter {
         } else {
             RvhMoreBinding rvhMoreBinding = DataBindingUtil.inflate(layoutInflater, R.layout.rvh_more, container, false);
             container.addView(rvhMoreBinding.getRoot());
+            if (viewLoadFinish != null) {
+                viewLoadFinish.viewLoadFinish(rvhMoreBinding);
+            }
             return rvhMoreBinding.getRoot();
         }
     }
@@ -71,5 +76,10 @@ public class ViewPageAdapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
+    }
+
+    public interface ViewLoadFinish {
+        void viewLoadFinish(RvhMoreBinding moreBinding);
+
     }
 }

@@ -86,24 +86,27 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public class VpViewHolder extends RecyclerView.ViewHolder {
-        RvhMoreBinding rvhMoreBinding;
-        ViewPagerOnPageChangeListener viewPagerOnPageChangeListener = new ViewPagerOnPageChangeListener();
+    public class VpViewHolder extends RecyclerView.ViewHolder implements ViewPageAdapter.ViewLoadFinish {
+        ViewPagerOnPageChangeListener viewPagerOnPageChangeListener;
+        ViewPageAdapter viewPageAdapter;
+        VpItemBinding vpItemBinding;
 
         public VpViewHolder(VpItemBinding itemView) {
             super(itemView.getRoot());
-            loadData(itemView);
+            vpItemBinding = itemView;
+            loadData(vpItemBinding);
         }
-
         public void loadData(VpItemBinding vpItemBinding) {
-            viewPagerOnPageChangeListener=new
-            ViewPageAdapter viewPageAdapter = new ViewPageAdapter(context, newsHotList);
-            rvhMoreBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.rvh_more, null, false);
+            viewPageAdapter = new ViewPageAdapter(context, newsHotList, this);
             vpItemBinding.vp.setAdapter(viewPageAdapter);
-            vpItemBinding.vp.setOnPageChangeListener(viewPagerOnPageChangeListener);
             vpItemBinding.vp.setPageMargin((int) (context.getResources().getDisplayMetrics().density * 10));
             vpItemBinding.vp.setOffscreenPageLimit(2);//预加载2个
         }
 
+        @Override
+        public void viewLoadFinish(RvhMoreBinding moreBinding) {
+            viewPagerOnPageChangeListener = new ViewPagerOnPageChangeListener(newsHotList, context, moreBinding,vpItemBinding);
+            vpItemBinding.vp.addOnPageChangeListener(viewPagerOnPageChangeListener);
+        }
     }
 }
