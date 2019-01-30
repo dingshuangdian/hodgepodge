@@ -68,6 +68,9 @@ public class NewsItemModel<T> {
         }
     }
 
+    public NewsItemModel() {
+    }
+
     public NewsItemModel(Context context, ItemShowListener itemShowListener) {
         Random random = new Random();
         int x = radom[random.nextInt(radom.length)];
@@ -245,7 +248,7 @@ public class NewsItemModel<T> {
                     topBeans.add(dataBean);
                 }
                 newsMain.setNewsTops(topBeans);
-                getHotNews();
+                getHotNews(0);
             }
 
             @Override
@@ -254,8 +257,8 @@ public class NewsItemModel<T> {
         }));
     }
 
-    private void getHotNews() {
-        Observable<NewsHot> observable = RetrofitServiceManager.getInstance().getHttpApi().getHotNews();
+    public void getHotNews(int page) {
+        Observable<NewsHot> observable = RetrofitServiceManager.getInstance().getHttpApi().getHotNews(page, 5);
         RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(Object o) {

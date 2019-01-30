@@ -1,6 +1,7 @@
 package com.lsqidsd.hodgepodge.view;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Message;
 import android.support.constraint.ConstraintLayout;
@@ -31,7 +32,7 @@ public class WebViewActivity extends BaseActivity {
     public void initView() {
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
-        webViewBinding = getBinding(webViewBinding);
+        webViewBinding = DataBindingUtil.setContentView(this,R.layout.activity_web_view);
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         webView = new WebView(getApplicationContext());
         webView.setLayoutParams(params);

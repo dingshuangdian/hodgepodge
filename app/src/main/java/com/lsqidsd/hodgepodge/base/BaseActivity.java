@@ -1,4 +1,5 @@
 package com.lsqidsd.hodgepodge.base;
+
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -15,10 +17,10 @@ import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.RuntimePermissions;
-
 @RuntimePermissions
 public abstract class BaseActivity extends FragmentActivity {
     private PermissionHandler mHandler;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,34 @@ public abstract class BaseActivity extends FragmentActivity {
         t = DataBindingUtil.setContentView(this, getLayout());
         return t;
     }
+
+
+    private void initContentView(@LayoutRes int layoutResID) {
+        //topViewBinding = DataBindingUtil.setContentView(this, R.layout.top_view);
+    }
+
+//    public void initToolbar() {
+//        topViewBinding.toolbar.setVisibility(View.VISIBLE);
+//    }
+
+//    public void setToolbarTitle(String title) {
+//        topViewBinding.tvText.setText(title);
+//    }
+
+//    public void endToolBarBack(View.OnClickListener clickListener) {
+//        if (clickListener != null) {
+//            topViewBinding.imgView.setOnClickListener(clickListener);
+//        } else {
+//            topViewBinding.imgView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    finish();
+//                }
+//            });
+//        }
+//
+//    }
+
     /**
      * 权限回调接口
      */

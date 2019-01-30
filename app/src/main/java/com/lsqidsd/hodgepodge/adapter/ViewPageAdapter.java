@@ -8,7 +8,6 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.databinding.Image01Binding;
@@ -17,10 +16,7 @@ import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
 import com.lsqidsd.hodgepodge.view.WebViewActivity;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 import java.util.List;
-
 public class ViewPageAdapter extends PagerAdapter {
     private Context context;
     private List<NewsHot.DataBean> newsHotList;
