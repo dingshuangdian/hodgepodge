@@ -211,20 +211,14 @@ public class NewsItemModel<T> {
                     if (newsDataListener != null) {
                         newsDataListener.dataBeanChange(newsMain);
                     }
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            progressVisibility.set(View.GONE);
-                        }
-                    }, 1000);
+
+                    progressVisibility.set(View.GONE);
+
                 } else {
                     lineVisibility.set(View.VISIBLE);
                     progressVisibility.set(View.GONE);
-
                 }
-
             }
-
             @Override
             public void onFault(String errorMsg) {
                 progressVisibility.set(View.GONE);

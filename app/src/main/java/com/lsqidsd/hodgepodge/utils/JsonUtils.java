@@ -25,11 +25,10 @@ public class JsonUtils {
                 list.add(key);
             }
             if (!list.isEmpty()) {
-                try {
-                    url = jsonObject.get(list.get(i)).toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    url = jsonObject.get(list.get(0)).toString();
+                if (list.size() >= 3) {
+                    url = jsonObject.optString(list.get(i));
+                } else {
+                    url = jsonObject.optString(list.get(0));
                 }
             }
         } catch (JSONException e) {

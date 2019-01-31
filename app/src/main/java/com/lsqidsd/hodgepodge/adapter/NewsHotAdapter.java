@@ -1,7 +1,6 @@
 package com.lsqidsd.hodgepodge.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableInt;
 import android.graphics.Color;
@@ -11,18 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.databinding.RoItemBinding;
 import com.lsqidsd.hodgepodge.databinding.RvhMoreBinding;
 import com.lsqidsd.hodgepodge.databinding.VpItemBinding;
-import com.lsqidsd.hodgepodge.diyview.viewpager.FlexibleViewPager;
 import com.lsqidsd.hodgepodge.diyview.viewpager.ViewPagerOnPageChangeListener;
-
 import java.util.List;
-
 public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ObservableInt> observableInt;
     private Context context;

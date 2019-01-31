@@ -1,19 +1,19 @@
 package com.lsqidsd.hodgepodge.view;
 
-import android.databinding.DataBindingUtil;
-import android.view.LayoutInflater;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.adapter.ActivityHotAdapter;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
+import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.databinding.ActivityHotBinding;
-import com.lsqidsd.hodgepodge.databinding.TopViewBinding;
 import com.lsqidsd.hodgepodge.viewmodel.HotViewModule;
-import com.lsqidsd.hodgepodge.viewmodel.basemodel.BaseModule;
 
-public class HotActivity extends BaseActivity {
+import java.util.List;
+
+public class HotActivity extends BaseActivity implements HotViewModule.ItemNewsDataListener {
     private HotViewModule hotViewModule;
-    private BaseModule baseModule;
-    private TopViewBinding topViewBinding;
     private ActivityHotBinding activityHotBinding;
 
     @Override
@@ -23,14 +23,23 @@ public class HotActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        hotViewModule = new HotViewModule(this, this);
         activityHotBinding = getBinding(activityHotBinding);
-        topViewBinding = DataBindingUtil.setContentView(this, R.layout.top_view);
-        baseModule = new BaseModule(this);
-        baseModule.setTitle("热点精选");
-        hotViewModule = new HotViewModule(this);
+        activityHotBinding.lv.tv.setText("热点精选");
+        activityHotBinding.lv.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         activityHotBinding.setHotview(hotViewModule);
-        topViewBinding.setTopview(baseModule);
         hotViewModule.getHotNews(0);
     }
 
+    @Override
+    public void dataBeanChange(List<NewsHot.DataBean> dataBeans) {
+        ActivityHotAdapter adapter = new ActivityHotAdapter(this, dataBeans);
+        activityHotBinding.rv.setLayoutManager(new LinearLayoutManager(this));
+        activityHotBinding.rv.setAdapter(adapter);
+    }
 }

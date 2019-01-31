@@ -10,16 +10,5 @@
     <!--搜索框样式-->
     <style name="searchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="defaultQueryHint">输入关键词</item>
-
     </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 </resources>

@@ -693,6 +693,8 @@ public class NewsHot {
         }
 
         public static class IrsImgsBean {
+            @SerializedName("227X148")
+            private List<String> _$227X148;
             @SerializedName("294X195")
             private List<String> _$294X195;
             @SerializedName("580X328")
@@ -703,6 +705,14 @@ public class NewsHot {
             private List<String> _$640X470;
             @SerializedName("870X492")
             private List<String> _$870X492;
+
+            public List<String> get_$227X148() {
+                return _$227X148;
+            }
+
+            public void set_$227X148(List<String> _$227X148) {
+                this._$227X148 = _$227X148;
+            }
 
             public List<String> get_$294X195() {
                 return _$294X195;

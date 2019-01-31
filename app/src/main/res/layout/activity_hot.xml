@@ -9,17 +9,20 @@
             type="com.lsqidsd.hodgepodge.viewmodel.HotViewModule"></variable>
     </data>
 
-    <LinearLayout
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <include layout="@layout/top_view"></include>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
+        android:background="@color/edit_stroke">
+            <include
+                android:id="@+id/lv"
+                layout="@layout/top_view"></include>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
+            </android.support.v7.widget.RecyclerView>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

@@ -137,7 +137,6 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
             super(itemView.getRoot());
             this.otherBinding = itemView;
         }
-
         public void bindData(NewsItem.DataBean bean) {
             JSONObject jsonObject = JsonUtils.toJsonObject(bean.getIrs_imgs());
             JSONArray jsonArray = null;
