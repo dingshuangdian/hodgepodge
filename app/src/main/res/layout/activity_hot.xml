@@ -12,15 +12,14 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/edit_stroke">
+        android:layout_height="match_parent">
             <include
                 android:id="@+id/lv"
                 layout="@layout/top_view"></include>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             </android.support.v7.widget.RecyclerView>

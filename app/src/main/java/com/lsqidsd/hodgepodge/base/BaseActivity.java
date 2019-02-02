@@ -11,6 +11,8 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+
+import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.utils.StatusBarUtil;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -24,9 +26,9 @@ public abstract class BaseActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-        //StatusBarUtil.setRootViewFitsSystemWindows(this, true);
-        //StatusBarUtil.setTranslucentStatus(this);
-        //StatusBarUtil.setStatusBarColor(this, R.color.edit_stroke);
+        StatusBarUtil.setRootViewFitsSystemWindows(this, true);
+        StatusBarUtil.setTranslucentStatus(this);
+       // StatusBarUtil.setStatusBarColor(this, R.color.edit_stroke);
         if (!StatusBarUtil.setStatusBarDarkTheme(this, true)) {
             StatusBarUtil.setStatusBarColor(this, 0x55000000);
         }
