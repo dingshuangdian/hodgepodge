@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">app</string>
+    <string name="app_name">腾讯新闻</string>
     <string name="edit_hint"></string>
     <string name="title_activity_web_view">WebViewActivity</string>
 </resources>

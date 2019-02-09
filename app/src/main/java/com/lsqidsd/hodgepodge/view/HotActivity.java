@@ -1,17 +1,13 @@
 package com.lsqidsd.hodgepodge.view;
-
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.ActivityHotAdapter;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.databinding.ActivityHotBinding;
 import com.lsqidsd.hodgepodge.viewmodel.HotViewModule;
-
 import java.util.List;
-
 public class HotActivity extends BaseActivity implements HotViewModule.ItemNewsDataListener {
     private HotViewModule hotViewModule;
     private ActivityHotBinding activityHotBinding;
