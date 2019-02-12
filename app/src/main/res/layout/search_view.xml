@@ -9,82 +9,90 @@
             name="searchview"
             type="com.lsqidsd.hodgepodge.viewmodel.NewsViewModule"></variable>
     </data>
-
-    <android.support.constraint.ConstraintLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="10dp">
+        android:layout_height="wrap_content">
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="10dp"
-            android:src="@mipmap/flogo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/voice"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="32px"
-            android:layout_marginRight="20dp"
-            android:src="@mipmap/voice"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/search_view"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/search_view"
-            android:layout_width="250dp"
-            android:layout_height="35dp"
-            android:background="@drawable/searchview"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ViewFlipper
-                android:id="@+id/vf"
-                android:layout_width="0dp"
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autoStart="true"
-                android:flipInterval="2500"
-                android:inAnimation="@anim/anim_marquee_in"
-                android:outAnimation="@anim/anim_marquee_out"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/edit_search"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:paddingVertical="10dp">
 
-            <TextView
-                android:id="@+id/edit_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableLeft="@mipmap/ic_search_gray"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textColor="@color/edit_text"
-                android:textColorHint="@color/edit_hint_text"
-                android:textCursorDrawable="@drawable/cursorcolor"
-                android:textSize="@dimen/edit_text_size"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/flogo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/btn_clear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:src="@mipmap/ic_clear"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.constraint.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/voice"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="32px"
+                    android:layout_marginRight="20dp"
+                    android:src="@mipmap/voice"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/search_view"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/search_view"
+                    android:layout_width="250dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/searchview"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ViewFlipper
+                        android:id="@+id/vf"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:autoStart="true"
+                        android:flipInterval="2500"
+                        android:inAnimation="@anim/anim_marquee_in"
+                        android:outAnimation="@anim/anim_marquee_out"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@+id/edit_search"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/edit_search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:drawableLeft="@mipmap/ic_search_gray"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/edit_text"
+                        android:textColorHint="@color/edit_hint_text"
+                        android:textCursorDrawable="@drawable/cursorcolor"
+                        android:textSize="@dimen/edit_text_size"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/btn_clear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:src="@mipmap/ic_clear"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

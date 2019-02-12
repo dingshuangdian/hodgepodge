@@ -3,6 +3,7 @@ package com.lsqidsd.hodgepodge.api;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
+import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 
 import java.util.List;
 
@@ -24,5 +25,5 @@ public interface HttpApi {
     @GET("irs/rcd?cid=4&token=9513f1a78a663e1d25b46a826f248c3c")
     Observable<NewsHot> getHotNews(@Query("page") int page, @Query("num") int num);
     @GET("vlike/relate?num=15&id=c0029aqw3zm")
-    Observable<ResponseBody> getVideos(@Query("page") int page);
+    Observable<NewsVideoItem> getVideos(@Query("page") int page);
 }

@@ -61,7 +61,9 @@ public class NewsFragment extends Fragment implements NewsViewModule.HasFinish {
         if (fragmentArrayList != null) {
             fragmentArrayList.clear();
         }
-        fragmentArrayList.add(InformationFragment.getInstance());
+        for (int i = 0; i < 8; i++) {
+            fragmentArrayList.add(InformationFragment.getInstance(i));
+        }
         basePagerAdapter = new BaseFragmentAdapter(getChildFragmentManager(), fragmentArrayList);
         fragmentBinding.viewpager.setAdapter(basePagerAdapter);
     }

@@ -18,7 +18,7 @@
             android:layout_width="110dp"
             android:layout_height="0dp"
             app:riv_corner_radius="5dp"
-            app:layout_constraintDimensionRatio="h,5.:4"
+            app:layout_constraintDimensionRatio="h,5:4"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -84,8 +84,8 @@ public class WebViewActivity extends BaseActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             //view.loadUrl(url);
-            Toast.makeText(WebViewActivity.this, "没有权限的数据", Toast.LENGTH_SHORT).show();
-            return true;
+            //Toast.makeText(WebViewActivity.this, "没有权限的数据", Toast.LENGTH_SHORT).show();
+            return false;
         }
     };
     WebChromeClient webChromeClient = new WebChromeClient() {

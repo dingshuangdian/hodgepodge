@@ -14,6 +14,7 @@ import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
+import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultListener;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultSub;
 import com.lsqidsd.hodgepodge.http.RetrofitServiceManager;
@@ -36,8 +37,6 @@ import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
 
 public class NewsItemModel<T> {
-    private String url;
-    private ItemNewsDataListener newsDataListener;
     private Context context;
     public ObservableInt progressVisibility = new ObservableInt(View.VISIBLE);
     public ObservableInt lineVisibility = new ObservableInt(View.GONE);
@@ -51,6 +50,7 @@ public class NewsItemModel<T> {
     private List<NewsItem.DataBean> dataBeans = new ArrayList<>();
     private List<NewsTop.DataBean> topBeans = new ArrayList<>();
     private List<NewsHot.DataBean> hotBeans = new ArrayList<>();
+    private List<NewsVideoItem.DataBean> videoBeans = new ArrayList<>();
     private NewsItem.DataBean dataBean;
     private NewsTop.DataBean newsTop;
     private JSONArray jsonArray;
@@ -91,9 +91,7 @@ public class NewsItemModel<T> {
         this.dataBeans = dataBeans;
     }
 
-    public NewsItemModel(String url, Context context, ItemNewsDataListener listener) {
-        this.newsDataListener = listener;
-        this.url = url;
+    public NewsItemModel(Context context) {
         this.context = context;
     }
 
@@ -194,11 +192,14 @@ public class NewsItemModel<T> {
     }
 
     public void getMoreData(int page, ItemNewsDataListener listener) {
-        this.newsDataListener = listener;
-        getNewsData(page);
+        getNewsData(page, listener);
     }
 
-    private void getNewsData(int page) {
+    public void getMoreVideosData(int page, ItemVideosDataListener listener) {
+        getVideoList(page, listener);
+    }
+
+    private void getNewsData(int page, ItemNewsDataListener listener) {
         getMainViewData(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(Object result) {
@@ -208,8 +209,8 @@ public class NewsItemModel<T> {
                         dataBeans.add(dataBeann);
                     }
                     newsMain.setNewsItems(dataBeans);
-                    if (newsDataListener != null) {
-                        newsDataListener.dataBeanChange(newsMain);
+                    if (listener != null) {
+                        listener.dataBeanChange(newsMain);
                     }
 
                     progressVisibility.set(View.GONE);
@@ -219,6 +220,7 @@ public class NewsItemModel<T> {
                     progressVisibility.set(View.GONE);
                 }
             }
+
             @Override
             public void onFault(String errorMsg) {
                 progressVisibility.set(View.GONE);
@@ -232,7 +234,7 @@ public class NewsItemModel<T> {
         RetrofitServiceManager.getInstance().toSubscribe(observable, subscriber);
     }
 
-    public void getTopNews() {
+    public void getTopNews(ItemNewsDataListener listener) {
         Observable<NewsTop> observable = RetrofitServiceManager.getInstance().getHttpApi().getTopNews(0);
         RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
             @Override
@@ -242,7 +244,7 @@ public class NewsItemModel<T> {
                     topBeans.add(dataBean);
                 }
                 newsMain.setNewsTops(topBeans);
-                getHotNews(0);
+                getHotNews(0, listener);
             }
 
             @Override
@@ -251,7 +253,7 @@ public class NewsItemModel<T> {
         }));
     }
 
-    public void getHotNews(int page) {
+    public void getHotNews(int page, ItemNewsDataListener listener) {
         Observable<NewsHot> observable = RetrofitServiceManager.getInstance().getHttpApi().getHotNews(page, 5);
         RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
             @Override
@@ -261,7 +263,35 @@ public class NewsItemModel<T> {
                     hotBeans.add(hot);
                 }
                 newsMain.setNewsHot(hotBeans);
-                getNewsData(0);
+
+                getNewsData(0, listener);
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+            }
+        }));
+    }
+
+    public void getVideoList(int page, ItemVideosDataListener dataListener) {
+        Observable<NewsVideoItem> observable = RetrofitServiceManager.getInstance().getHttpApi().getVideos(page);
+        RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(Object o) {
+                NewsVideoItem newsVideoItem = (NewsVideoItem) o;
+                if (newsVideoItem.getData().size() > 0) {
+                    for (NewsVideoItem.DataBean video : newsVideoItem.getData()) {
+                        videoBeans.add(video);
+                    }
+                    progressVisibility.set(View.GONE);
+                    if (dataListener != null) {
+                        dataListener.videoBeanChange(videoBeans);
+                    }
+                } else {
+                    lineVisibility.set(View.VISIBLE);
+                    progressVisibility.set(View.GONE);
+
+                }
             }
 
             @Override
@@ -272,6 +302,10 @@ public class NewsItemModel<T> {
 
     public interface ItemNewsDataListener {
         void dataBeanChange(NewsMain dataBeans);
+    }
+
+    public interface ItemVideosDataListener {
+        void videoBeanChange(List<NewsVideoItem.DataBean> dataBean);
     }
 
     public interface ItemShowListener {
