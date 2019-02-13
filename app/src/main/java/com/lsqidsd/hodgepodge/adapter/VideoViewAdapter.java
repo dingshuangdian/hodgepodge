@@ -8,14 +8,12 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.lsqidsd.hodgepodge.R;
-import com.lsqidsd.hodgepodge.bean.NewsHot;
+import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.databinding.Loadbinding;
-import com.lsqidsd.hodgepodge.databinding.Loadmore01Binding;
 import com.lsqidsd.hodgepodge.databinding.VideosItemBinding;
-import com.lsqidsd.hodgepodge.viewmodel.HotViewModule;
+import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.lsqidsd.hodgepodge.viewmodel.VideosViewModule;
-import com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel;
 
 import java.util.List;
 
@@ -23,16 +21,14 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private List<NewsVideoItem.DataBean> videos;
     private Context context;
     private LayoutInflater inflate;
-    private static final int NORMAL_ITEM = 0;
+    private final int NORMAL_ITEM = 0;
     private int page = 1;
     private final int LOAD_MORE = -1;//上拉加载
-
     public VideoViewAdapter(List<NewsVideoItem.DataBean> videos, Context context) {
         this.videos = videos;
         this.context = context;
         this.inflate = LayoutInflater.from(context);
     }
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,10 +39,11 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case NORMAL_ITEM:
                 videosItemBinding = DataBindingUtil.inflate(inflate, R.layout.videos_item, parent, false);
                 viewHolder = new VideoHolder(videosItemBinding);
-
+                break;
             case LOAD_MORE:
                 loadbinding = DataBindingUtil.inflate(inflate, R.layout.loadmore, parent, false);
                 viewHolder = new LoadMoreHolder(loadbinding);
+                break;
         }
         return viewHolder;
     }
@@ -56,6 +53,10 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof VideoHolder) {
             VideoHolder videoHolder = (VideoHolder) holder;
             videoHolder.bindData(videos.get(position));
+        }
+        if (holder instanceof LoadMoreHolder) {
+            LoadMoreHolder moreHolder = (LoadMoreHolder) holder;
+            moreHolder.loadMoreData();
         }
     }
 
@@ -67,12 +68,10 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return NORMAL_ITEM;
         }
     }
-
     @Override
     public int getItemCount() {
         return videos.size() + 1;
     }
-
     public class VideoHolder extends RecyclerView.ViewHolder {
         VideosItemBinding itemBinding;
 
@@ -80,28 +79,23 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView.getRoot());
             itemBinding = itemView;
         }
-
         public void bindData(NewsVideoItem.DataBean video) {
             itemBinding.setVideoitem(new VideosViewModule(video, context));
         }
     }
-
     public class LoadMoreHolder extends RecyclerView.ViewHolder {
         Loadbinding loadmoreBinding;
-
         public LoadMoreHolder(@NonNull Loadbinding itemView) {
             super(itemView.progress);
             this.loadmoreBinding = itemView;
         }
         public void loadMoreData() {
-            loadmoreBinding.setLoadview(new NewsItemModel(context, videos));
-            loadmoreBinding.getLoadview().getMoreVideosData(page, new NewsItemModel.ItemVideosDataListener() {
+            HttpModel.getVideoList(page, new InterfaceListenter.VideosDataListener() {
                 @Override
-                public void videoBeanChange(List<NewsVideoItem.DataBean> dataBean) {
+                public void videoDataChange(List<NewsVideoItem.DataBean> dataBean) {
                     page++;
                 }
-            });
-
+            },videos);
         }
     }
 }

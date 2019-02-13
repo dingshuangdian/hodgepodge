@@ -3,6 +3,7 @@ package com.lsqidsd.hodgepodge.viewmodel;
 import android.content.Context;
 import android.util.Log;
 
+import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 
 import org.jsoup.Jsoup;
@@ -19,7 +20,7 @@ public class NewsViewModule {
     public NewsViewModule(Context context) {
         this.context = context;
     }
-    public void getHotKey(HasFinish finish) {
+    public void getHotKey(InterfaceListenter.HasFinish finish) {
         try {
             Document document = Jsoup.connect(BaseConstant.SEARCH_URL).get();
             Elements elements = document.select("td").select("a");
@@ -33,8 +34,4 @@ public class NewsViewModule {
             e.printStackTrace();
         }
     }
-    public interface HasFinish {
-        void hasFinish(List<String> list);
-    }
-
 }

@@ -1,8 +1,4 @@
-package com.lsqidsd.hodgepodge.utils;
-
-/**
- * Created by xiangpan on 2017/8/1.
- */
+package com.lsqidsd.hodgepodge.diyview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -19,7 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.api.MyOnPageChangeListener;
 import com.lsqidsd.hodgepodge.bean.CategoriesBean;
+import com.lsqidsd.hodgepodge.utils.DynamicLine;
+import com.lsqidsd.hodgepodge.utils.Tool;
 
 import java.util.ArrayList;
 import java.util.List;

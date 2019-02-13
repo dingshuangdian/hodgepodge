@@ -11,13 +11,16 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.api.InterfaceListenter;
+import com.lsqidsd.hodgepodge.api.ViewPagerOnPageChangeListener;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.databinding.RoItemBinding;
 import com.lsqidsd.hodgepodge.databinding.RvhMoreBinding;
 import com.lsqidsd.hodgepodge.databinding.VpItemBinding;
-import com.lsqidsd.hodgepodge.diyview.viewpager.ViewPagerOnPageChangeListener;
+
 import java.util.List;
+
 public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ObservableInt> observableInt;
     private Context context;
@@ -81,7 +84,7 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public class VpViewHolder extends RecyclerView.ViewHolder implements ViewPageAdapter.ViewLoadFinish {
+    public class VpViewHolder extends RecyclerView.ViewHolder implements InterfaceListenter.ViewLoadFinish {
         ViewPagerOnPageChangeListener viewPagerOnPageChangeListener;
         ViewPageAdapter viewPageAdapter;
         VpItemBinding vpItemBinding;
@@ -91,6 +94,7 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             vpItemBinding = itemView;
             loadData(vpItemBinding);
         }
+
         public void loadData(VpItemBinding vpItemBinding) {
             viewPageAdapter = new ViewPageAdapter(context, newsHotList, this);
             vpItemBinding.vp.setAdapter(viewPageAdapter);
@@ -100,7 +104,7 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         public void viewLoadFinish(RvhMoreBinding moreBinding) {
-            viewPagerOnPageChangeListener = new ViewPagerOnPageChangeListener(newsHotList, context, moreBinding,vpItemBinding);
+            viewPagerOnPageChangeListener = new ViewPagerOnPageChangeListener(newsHotList, context, moreBinding, vpItemBinding);
             vpItemBinding.vp.addOnPageChangeListener(viewPagerOnPageChangeListener);
         }
     }

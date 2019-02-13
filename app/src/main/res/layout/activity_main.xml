@@ -1,33 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-
     <data class="MainActivityBinding">
-
         <variable
             name="mainview"
             type="com.lsqidsd.hodgepodge.viewmodel.ActivityViewModule">
-
         </variable>
     </data>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <FrameLayout
             android:id="@+id/main_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/main_tab">
-
         </FrameLayout>
-
         <android.support.v4.app.FragmentTabHost
             android:id="@+id/main_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
-
         </android.support.v4.app.FragmentTabHost>
     </RelativeLayout>
 </layout>

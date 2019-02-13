@@ -1,5 +1,4 @@
 package com.lsqidsd.hodgepodge.fragment.news;
-
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,23 +10,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.VideoViewAdapter;
 import com.lsqidsd.hodgepodge.adapter.YWAdapter;
+import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
-import com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel;
-
+import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
+import java.util.ArrayList;
 import java.util.List;
-
-public class InformationFragment extends Fragment implements NewsItemModel.ItemNewsDataListener, NewsItemModel.ItemVideosDataListener {
+public class InformationFragment extends Fragment implements InterfaceListenter.MainNewsDataListener, InterfaceListenter.VideosDataListener {
     private InformationDataBinding fragmentBinding;
-    private NewsItemModel informationViewModel;
-    private NewsItemModel.ItemVideosDataListener videosDataListener;
-    private NewsItemModel.ItemNewsDataListener newsDataListener;
+    private InterfaceListenter.VideosDataListener videosDataListener;
+    private InterfaceListenter.MainNewsDataListener newsDataListener;
     private static InformationFragment informationFragment;
+    private List<NewsVideoItem.DataBean> videosList = new ArrayList<>();
 
     public static InformationFragment getInstance(int i) {
         informationFragment = new InformationFragment();
@@ -36,7 +34,6 @@ public class InformationFragment extends Fragment implements NewsItemModel.ItemN
         informationFragment.setArguments(bundle);
         return informationFragment;
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,12 +48,9 @@ public class InformationFragment extends Fragment implements NewsItemModel.ItemN
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        informationViewModel = new NewsItemModel(getContext());
-        fragmentBinding.setInformationview(informationViewModel);
         changeFragment();
         fragmentBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -75,13 +69,14 @@ public class InformationFragment extends Fragment implements NewsItemModel.ItemN
     }
 
     private void changeFragment() {
+
         Bundle bundle = getArguments();
         switch (bundle.getInt("flag")) {
             case 0:
-                informationViewModel.getTopNews(newsDataListener);
+                HttpModel.getTopNews(newsDataListener, new NewsMain());
                 break;
             case 1:
-                informationViewModel.getVideoList(0, videosDataListener);
+                HttpModel.getVideoList(0, videosDataListener, videosList);
                 break;
             case 2:
                 break;
@@ -98,16 +93,15 @@ public class InformationFragment extends Fragment implements NewsItemModel.ItemN
         }
     }
 
-
     @Override
-    public void dataBeanChange(NewsMain dataBeans) {
+    public void mainDataChange(NewsMain dataBeans) {
         YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans);
         fragmentBinding.recyview.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentBinding.recyview.setAdapter(ywAdapter);
     }
 
     @Override
-    public void videoBeanChange(List<NewsVideoItem.DataBean> dataBean) {
+    public void videoDataChange(List<NewsVideoItem.DataBean> dataBean) {
         VideoViewAdapter viewAdapter = new VideoViewAdapter(dataBean, getContext());
         fragmentBinding.recyview.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentBinding.recyview.setAdapter(viewAdapter);

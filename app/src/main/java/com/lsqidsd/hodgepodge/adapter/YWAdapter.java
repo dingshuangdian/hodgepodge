@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
@@ -18,7 +19,8 @@ import com.lsqidsd.hodgepodge.databinding.Loadbinding;
 import com.lsqidsd.hodgepodge.databinding.TopBinding;
 import com.lsqidsd.hodgepodge.databinding.OtherBinding;
 import com.lsqidsd.hodgepodge.utils.JsonUtils;
-import com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel;
+import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
+import com.lsqidsd.hodgepodge.viewmodel.NewsItemModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -29,16 +31,17 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     private List<NewsItem.DataBean> dataBeanList;
     private List<NewsTop.DataBean> newsTopList;
     private List<NewsHot.DataBean> newsHotList;
+    private NewsMain newsMain;
     private final int LOAD_MORE = -1;//上拉加载
     private final int NEWS_ITEM_TYPE_01 = 0;//置顶
     private final int NEWS_ITEM_TYPE_02 = 1;//热点精选
     private final int NEWS_ITEM_TYPE_03 = 2;//列表
-
     public YWAdapter(Context context, NewsMain list) {
         this.context = context;
         this.dataBeanList = list.getNewsItems();
         this.newsTopList = list.getNewsTops();
         this.newsHotList = list.getNewsHot();
+        this.newsMain = list;
     }
 
     @NonNull
@@ -135,23 +138,19 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public class LoadMoreHolder extends ViewHolder {
         Loadbinding loadmoreBinding;
-
         public LoadMoreHolder(@NonNull Loadbinding itemView) {
             super(itemView.progress);
             this.loadmoreBinding = itemView;
         }
-
         public void loadMoreData() {
-            loadmoreBinding.setLoadview(new NewsItemModel(context, dataBeanList));
-            loadmoreBinding.getLoadview().getMoreData(page, new NewsItemModel.ItemNewsDataListener() {
+            HttpModel.getNewsData(page, new InterfaceListenter.MainNewsDataListener() {
                 @Override
-                public void dataBeanChange(NewsMain dataBeans) {
+                public void mainDataChange(NewsMain dataBeans) {
                     page++;
                 }
-            });
+            }, newsMain);
         }
     }
-
     public class TopHolder extends ViewHolder {
         TopBinding topBinding;
         JSONArray jsonArray = null;
@@ -160,22 +159,17 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
             super(itemView.getRoot());
             topBinding = itemView;
         }
-
         public void bindData(NewsTop.DataBean top) {
             topBinding.setNewsitem(new NewsItemModel(context, top, jsonArray));
         }
     }
-
-    public class HotHolder extends ViewHolder implements NewsItemModel.ItemShowListener {
+    public class HotHolder extends ViewHolder implements InterfaceListenter.ItemShowListener {
         HotBinding hotBinding;
-
         public HotHolder(HotBinding itemView) {
             super(itemView.getRoot());
             hotBinding = itemView;
             hotBinding.setNewsitem(new NewsItemModel(context, this));
-
         }
-
         @Override
         public void itemShow(ObservableInt... observableInt) {
             List<ObservableInt> observableInts = new ArrayList<>();
@@ -187,7 +181,6 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             hotBinding.itemRv.setLayoutManager(linearLayoutManager);
             hotBinding.itemRv.setAdapter(newsHotAdapter);
-
         }
     }
 }

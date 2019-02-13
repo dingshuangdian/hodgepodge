@@ -1,5 +1,4 @@
 package com.lsqidsd.hodgepodge.base;
-
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,8 +10,6 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
-
-import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.utils.StatusBarUtil;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;

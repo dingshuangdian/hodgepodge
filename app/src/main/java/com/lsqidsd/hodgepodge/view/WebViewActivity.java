@@ -1,5 +1,4 @@
 package com.lsqidsd.hodgepodge.view;
-
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -13,17 +12,14 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
 import com.lsqidsd.hodgepodge.databinding.ActivityWebViewBinding;
 import com.lsqidsd.hodgepodge.http.NetUtil;
-
 public class WebViewActivity extends BaseActivity {
     private ActivityWebViewBinding webViewBinding;
     private WebView webView;
     private String url;
-
     @Override
     public int getLayout() {
         return R.layout.activity_web_view;

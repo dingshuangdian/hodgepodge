@@ -1,11 +1,9 @@
-package com.lsqidsd.hodgepodge.diyview.viewpager;
+package com.lsqidsd.hodgepodge.api;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
-
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.databinding.RvhMoreBinding;
 import com.lsqidsd.hodgepodge.databinding.VpItemBinding;

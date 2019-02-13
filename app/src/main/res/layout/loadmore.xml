@@ -8,7 +8,7 @@
 
         <variable
             name="loadview"
-            type="com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel"></variable>
+            type="com.lsqidsd.hodgepodge.viewmodel.HttpModel"></variable>
     </data>
 
     <android.support.constraint.ConstraintLayout

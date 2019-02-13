@@ -8,7 +8,9 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.databinding.Image01Binding;
 import com.lsqidsd.hodgepodge.databinding.RvhMoreBinding;
@@ -16,14 +18,16 @@ import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
 import com.lsqidsd.hodgepodge.view.WebViewActivity;
 import com.squareup.picasso.Picasso;
+
 import java.util.List;
+
 public class ViewPageAdapter extends PagerAdapter {
     private Context context;
     private List<NewsHot.DataBean> newsHotList;
     private LayoutInflater layoutInflater;
-    private ViewLoadFinish viewLoadFinish;
+    private InterfaceListenter.ViewLoadFinish viewLoadFinish;
 
-    public ViewPageAdapter(Context context, List<NewsHot.DataBean> newsHotList, ViewLoadFinish viewLoadFinish) {
+    public ViewPageAdapter(Context context, List<NewsHot.DataBean> newsHotList, InterfaceListenter.ViewLoadFinish viewLoadFinish) {
         this.context = context;
         this.newsHotList = newsHotList;
         this.layoutInflater = LayoutInflater.from(context);
@@ -68,14 +72,8 @@ public class ViewPageAdapter extends PagerAdapter {
             return rvhMoreBinding.getRoot();
         }
     }
-
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
-    }
-
-    public interface ViewLoadFinish {
-        void viewLoadFinish(RvhMoreBinding moreBinding);
-
     }
 }

@@ -6,14 +6,19 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
-import com.lsqidsd.hodgepodge.databinding.Loadmore01Binding;
+import com.lsqidsd.hodgepodge.databinding.Loadbinding;
 import com.lsqidsd.hodgepodge.databinding.NewsItemHotBinding;
 import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.viewmodel.HotViewModule;
+import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.List;
 
 public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -35,7 +40,7 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
         NewsItemHotBinding binding;
-        Loadmore01Binding loadbinding;
+        Loadbinding loadbinding;
         switch (viewType) {
             case TYPE_NORMAL:
                 binding = DataBindingUtil.inflate(layoutInflater, R.layout.news_item_hot, parent, false);
@@ -43,7 +48,7 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 break;
 
             case LOAD_MORE:
-                loadbinding = DataBindingUtil.inflate(layoutInflater, R.layout.loadmore_01, parent, false);
+                loadbinding = DataBindingUtil.inflate(layoutInflater, R.layout.loadmore, parent, false);
                 viewHolder = new LoadMoreHolder(loadbinding);
         }
         return viewHolder;
@@ -73,7 +78,6 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else {
             return TYPE_NORMAL;
         }
-
     }
 
     public class HotViewHolder extends RecyclerView.ViewHolder {
@@ -82,8 +86,8 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public HotViewHolder(NewsItemHotBinding itemView) {
             super(itemView.getRoot());
             itemHotBinding = itemView;
-
         }
+
         private void loadData(NewsHot.DataBean bean) {
             JSONObject jsonObject = JsonUtils.toJsonObject(bean.getIrs_imgs());
             JSONArray jsonArray = null;
@@ -101,21 +105,18 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public class LoadMoreHolder extends RecyclerView.ViewHolder {
-        Loadmore01Binding loadmoreBinding;
-
-        public LoadMoreHolder(@NonNull Loadmore01Binding itemView) {
+        Loadbinding loadmoreBinding;
+        public LoadMoreHolder(@NonNull Loadbinding itemView) {
             super(itemView.progress);
             this.loadmoreBinding = itemView;
         }
-
         public void loadMoreData() {
-            loadmoreBinding.setLoadview(new HotViewModule(context, hotBeans));
-            loadmoreBinding.getLoadview().getMoreData(page, new HotViewModule.ItemNewsDataListener() {
+            HttpModel.getActivityHotNews(page, new InterfaceListenter.HotNewsDataListener() {
                 @Override
-                public void dataBeanChange(List<NewsHot.DataBean> dataBeans) {
+                public void hotDataChange(List<NewsHot.DataBean> dataBeans) {
                     page++;
                 }
-            });
+            },hotBeans);
         }
     }
 }

@@ -16,12 +16,10 @@ import com.squareup.picasso.Picasso;
 public class VideosViewModule {
     private NewsVideoItem.DataBean videos;
     private Context context;
-
     public VideosViewModule(NewsVideoItem.DataBean videos, Context context) {
         this.videos = videos;
         this.context = context;
     }
-
     public String getTitle() {
         return videos.getTitle();
     }
@@ -48,11 +46,9 @@ public class VideosViewModule {
             Picasso.get().load(imageUrl).into(imageView);
         }
     }
-
     public void toPlay(View view) {
         Intent intent = new Intent(context, WebViewActivity.class);
         intent.putExtra("url", videos.getUrl());
         context.startActivity(intent);
-
     }
 }

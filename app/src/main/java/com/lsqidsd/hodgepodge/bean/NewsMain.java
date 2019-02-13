@@ -1,6 +1,7 @@
 package com.lsqidsd.hodgepodge.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewsMain implements Serializable {
@@ -18,6 +19,9 @@ public class NewsMain implements Serializable {
     }
 
     public NewsMain() {
+        newsTops = new ArrayList<>();
+        newsItems = new ArrayList<>();
+        newsHot = new ArrayList<>();
     }
 
     public List<NewsTop.DataBean> getNewsTops() {

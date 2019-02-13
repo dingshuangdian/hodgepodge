@@ -74,6 +74,7 @@
                         android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:maxLines="1"
+                       app:layout_constraintStart_toStartOf="parent"
                         android:textColor="@color/edit_text"
                         android:textColorHint="@color/edit_hint_text"
                         android:textCursorDrawable="@drawable/cursorcolor"

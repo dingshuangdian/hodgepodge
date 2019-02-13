@@ -7,7 +7,7 @@
 
         <variable
             name="vpnews"
-            type="com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel"></variable>
+            type="com.lsqidsd.hodgepodge.viewmodel.NewsItemModel"></variable>
     </data>
 
     <android.support.constraint.ConstraintLayout

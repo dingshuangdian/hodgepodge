@@ -5,7 +5,7 @@
     <data class="TopBinding">
         <variable
             name="newsitem"
-            type="com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel"></variable>
+            type="com.lsqidsd.hodgepodge.viewmodel.NewsItemModel"></variable>
     </data>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/view_01"
@@ -28,7 +28,7 @@
             app:layout_constraintRight_toLeftOf="@+id/iv_image"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@{newsitem.topTitle}" />
-        <com.lsqidsd.hodgepodge.diyview.imageview.RoundImageView
+        <com.lsqidsd.hodgepodge.diyview.header.RoundImageView
             android:id="@+id/iv_image"
             android:layout_width="110dp"
             android:layout_height="0dp"

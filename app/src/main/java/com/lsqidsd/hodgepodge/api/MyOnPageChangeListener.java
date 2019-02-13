@@ -1,8 +1,11 @@
-package com.lsqidsd.hodgepodge.utils;
+package com.lsqidsd.hodgepodge.api;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
+
+import com.lsqidsd.hodgepodge.utils.DynamicLine;
+import com.lsqidsd.hodgepodge.diyview.ViewPagerTitle;
 
 import java.util.ArrayList;
 
@@ -11,11 +14,6 @@ import static android.support.v4.view.ViewPager.SCROLL_STATE_SETTLING;
 import static com.lsqidsd.hodgepodge.utils.Tool.getScreenWidth;
 import static com.lsqidsd.hodgepodge.utils.Tool.getTextViewLength;
 
-
-/**
- *
- * Created by xiangpan on 2017/8/1.
- */
 
 public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
 

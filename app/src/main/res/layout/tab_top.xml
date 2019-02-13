@@ -8,7 +8,7 @@
             name="tabtopview"
             type="com.lsqidsd.hodgepodge.viewmodel.TabTopViewModule"></variable>
     </data>
-    <com.lsqidsd.hodgepodge.utils.ViewPagerTitle
+    <com.lsqidsd.hodgepodge.diyview.ViewPagerTitle
         android:id="@+id/vt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

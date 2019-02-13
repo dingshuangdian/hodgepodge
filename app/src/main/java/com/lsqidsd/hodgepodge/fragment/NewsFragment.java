@@ -1,5 +1,4 @@
 package com.lsqidsd.hodgepodge.fragment;
-
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,27 +7,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.BaseFragmentAdapter;
-import com.lsqidsd.hodgepodge.base.BaseConstant;
-import com.lsqidsd.hodgepodge.bean.CategoriesBean;
+import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.fragment.news.InformationFragment;
 import com.lsqidsd.hodgepodge.databinding.NewsFragmentBinding;
-import com.lsqidsd.hodgepodge.utils.CategoriesUtils;
 import com.lsqidsd.hodgepodge.utils.TabDb;
 import com.lsqidsd.hodgepodge.viewmodel.NewsViewModule;
-
 import java.util.ArrayList;
 import java.util.List;
-
-public class NewsFragment extends Fragment implements NewsViewModule.HasFinish {
+public class NewsFragment extends Fragment implements InterfaceListenter.HasFinish {
     private NewsFragmentBinding fragmentBinding;
     private List<Fragment> fragmentArrayList = new ArrayList<>();
     private BaseFragmentAdapter basePagerAdapter;
     private NewsViewModule newsViewModule;
-    private NewsViewModule.HasFinish hasFinish;
-
+    private InterfaceListenter.HasFinish hasFinish;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,12 +30,10 @@ public class NewsFragment extends Fragment implements NewsViewModule.HasFinish {
         hasFinish = this;
         return fragmentBinding.getRoot();
     }
-
     @Override
     public void onStart() {
         super.onStart();
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

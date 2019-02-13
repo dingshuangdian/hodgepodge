@@ -4,7 +4,7 @@
     <data>
         <variable
             name="splash"
-            type="com.lsqidsd.hodgepodge.viewmodel.basemodel.BaseModule"></variable>
+            type="com.lsqidsd.hodgepodge.viewmodel.HttpModel"></variable>
     </data>
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

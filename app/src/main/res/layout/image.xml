@@ -6,14 +6,14 @@
 
         <variable
             name="img"
-            type="com.lsqidsd.hodgepodge.viewmodel.newsitemmodel.NewsItemModel"></variable>
+            type="com.lsqidsd.hodgepodge.viewmodel.NewsItemModel"></variable>
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:id="@+id/img_view"
         android:layout_height="match_parent">
-        <com.lsqidsd.hodgepodge.diyview.imageview.RoundImageView
+        <com.lsqidsd.hodgepodge.diyview.header.RoundImageView
             android:id="@+id/iv_image"
             android:layout_width="110dp"
             android:layout_height="0dp"
