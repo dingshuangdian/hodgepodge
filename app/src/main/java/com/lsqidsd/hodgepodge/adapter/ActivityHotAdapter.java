@@ -106,17 +106,14 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public class LoadMoreHolder extends RecyclerView.ViewHolder {
         Loadbinding loadmoreBinding;
+
         public LoadMoreHolder(@NonNull Loadbinding itemView) {
             super(itemView.progress);
             this.loadmoreBinding = itemView;
         }
+
         public void loadMoreData() {
-            HttpModel.getActivityHotNews(page, new InterfaceListenter.HotNewsDataListener() {
-                @Override
-                public void hotDataChange(List<NewsHot.DataBean> dataBeans) {
-                    page++;
-                }
-            },hotBeans);
+            HttpModel.getActivityHotNews(page, a -> page++, hotBeans);
         }
     }
 }

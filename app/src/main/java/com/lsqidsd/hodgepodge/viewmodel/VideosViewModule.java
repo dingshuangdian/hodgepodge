@@ -6,11 +6,9 @@ import android.databinding.BindingAdapter;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-
-import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
+import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
-import com.lsqidsd.hodgepodge.view.WebViewActivity;
 import com.squareup.picasso.Picasso;
 
 public class VideosViewModule {
@@ -47,8 +45,6 @@ public class VideosViewModule {
         }
     }
     public void toPlay(View view) {
-        Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra("url", videos.getUrl());
-        context.startActivity(intent);
+        Jump.jumpToWebActivity(context,videos.getUrl());
     }
 }

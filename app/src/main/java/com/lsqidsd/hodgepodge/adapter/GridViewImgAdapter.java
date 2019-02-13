@@ -1,18 +1,15 @@
 package com.lsqidsd.hodgepodge.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.databinding.ImageBinding;
-import com.lsqidsd.hodgepodge.view.WebViewActivity;
+import com.lsqidsd.hodgepodge.utils.Jump;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -52,14 +49,8 @@ public class GridViewImgAdapter extends BaseAdapter {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        imageBinding.imgView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, WebViewActivity.class);
-                intent.putExtra("url", url);
-                context.startActivity(intent);
-            }
-        });
+        imageBinding.imgView.setOnClickListener(a -> Jump.jumpToWebActivity(context, url));
         return imageBinding.getRoot();
     }
+
 }

@@ -1,6 +1,5 @@
 package com.lsqidsd.hodgepodge.viewmodel;
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
 import android.text.TextUtils;
@@ -11,11 +10,13 @@ import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.utils.JsonUtils;
+import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
-import com.lsqidsd.hodgepodge.view.WebViewActivity;
 import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
+
 import java.util.Random;
+
 public class NewsItemModel<T> {
     private Context context;
     public ObservableInt commentVisibility = new ObservableInt(View.GONE);
@@ -41,6 +42,7 @@ public class NewsItemModel<T> {
             this.dataBean = (NewsItem.DataBean) t;
         }
     }
+
     public NewsItemModel(Context context, InterfaceListenter.ItemShowListener itemShowListener) {
         Random random = new Random();
         int x = radom[random.nextInt(radom.length)];
@@ -55,6 +57,7 @@ public class NewsItemModel<T> {
         }
         this.context = context;
     }
+
     public String getAuthor() {
         return dataBean.getSource();
     }
@@ -82,15 +85,13 @@ public class NewsItemModel<T> {
     }
 
     public void click(View view) {
-        Intent intent = new Intent(context, WebViewActivity.class);
         switch (view.getId()) {
             case R.id.view_01:
-                intent.putExtra("url", getTopUrl());
-                context.startActivity(intent);
+                Jump.jumpToWebActivity(context, getTopUrl());
                 break;
             case R.id.view_03:
-                intent.putExtra("url", getUrl());
-                context.startActivity(intent);
+                Jump.jumpToWebActivity(context, getUrl());
+
                 break;
         }
     }
@@ -146,6 +147,7 @@ public class NewsItemModel<T> {
         }
         return JsonUtils.jsonKey(dataBean.getImgs(), 0);
     }
+
     public String getTitle() {
         return dataBean.getTitle();
     }

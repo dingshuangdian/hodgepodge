@@ -15,8 +15,8 @@ import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.databinding.Image01Binding;
 import com.lsqidsd.hodgepodge.databinding.RvhMoreBinding;
 import com.lsqidsd.hodgepodge.utils.JsonUtils;
+import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
-import com.lsqidsd.hodgepodge.view.WebViewActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -53,14 +53,7 @@ public class ViewPageAdapter extends PagerAdapter {
             binding.author.setText(newsHotList.get(position).getSource());
             binding.title.setText(newsHotList.get(position).getTitle());
             binding.time.setText(TimeUtil.formatTime(newsHotList.get(position).getPublish_time()));
-            binding.ivImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, WebViewActivity.class);
-                    intent.putExtra("url", newsHotList.get(position).getUrl());
-                    context.startActivity(intent);
-                }
-            });
+            binding.ivImage.setOnClickListener(a -> Jump.jumpToWebActivity(context, newsHotList.get(position).getUrl()));
             container.addView(binding.getRoot());
             return binding.getRoot();
         } else {
@@ -72,6 +65,7 @@ public class ViewPageAdapter extends PagerAdapter {
             return rvhMoreBinding.getRoot();
         }
     }
+
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);

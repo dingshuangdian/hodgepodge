@@ -1,7 +1,10 @@
 package com.lsqidsd.hodgepodge.viewmodel;
+
 import android.databinding.ObservableInt;
 import android.view.View;
+
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
+import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
@@ -10,11 +13,21 @@ import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultListener;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultSub;
 import com.lsqidsd.hodgepodge.http.RetrofitServiceManager;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.util.List;
+
 import io.reactivex.Observable;
+
 public class HttpModel {
     public static ObservableInt progressVisibility = new ObservableInt(View.VISIBLE);
     public static ObservableInt lineVisibility = new ObservableInt(View.GONE);
+
     /**
      * 获取视频列表
      *
@@ -48,6 +61,7 @@ public class HttpModel {
             }
         }));
     }
+
     /**
      * 获取热点新闻
      *
@@ -65,11 +79,13 @@ public class HttpModel {
                 }
                 getNewsData(0, listener, newsMain);
             }
+
             @Override
             public void onFault(String errorMsg) {
             }
         }));
     }
+
     public static void getActivityHotNews(int page, InterfaceListenter.HotNewsDataListener listener, List<NewsHot.DataBean> hotBeans) {
         progressVisibility.set(View.VISIBLE);
         Observable<NewsHot> observable = RetrofitServiceManager.getInstance().getHttpApi().getHotNews(page, 15);
@@ -150,11 +166,32 @@ public class HttpModel {
                     progressVisibility.set(View.GONE);
                 }
             }
+
             @Override
             public void onFault(String errorMsg) {
                 progressVisibility.set(View.GONE);
                 lineVisibility.set(View.VISIBLE);
             }
         }));
+    }
+
+    /**
+     * 抓取头部热点滚动
+     * @param finish
+     * @param top
+     */
+    public static void getHotKey(InterfaceListenter.HasFinish finish, List<String> top) {
+        try {
+            Document document = Jsoup.connect(BaseConstant.SEARCH_URL).get();
+            Elements elements = document.select("td").select("a");
+            for (Element element : elements) {
+                top.add(element.text());
+            }
+            if (finish != null) {
+                finish.hasFinish(top);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

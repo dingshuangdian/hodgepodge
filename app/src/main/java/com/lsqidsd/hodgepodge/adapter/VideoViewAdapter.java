@@ -24,11 +24,13 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int NORMAL_ITEM = 0;
     private int page = 1;
     private final int LOAD_MORE = -1;//上拉加载
+
     public VideoViewAdapter(List<NewsVideoItem.DataBean> videos, Context context) {
         this.videos = videos;
         this.context = context;
         this.inflate = LayoutInflater.from(context);
     }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -68,10 +70,12 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return NORMAL_ITEM;
         }
     }
+
     @Override
     public int getItemCount() {
         return videos.size() + 1;
     }
+
     public class VideoHolder extends RecyclerView.ViewHolder {
         VideosItemBinding itemBinding;
 
@@ -79,23 +83,22 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView.getRoot());
             itemBinding = itemView;
         }
+
         public void bindData(NewsVideoItem.DataBean video) {
             itemBinding.setVideoitem(new VideosViewModule(video, context));
         }
     }
+
     public class LoadMoreHolder extends RecyclerView.ViewHolder {
         Loadbinding loadmoreBinding;
+
         public LoadMoreHolder(@NonNull Loadbinding itemView) {
             super(itemView.progress);
             this.loadmoreBinding = itemView;
         }
+
         public void loadMoreData() {
-            HttpModel.getVideoList(page, new InterfaceListenter.VideosDataListener() {
-                @Override
-                public void videoDataChange(List<NewsVideoItem.DataBean> dataBean) {
-                    page++;
-                }
-            },videos);
+            HttpModel.getVideoList(page, a -> page++, videos);
         }
     }
 }

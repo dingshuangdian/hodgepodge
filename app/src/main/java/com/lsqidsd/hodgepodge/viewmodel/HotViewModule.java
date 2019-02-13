@@ -10,12 +10,10 @@ import android.widget.ImageView;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.utils.JsonUtils;
+import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
-import com.lsqidsd.hodgepodge.view.WebViewActivity;
 import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HotViewModule {
     private Context mContext;
@@ -23,16 +21,10 @@ public class HotViewModule {
     public ObservableInt gvVisbility = new ObservableInt(View.GONE);
     public ObservableInt commentVisibility = new ObservableInt(View.GONE);
     private JSONArray jsonArray;
-    private List<NewsHot.DataBean> hotBeans = new ArrayList<>();
     private NewsHot.DataBean dataBean;
 
     public HotViewModule(Context mContext) {
         this.mContext = mContext;
-    }
-
-    public HotViewModule(Context mContext, List<NewsHot.DataBean> hotBeans) {
-        this.mContext = mContext;
-        this.hotBeans = hotBeans;
     }
 
     public HotViewModule(Context mContext, JSONArray jsonArray, NewsHot.DataBean dataBean) {
@@ -88,11 +80,9 @@ public class HotViewModule {
     }
 
     public void click(View view) {
-        Intent intent = new Intent(mContext, WebViewActivity.class);
         switch (view.getId()) {
             case R.id.view_03:
-                intent.putExtra("url", getUrl());
-                mContext.startActivity(intent);
+                Jump.jumpToWebActivity(mContext, getUrl());
                 break;
         }
     }

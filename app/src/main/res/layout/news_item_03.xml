@@ -33,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@{newsitem.title}" />
 
-        <com.lsqidsd.hodgepodge.diyview.header.RoundImageView
+        <com.lsqidsd.hodgepodge.diyview.imageview.RoundImageView
             android:id="@+id/iv_image"
             android:layout_width="110dp"
             android:layout_height="0dp"
