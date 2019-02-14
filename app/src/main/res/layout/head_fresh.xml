@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="headview"
+            type="com.lsqidsd.hodgepodge.viewmodel.NewsItemModel"></variable>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/progressbar_refresh"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.35"
+            app:layout_constraintRight_toLeftOf="@+id/tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正在加载..."
+            app:layout_constraintLeft_toRightOf="@+id/progress_circular"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="最后更新："
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/progress_circular"
+            app:layout_constraintTop_toBottomOf="@+id/tv_1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/time"
+            android:text="2017"
+            app:layout_constraintTop_toBottomOf="@+id/tv_1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/tv_2"
+            android:layout_height="wrap_content" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

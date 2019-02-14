@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
@@ -29,7 +28,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     private Context context;
     private int page = 1;
@@ -41,7 +39,6 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     private final int NEWS_ITEM_TYPE_01 = 0;//置顶
     private final int NEWS_ITEM_TYPE_02 = 1;//热点精选
     private final int NEWS_ITEM_TYPE_03 = 2;//列表
-
     public YWAdapter(Context context, NewsMain list) {
         this.context = context;
         this.dataBeanList = list.getNewsItems();
@@ -49,7 +46,6 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         this.newsHotList = list.getNewsHot();
         this.newsMain = list;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -78,10 +74,8 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
         return myViewHolder;
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         if (holder instanceof LoadMoreHolder) {
             LoadMoreHolder loadMoreHolder = (LoadMoreHolder) holder;
             loadMoreHolder.loadMoreData();
@@ -95,17 +89,14 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
                 newsTopList.get(0).setFlag("showImg");
                 topHolder.bindData(newsTopList.get(position));
             }
-
         } else if (holder instanceof HotHolder) {
             HotHolder hotHolder = (HotHolder) holder;
         }
     }
-
     @Override
     public int getItemCount() {
         return dataBeanList.size() + 4;
     }
-
     @Override
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()) {
@@ -118,7 +109,6 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
             return NEWS_ITEM_TYPE_03;
         }
     }
-
     public class YWViwHolder extends ViewHolder {
         OtherBinding otherBinding;
 
@@ -167,16 +157,13 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
             topBinding.setNewsitem(new NewsItemModel(context, top, jsonArray));
         }
     }
-
     public class HotHolder extends ViewHolder implements InterfaceListenter.ItemShowListener {
         HotBinding hotBinding;
-
         public HotHolder(HotBinding itemView) {
             super(itemView.getRoot());
             hotBinding = itemView;
             hotBinding.setNewsitem(new NewsItemModel(context, this));
         }
-
         @Override
         public void itemShow(ObservableInt... observableInt) {
             List<ObservableInt> observableInts = new ArrayList<>();
