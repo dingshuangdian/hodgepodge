@@ -1,16 +1,16 @@
 package com.lsqidsd.hodgepodge.fragment.news;
 
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.VideoViewAdapter;
@@ -18,9 +18,9 @@ import com.lsqidsd.hodgepodge.adapter.YWAdapter;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
+import com.lsqidsd.hodgepodge.databinding.HeadFreshBinding;
 import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
-import com.lsqidsd.hodgepodge.diyview.rfview.manager.AnimRFLinearLayoutManager;
-import com.lsqidsd.hodgepodge.diyview.rfview.manager.DividerItemDecoration;
+import com.lsqidsd.hodgepodge.diyview.rfview.RefreashRecyclerView;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 
 import java.util.ArrayList;
@@ -31,8 +31,10 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
     private InterfaceListenter.VideosDataListener videosDataListener;
     private InterfaceListenter.MainNewsDataListener newsDataListener;
     private static InformationFragment informationFragment;
-    private View headerView;
     private List<NewsVideoItem.DataBean> videosList = new ArrayList<>();
+    private HeadFreshBinding freshBinding;
+    private View mFooterView;
+    private View mHeaderView;
 
     public static InformationFragment getInstance(int i) {
         informationFragment = new InformationFragment();
@@ -48,7 +50,16 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.information_fragment, container, false);
         videosDataListener = this;
         newsDataListener = this;
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        fragmentBinding.recyview.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        fragmentBinding.recyview.setLayoutManager(linearLayoutManager);
+
         return fragmentBinding.getRoot();
+    }
+
+    private void refresh() {
+        Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -59,18 +70,12 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        headerView = LayoutInflater.from(getContext()).inflate(R.layout.head_fresh, null);
-        AnimRFLinearLayoutManager manager = new AnimRFLinearLayoutManager(getContext());
-        fragmentBinding.recyview.setLayoutManager(manager);
-        fragmentBinding.recyview.addItemDecoration(new DividerItemDecoration(getActivity(), manager.getOrientation(), true));
-        fragmentBinding.recyview.addHeaderView(headerView);
-        fragmentBinding.recyview.setScaleRatio(1.2f);
-        // 设置刷新动画的颜色
-        fragmentBinding.recyview.setColor(Color.RED, Color.BLUE);
-        // 设置头部恢复动画的执行时间，默认500毫秒
-        fragmentBinding.recyview.setHeaderImageDurationMillis(300);
-        // 设置拉伸到最高时头部的透明度，默认0.5f
-        fragmentBinding.recyview.setHeaderImageMinAlpha(0.6f);
+        mHeaderView = LayoutInflater.from(this.getContext()).inflate(R.layout.head_fresh, fragmentBinding.recyview, false);
+        mFooterView = LayoutInflater.from(this.getContext()).inflate(R.layout.head_fresh, fragmentBinding.recyview, false);
+        fragmentBinding.recyview.setHeaderView(mHeaderView);
+        fragmentBinding.recyview.setFooterView(mFooterView);
+        fragmentBinding.recyview.setOnRefreshListener(() -> refresh());
+
         changeFragment();
     }
 
