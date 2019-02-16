@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +17,9 @@ import com.lsqidsd.hodgepodge.adapter.YWAdapter;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
-import com.lsqidsd.hodgepodge.databinding.HeadFreshBinding;
 import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
-import com.lsqidsd.hodgepodge.diyview.rfview.RefreashRecyclerView;
+import com.lsqidsd.hodgepodge.diyview.rfview.DividerItemDecoration;
+import com.lsqidsd.hodgepodge.diyview.rfview.HeaderAndFooterWrapper;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 
 import java.util.ArrayList;
@@ -31,10 +30,8 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
     private InterfaceListenter.VideosDataListener videosDataListener;
     private InterfaceListenter.MainNewsDataListener newsDataListener;
     private static InformationFragment informationFragment;
+    private HeaderAndFooterWrapper headerAndFooterWrapper;
     private List<NewsVideoItem.DataBean> videosList = new ArrayList<>();
-    private HeadFreshBinding freshBinding;
-    private View mFooterView;
-    private View mHeaderView;
 
     public static InformationFragment getInstance(int i) {
         informationFragment = new InformationFragment();
@@ -51,7 +48,7 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
         videosDataListener = this;
         newsDataListener = this;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        fragmentBinding.recyview.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        fragmentBinding.recyview.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         fragmentBinding.recyview.setLayoutManager(linearLayoutManager);
 
         return fragmentBinding.getRoot();
@@ -70,11 +67,6 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mHeaderView = LayoutInflater.from(this.getContext()).inflate(R.layout.head_fresh, fragmentBinding.recyview, false);
-        mFooterView = LayoutInflater.from(this.getContext()).inflate(R.layout.head_fresh, fragmentBinding.recyview, false);
-        fragmentBinding.recyview.setHeaderView(mHeaderView);
-        fragmentBinding.recyview.setFooterView(mFooterView);
-        fragmentBinding.recyview.setOnRefreshListener(() -> refresh());
 
         changeFragment();
     }
@@ -107,13 +99,19 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
     @Override
     public void mainDataChange(NewsMain dataBeans) {
         YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans);
-        fragmentBinding.recyview.setAdapter(ywAdapter);
+        headerAndFooterWrapper = new HeaderAndFooterWrapper(ywAdapter);
+        fragmentBinding.recyview.addHeaderView(fragmentBinding.recyview.getHeaderView(), headerAndFooterWrapper);
+        //fragmentBinding.recyview.addFooterView(fragmentBinding.recyview.getFooterView(), headerAndFooterWrapper);
+        fragmentBinding.recyview.setAdapter(headerAndFooterWrapper);
     }
 
     @Override
     public void videoDataChange(List<NewsVideoItem.DataBean> dataBean) {
         VideoViewAdapter viewAdapter = new VideoViewAdapter(dataBean, getContext());
-        fragmentBinding.recyview.setAdapter(viewAdapter);
+//        headerAndFooterWrapper = new HeaderAndFooterWrapper(viewAdapter);
+//        fragmentBinding.recyview.addHeaderView(fragmentBinding.recyview.getHeaderView(), headerAndFooterWrapper);
+//        //fragmentBinding.recyview.addFooterView(fragmentBinding.recyview.getFooterView(), headerAndFooterWrapper);
+//        fragmentBinding.recyview.setAdapter(headerAndFooterWrapper);
 
     }
 }
