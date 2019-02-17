@@ -21,6 +21,8 @@ import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
 import com.lsqidsd.hodgepodge.diyview.rfview.DividerItemDecoration;
 import com.lsqidsd.hodgepodge.diyview.rfview.HeaderAndFooterWrapper;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,6 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
     private InterfaceListenter.MainNewsDataListener newsDataListener;
     private static InformationFragment informationFragment;
     private HeaderAndFooterWrapper headerAndFooterWrapper;
-    private List<NewsVideoItem.DataBean> videosList = new ArrayList<>();
 
     public static InformationFragment getInstance(int i) {
         informationFragment = new InformationFragment();
@@ -48,12 +49,22 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
         videosDataListener = this;
         newsDataListener = this;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        fragmentBinding.recyview.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
+        //fragmentBinding.recyview.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         fragmentBinding.recyview.setLayoutManager(linearLayoutManager);
-
+        initRefresh();
         return fragmentBinding.getRoot();
     }
 
+    private void initRefresh() {
+        fragmentBinding.refreshLayout.setEnableAutoLoadMore(true);//开启自动刷新
+        fragmentBinding.refreshLayout.setOnRefreshListener(a -> loadData());
+        fragmentBinding.refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+            }
+        });
+        fragmentBinding.refreshLayout.autoRefresh();
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -64,10 +75,10 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        changeFragment();
+        loadData();
     }
 
-    private void changeFragment() {
+    private void loadData() {
 
         Bundle bundle = getArguments();
         switch (bundle.getInt("flag")) {
@@ -75,6 +86,7 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
                 HttpModel.getTopNews(newsDataListener, new NewsMain());
                 break;
             case 1:
+                List<NewsVideoItem.DataBean> videosList = new ArrayList<>();
                 HttpModel.getVideoList(0, videosDataListener, videosList);
                 break;
             case 2:
@@ -95,19 +107,17 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
     @Override
     public void mainDataChange(NewsMain dataBeans) {
         YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans);
-        //headerAndFooterWrapper = new HeaderAndFooterWrapper(ywAdapter);
-        //fragmentBinding.recyview.addHeaderView(fragmentBinding.recyview.getHeaderView(), headerAndFooterWrapper);
-        //fragmentBinding.recyview.addFooterView(fragmentBinding.recyview.getFooterView(), headerAndFooterWrapper);
         fragmentBinding.recyview.setAdapter(ywAdapter);
+        fragmentBinding.refreshLayout.finishRefresh();
+        fragmentBinding.refreshLayout.resetNoMoreData();//setNoMoreData(false);
     }
 
     @Override
     public void videoDataChange(List<NewsVideoItem.DataBean> dataBean) {
         VideoViewAdapter viewAdapter = new VideoViewAdapter(dataBean, getContext());
-        //headerAndFooterWrapper = new HeaderAndFooterWrapper(viewAdapter);
-        //fragmentBinding.recyview.addHeaderView(fragmentBinding.recyview.getHeaderView(), headerAndFooterWrapper);
-        //fragmentBinding.recyview.addFooterView(fragmentBinding.recyview.getFooterView(), headerAndFooterWrapper);
         fragmentBinding.recyview.setAdapter(viewAdapter);
+        fragmentBinding.refreshLayout.finishRefresh();
+        fragmentBinding.refreshLayout.resetNoMoreData();
 
     }
 }

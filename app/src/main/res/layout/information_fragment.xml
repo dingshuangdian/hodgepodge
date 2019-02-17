@@ -8,9 +8,21 @@
             name="informationview"
             type="com.lsqidsd.hodgepodge.viewmodel.NewsItemModel"></variable>
     </data>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyview"
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <include layout="@layout/head_fresh"></include>
+        </com.scwang.smartrefresh.layout.header.ClassicsHeader>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </layout>
