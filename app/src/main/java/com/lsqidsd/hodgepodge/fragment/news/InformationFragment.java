@@ -54,10 +54,6 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
         return fragmentBinding.getRoot();
     }
 
-    private void refresh() {
-        Toast.makeText(getContext(), "刷新完成", Toast.LENGTH_SHORT).show();
-
-    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -99,19 +95,19 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
     @Override
     public void mainDataChange(NewsMain dataBeans) {
         YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans);
-        headerAndFooterWrapper = new HeaderAndFooterWrapper(ywAdapter);
-        fragmentBinding.recyview.addHeaderView(fragmentBinding.recyview.getHeaderView(), headerAndFooterWrapper);
+        //headerAndFooterWrapper = new HeaderAndFooterWrapper(ywAdapter);
+        //fragmentBinding.recyview.addHeaderView(fragmentBinding.recyview.getHeaderView(), headerAndFooterWrapper);
         //fragmentBinding.recyview.addFooterView(fragmentBinding.recyview.getFooterView(), headerAndFooterWrapper);
-        fragmentBinding.recyview.setAdapter(headerAndFooterWrapper);
+        fragmentBinding.recyview.setAdapter(ywAdapter);
     }
 
     @Override
     public void videoDataChange(List<NewsVideoItem.DataBean> dataBean) {
         VideoViewAdapter viewAdapter = new VideoViewAdapter(dataBean, getContext());
-//        headerAndFooterWrapper = new HeaderAndFooterWrapper(viewAdapter);
-//        fragmentBinding.recyview.addHeaderView(fragmentBinding.recyview.getHeaderView(), headerAndFooterWrapper);
-//        //fragmentBinding.recyview.addFooterView(fragmentBinding.recyview.getFooterView(), headerAndFooterWrapper);
-//        fragmentBinding.recyview.setAdapter(headerAndFooterWrapper);
+        //headerAndFooterWrapper = new HeaderAndFooterWrapper(viewAdapter);
+        //fragmentBinding.recyview.addHeaderView(fragmentBinding.recyview.getHeaderView(), headerAndFooterWrapper);
+        //fragmentBinding.recyview.addFooterView(fragmentBinding.recyview.getFooterView(), headerAndFooterWrapper);
+        fragmentBinding.recyview.setAdapter(viewAdapter);
 
     }
 }

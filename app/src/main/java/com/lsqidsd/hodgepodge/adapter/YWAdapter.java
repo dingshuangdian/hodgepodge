@@ -38,7 +38,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     private List<NewsTop.DataBean> newsTopList;
     private List<NewsHot.DataBean> newsHotList;
     private NewsMain newsMain;
-    //private final int LOAD_MORE = -1;//上拉加载
+    private final int LOAD_MORE = -1;//上拉加载
     private final int NEWS_ITEM_TYPE_01 = 0;//置顶
     private final int NEWS_ITEM_TYPE_02 = 1;//热点精选
     private final int NEWS_ITEM_TYPE_03 = 2;//列表
@@ -60,10 +60,10 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         Loadbinding loadmoreBinding;
         OtherBinding otherBinding;
         switch (viewType) {
-//            case LOAD_MORE:
-//                loadmoreBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.loadmore, parent, false);
-//                myViewHolder = new LoadMoreHolder(loadmoreBinding);
-//                break;
+            case LOAD_MORE:
+                loadmoreBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.loadmore, parent, false);
+                myViewHolder = new LoadMoreHolder(loadmoreBinding);
+                break;
             case NEWS_ITEM_TYPE_01:
                 topBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.news_item_01, parent, false);
                 myViewHolder = new TopHolder(topBinding);
@@ -82,13 +82,12 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.e("position2", position + "");
         if (holder instanceof LoadMoreHolder) {
             LoadMoreHolder loadMoreHolder = (LoadMoreHolder) holder;
             loadMoreHolder.loadMoreData();
         } else if (holder instanceof YWViwHolder) {
             YWViwHolder ywViwHolder = (YWViwHolder) holder;
-            NewsItem.DataBean dataBean = dataBeanList.get(position);
+            NewsItem.DataBean dataBean = dataBeanList.get(position - 3);
             ywViwHolder.bindData(dataBean);
         } else if (holder instanceof TopHolder) {
             TopHolder topHolder = (TopHolder) holder;
@@ -103,12 +102,14 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return dataBeanList.size() + 3;
+        return dataBeanList.size() + 4;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 || position == 1) {
+        if (position + 1 == getItemCount()) {
+            return LOAD_MORE;
+        } else if (position == 0 || position == 1) {
             return NEWS_ITEM_TYPE_01;
         } else if (position == 2) {
             return NEWS_ITEM_TYPE_02;

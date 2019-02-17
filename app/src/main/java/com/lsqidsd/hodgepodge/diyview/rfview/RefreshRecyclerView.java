@@ -167,19 +167,7 @@ public class RefreshRecyclerView extends RecyclerView {
 
 
 
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
-        if (changed && isPullRefresh){
 
-            int refreshHeight = mRefresh.view.getMeasuredHeight();
-            mRefresh.viewHeight = refreshHeight;
-            Log.d("123","onLayout,mRefresh.viewHeight:" + refreshHeight);
-            if (refreshHeight > 0){
-                mRefresh.setViewTopMargin(-refreshHeight);   //隐藏掉RefreshView
-            }
-        }
-    }
 
 
 
