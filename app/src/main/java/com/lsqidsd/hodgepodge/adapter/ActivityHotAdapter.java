@@ -15,6 +15,7 @@ import com.lsqidsd.hodgepodge.databinding.NewsItemHotBinding;
 import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.viewmodel.HotViewModule;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,12 +28,14 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private LayoutInflater layoutInflater;
     private List<NewsHot.DataBean> hotBeans;
     private final int TYPE_NORMAL = 1;
+    private RefreshLayout refreshLayout;
     private final int LOAD_MORE = -1;//上拉加载
 
-    public ActivityHotAdapter(Context context, List<NewsHot.DataBean> hotBean) {
+    public ActivityHotAdapter(Context context, List<NewsHot.DataBean> hotBean, RefreshLayout refreshLayout) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.hotBeans = hotBean;
+        this.refreshLayout = refreshLayout;
     }
 
     @NonNull
@@ -68,7 +71,7 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return hotBeans.size() + 1;
+        return hotBeans.size()+1;
     }
 
     @Override
@@ -79,6 +82,7 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return TYPE_NORMAL;
         }
     }
+
 
     public class HotViewHolder extends RecyclerView.ViewHolder {
         NewsItemHotBinding itemHotBinding;
@@ -108,12 +112,12 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         Loadbinding loadmoreBinding;
 
         public LoadMoreHolder(@NonNull Loadbinding itemView) {
-            super(itemView.progress);
+            super(itemView.getRoot());
             this.loadmoreBinding = itemView;
         }
 
         public void loadMoreData() {
-            HttpModel.getActivityHotNews(page, a -> page++, hotBeans);
+            HttpModel.getActivityHotNews(page, a -> page++, hotBeans, refreshLayout);
         }
     }
 }

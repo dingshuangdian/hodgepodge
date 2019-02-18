@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="hotview"
             type="com.lsqidsd.hodgepodge.viewmodel.HotViewModule"></variable>
@@ -10,15 +12,26 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-            <include
-                android:id="@+id/lv"
-                layout="@layout/top_view"></include>
+
+        <include
+            android:id="@+id/lv"
+            layout="@layout/top_view"></include>
+
+        <com.lsqidsd.hodgepodge.diyview.refresh.SmartRefreshLayout
+            android:layout_width="match_parent"
+            android:id="@+id/refreshLayout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_height="match_parent">
+            <com.lsqidsd.hodgepodge.diyview.refresh.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.lsqidsd.hodgepodge.diyview.refresh.ClassicsHeader>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+                >
             </android.support.v7.widget.RecyclerView>
+        </com.lsqidsd.hodgepodge.diyview.refresh.SmartRefreshLayout>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

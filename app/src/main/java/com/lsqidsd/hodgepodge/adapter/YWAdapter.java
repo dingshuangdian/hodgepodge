@@ -24,6 +24,7 @@ import com.lsqidsd.hodgepodge.databinding.OtherBinding;
 import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.lsqidsd.hodgepodge.viewmodel.NewsItemModel;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,13 +43,15 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     private final int NEWS_ITEM_TYPE_01 = 0;//置顶
     private final int NEWS_ITEM_TYPE_02 = 1;//热点精选
     private final int NEWS_ITEM_TYPE_03 = 2;//列表
+    private RefreshLayout refreshLayout;
 
-    public YWAdapter(Context context, NewsMain list) {
+    public YWAdapter(Context context, NewsMain list, RefreshLayout refreshLayout) {
         this.context = context;
         this.dataBeanList = list.getNewsItems();
         this.newsTopList = list.getNewsTops();
         this.newsHotList = list.getNewsHot();
         this.newsMain = list;
+        this.refreshLayout = refreshLayout;
     }
 
     @NonNull
@@ -145,12 +148,12 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         Loadbinding loadmoreBinding;
 
         public LoadMoreHolder(@NonNull Loadbinding itemView) {
-            super(itemView.progress);
+            super(itemView.getRoot());
             this.loadmoreBinding = itemView;
         }
 
         public void loadMoreData() {
-            HttpModel.getNewsData(page, a -> page++, newsMain);
+            HttpModel.getNewsData(page, a -> page++, newsMain,refreshLayout);
         }
     }
 

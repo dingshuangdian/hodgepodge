@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.VideoViewAdapter;
@@ -18,11 +17,8 @@ import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
-import com.lsqidsd.hodgepodge.diyview.rfview.DividerItemDecoration;
 import com.lsqidsd.hodgepodge.diyview.rfview.HeaderAndFooterWrapper;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,40 +50,28 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
         initRefresh();
         return fragmentBinding.getRoot();
     }
-
     private void initRefresh() {
-        fragmentBinding.refreshLayout.setEnableAutoLoadMore(true);//开启自动刷新
         fragmentBinding.refreshLayout.setOnRefreshListener(a -> loadData());
-        fragmentBinding.refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-            }
-        });
         fragmentBinding.refreshLayout.autoRefresh();
     }
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        loadData();
     }
 
     private void loadData() {
-
         Bundle bundle = getArguments();
         switch (bundle.getInt("flag")) {
             case 0:
-                HttpModel.getTopNews(newsDataListener, new NewsMain());
+                HttpModel.getTopNews(newsDataListener, new NewsMain(), fragmentBinding.refreshLayout);
                 break;
             case 1:
                 List<NewsVideoItem.DataBean> videosList = new ArrayList<>();
-                HttpModel.getVideoList(0, videosDataListener, videosList);
+                HttpModel.getVideoList(0, videosDataListener, videosList, fragmentBinding.refreshLayout);
                 break;
             case 2:
                 break;
@@ -106,18 +90,17 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
 
     @Override
     public void mainDataChange(NewsMain dataBeans) {
-        YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans);
+        YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans, fragmentBinding.refreshLayout);
         fragmentBinding.recyview.setAdapter(ywAdapter);
         fragmentBinding.refreshLayout.finishRefresh();
-        fragmentBinding.refreshLayout.resetNoMoreData();//setNoMoreData(false);
+        //fragmentBinding.refreshLayout.resetNoMoreData();//setNoMoreData(false);
     }
 
     @Override
     public void videoDataChange(List<NewsVideoItem.DataBean> dataBean) {
-        VideoViewAdapter viewAdapter = new VideoViewAdapter(dataBean, getContext());
+        VideoViewAdapter viewAdapter = new VideoViewAdapter(dataBean, getContext(), fragmentBinding.refreshLayout);
         fragmentBinding.recyview.setAdapter(viewAdapter);
         fragmentBinding.refreshLayout.finishRefresh();
-        fragmentBinding.refreshLayout.resetNoMoreData();
-
+        //fragmentBinding.refreshLayout.resetNoMoreData();
     }
 }

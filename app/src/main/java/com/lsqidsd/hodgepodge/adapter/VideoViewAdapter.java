@@ -8,12 +8,12 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.lsqidsd.hodgepodge.R;
-import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.databinding.Loadbinding;
 import com.lsqidsd.hodgepodge.databinding.VideosItemBinding;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.lsqidsd.hodgepodge.viewmodel.VideosViewModule;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.List;
 
@@ -24,11 +24,13 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int NORMAL_ITEM = 0;
     private int page = 1;
     private final int LOAD_MORE = -1;//上拉加载
+    private RefreshLayout refreshLayout;
 
-    public VideoViewAdapter(List<NewsVideoItem.DataBean> videos, Context context) {
+    public VideoViewAdapter(List<NewsVideoItem.DataBean> videos, Context context, RefreshLayout refreshLayout) {
         this.videos = videos;
         this.context = context;
         this.inflate = LayoutInflater.from(context);
+        this.refreshLayout = refreshLayout;
     }
 
     @NonNull
@@ -93,12 +95,12 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         Loadbinding loadmoreBinding;
 
         public LoadMoreHolder(@NonNull Loadbinding itemView) {
-            super(itemView.progress);
+            super(itemView.getRoot());
             this.loadmoreBinding = itemView;
         }
 
         public void loadMoreData() {
-            HttpModel.getVideoList(page, a -> page++, videos);
+            HttpModel.getVideoList(page, a -> page++, videos, refreshLayout);
         }
     }
 }

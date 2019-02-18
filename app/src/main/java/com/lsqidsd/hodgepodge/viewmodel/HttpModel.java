@@ -1,6 +1,7 @@
 package com.lsqidsd.hodgepodge.viewmodel;
 
 import android.databinding.ObservableInt;
+import android.util.Log;
 import android.view.View;
 
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
@@ -13,6 +14,7 @@ import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultListener;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultSub;
 import com.lsqidsd.hodgepodge.http.RetrofitServiceManager;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,7 +36,7 @@ public class HttpModel {
      * @param page
      * @param dataListener
      */
-    public static void getVideoList(int page, InterfaceListenter.VideosDataListener dataListener, List<NewsVideoItem.DataBean> videoBeans) {
+    public static void getVideoList(int page, InterfaceListenter.VideosDataListener dataListener, List<NewsVideoItem.DataBean> videoBeans, RefreshLayout refreshLayout) {
         progressVisibility.set(View.VISIBLE);
         Observable<NewsVideoItem> observable = RetrofitServiceManager.getInstance().getHttpApi().getVideos(page);
         RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
@@ -49,10 +51,16 @@ public class HttpModel {
                     lineVisibility.set(View.GONE);
                     if (dataListener != null) {
                         dataListener.videoDataChange(videoBeans);
+                        if (page > 0) {
+                            refreshLayout.finishLoadMore();
+                        } else {
+                            refreshLayout.finishRefresh();
+                            refreshLayout.resetNoMoreData();
+                        }
                     }
                 } else {
                     lineVisibility.set(View.VISIBLE);
-                    progressVisibility.set(View.GONE);
+                    refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
 
@@ -68,7 +76,7 @@ public class HttpModel {
      * @param page
      * @param listener
      */
-    public static void getHotNews(int page, InterfaceListenter.MainNewsDataListener listener, NewsMain newsMain) {
+    public static void getHotNews(int page, InterfaceListenter.MainNewsDataListener listener, NewsMain newsMain, RefreshLayout refreshLayout) {
         Observable<NewsHot> observable = RetrofitServiceManager.getInstance().getHttpApi().getHotNews(page, 5);
         RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
             @Override
@@ -77,7 +85,7 @@ public class HttpModel {
                 for (NewsHot.DataBean hot : newsHot.getData()) {
                     newsMain.getNewsHot().add(hot);
                 }
-                getNewsData(0, listener, newsMain);
+                getNewsData(0, listener, newsMain, refreshLayout);
             }
 
             @Override
@@ -86,7 +94,7 @@ public class HttpModel {
         }));
     }
 
-    public static void getActivityHotNews(int page, InterfaceListenter.HotNewsDataListener listener, List<NewsHot.DataBean> hotBeans) {
+    public static void getActivityHotNews(int page, InterfaceListenter.HotNewsDataListener listener, List<NewsHot.DataBean> hotBeans, RefreshLayout refreshLayout) {
         progressVisibility.set(View.VISIBLE);
         Observable<NewsHot> observable = RetrofitServiceManager.getInstance().getHttpApi().getHotNews(page, 15);
         RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
@@ -99,12 +107,18 @@ public class HttpModel {
                     }
                     if (listener != null) {
                         listener.hotDataChange(hotBeans);
+                        if (page > 0) {
+                            progressVisibility.set(View.GONE);
+                            //refreshLayout.finishLoadMore();
+                        } else {
+                            refreshLayout.finishRefresh();
+                            refreshLayout.resetNoMoreData();
+                        }
                     }
                     lineVisibility.set(View.GONE);
-                    progressVisibility.set(View.GONE);
                 } else {
                     lineVisibility.set(View.VISIBLE);
-                    progressVisibility.set(View.GONE);
+                    //refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
 
@@ -121,7 +135,7 @@ public class HttpModel {
      *
      * @param listener
      */
-    public static void getTopNews(InterfaceListenter.MainNewsDataListener listener, NewsMain newsMain) {
+    public static void getTopNews(InterfaceListenter.MainNewsDataListener listener, NewsMain newsMain, RefreshLayout refreshLayout) {
         Observable<NewsTop> observable = RetrofitServiceManager.getInstance().getHttpApi().getTopNews(0);
         RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
             @Override
@@ -130,7 +144,7 @@ public class HttpModel {
                 for (NewsTop.DataBean dataBean : newsTop.getData()) {
                     newsMain.getNewsTops().add(dataBean);
                 }
-                getHotNews(0, listener, newsMain);
+                getHotNews(0, listener, newsMain, refreshLayout);
             }
 
             @Override
@@ -145,7 +159,7 @@ public class HttpModel {
      * @param page
      * @param listener
      */
-    public static void getNewsData(int page, InterfaceListenter.MainNewsDataListener listener, NewsMain newsMain) {
+    public static void getNewsData(int page, InterfaceListenter.MainNewsDataListener listener, NewsMain newsMain, RefreshLayout refreshLayout) {
         progressVisibility.set(View.VISIBLE);
         Observable<NewsItem> observable = RetrofitServiceManager.getInstance().getHttpApi().getMainNews(page);
         RetrofitServiceManager.getInstance().toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
@@ -158,12 +172,18 @@ public class HttpModel {
                     }
                     if (listener != null) {
                         listener.mainDataChange(newsMain);
+                        if (page > 0) {
+                            refreshLayout.finishLoadMore();
+                        } else {
+                            refreshLayout.finishRefresh();
+                            refreshLayout.resetNoMoreData();
+                        }
                     }
                     lineVisibility.set(View.GONE);
                     progressVisibility.set(View.GONE);
                 } else {
                     lineVisibility.set(View.VISIBLE);
-                    progressVisibility.set(View.GONE);
+                    refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
 
@@ -177,6 +197,7 @@ public class HttpModel {
 
     /**
      * 抓取头部热点滚动
+     *
      * @param finish
      * @param top
      */

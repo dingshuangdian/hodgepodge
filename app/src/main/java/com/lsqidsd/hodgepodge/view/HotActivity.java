@@ -1,5 +1,6 @@
 package com.lsqidsd.hodgepodge.view;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -11,15 +12,18 @@ import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.databinding.ActivityHotBinding;
 import com.lsqidsd.hodgepodge.viewmodel.HotViewModule;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HotActivity extends BaseActivity implements InterfaceListenter.HotNewsDataListener {
     private HotViewModule hotViewModule;
-    private HttpModel httpModel;
-    private List<NewsHot.DataBean> hotList = new ArrayList<>();
     private ActivityHotBinding activityHotBinding;
+    private InterfaceListenter.HotNewsDataListener hotNewsDataListener;
+    private ActivityHotAdapter adapter;
 
     @Override
     public int getLayout() {
@@ -28,7 +32,7 @@ public class HotActivity extends BaseActivity implements InterfaceListenter.HotN
 
     @Override
     public void initView() {
-        httpModel = new HttpModel();
+        hotNewsDataListener = this;
         hotViewModule = new HotViewModule(this);
         activityHotBinding = getBinding(activityHotBinding);
         activityHotBinding.lv.tv.setText("热点精选");
@@ -39,12 +43,19 @@ public class HotActivity extends BaseActivity implements InterfaceListenter.HotN
             }
         });
         activityHotBinding.setHotview(hotViewModule);
-        httpModel.getActivityHotNews(0, this, hotList);
+        //activityHotBinding.refreshLayout.setEnableAutoLoadMore(true);//开启自动加载功能（非必须）
+        activityHotBinding.refreshLayout.setOnRefreshListener(a -> refresh());
+        activityHotBinding.refreshLayout.autoRefresh();
+    }
+
+    private void refresh() {
+        List<NewsHot.DataBean> dataBeans = new ArrayList<>();
+        HttpModel.getActivityHotNews(0, hotNewsDataListener, dataBeans, activityHotBinding.refreshLayout);
     }
 
     @Override
     public void hotDataChange(List<NewsHot.DataBean> dataBeans) {
-        ActivityHotAdapter adapter = new ActivityHotAdapter(this, dataBeans);
+        adapter = new ActivityHotAdapter(this, dataBeans, activityHotBinding.refreshLayout);
         activityHotBinding.rv.setLayoutManager(new LinearLayoutManager(this));
         activityHotBinding.rv.setAdapter(adapter);
     }
