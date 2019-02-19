@@ -58,5 +58,4 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.+'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-20'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-20'
 }
