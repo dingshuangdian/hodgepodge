@@ -25,6 +25,7 @@ import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.lsqidsd.hodgepodge.viewmodel.NewsItemModel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -151,12 +152,10 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
             super(itemView.getRoot());
             this.loadmoreBinding = itemView;
         }
-
         public void loadMoreData() {
-            HttpModel.getNewsData(page, a -> page++, newsMain,refreshLayout);
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getNewsData(page, b -> page++, newsMain, refreshLayout));
         }
     }
-
     public class TopHolder extends ViewHolder {
         TopBinding topBinding;
         JSONArray jsonArray = null;

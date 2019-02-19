@@ -9,19 +9,21 @@
             type="com.lsqidsd.hodgepodge.viewmodel.HotViewModule"></variable>
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <include
             android:id="@+id/lv"
-            layout="@layout/top_view"></include>
-
+            layout="@layout/top_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </include>
         <com.lsqidsd.hodgepodge.diyview.refresh.SmartRefreshLayout
-            android:layout_width="match_parent"
             android:id="@+id/refreshLayout"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lv">
             <com.lsqidsd.hodgepodge.diyview.refresh.ClassicsHeader
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -29,9 +31,14 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
             </android.support.v7.widget.RecyclerView>
+
+            <com.lsqidsd.hodgepodge.diyview.refresh.ClassicsFooter
+                android:id="@+id/footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.lsqidsd.hodgepodge.diyview.refresh.ClassicsFooter>
         </com.lsqidsd.hodgepodge.diyview.refresh.SmartRefreshLayout>
-    </android.support.design.widget.CoordinatorLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>

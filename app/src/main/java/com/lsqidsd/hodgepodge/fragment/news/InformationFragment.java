@@ -2,6 +2,7 @@ package com.lsqidsd.hodgepodge.fragment.news;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.VideoViewAdapter;
 import com.lsqidsd.hodgepodge.adapter.YWAdapter;
@@ -19,17 +19,13 @@ import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
 import com.lsqidsd.hodgepodge.diyview.rfview.HeaderAndFooterWrapper;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class InformationFragment extends Fragment implements InterfaceListenter.MainNewsDataListener, InterfaceListenter.VideosDataListener {
     private InformationDataBinding fragmentBinding;
     private InterfaceListenter.VideosDataListener videosDataListener;
     private InterfaceListenter.MainNewsDataListener newsDataListener;
     private static InformationFragment informationFragment;
-    private HeaderAndFooterWrapper headerAndFooterWrapper;
-
     public static InformationFragment getInstance(int i) {
         informationFragment = new InformationFragment();
         Bundle bundle = new Bundle();
@@ -50,14 +46,17 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
         initRefresh();
         return fragmentBinding.getRoot();
     }
+
     private void initRefresh() {
         fragmentBinding.refreshLayout.setOnRefreshListener(a -> loadData());
         fragmentBinding.refreshLayout.autoRefresh();
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

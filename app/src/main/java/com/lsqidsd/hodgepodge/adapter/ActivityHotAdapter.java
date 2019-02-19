@@ -68,12 +68,10 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             loadMoreHolder.loadMoreData();
         }
     }
-
     @Override
     public int getItemCount() {
-        return hotBeans.size()+1;
+        return hotBeans.size() + 1;
     }
-
     @Override
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()) {
@@ -82,7 +80,6 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return TYPE_NORMAL;
         }
     }
-
 
     public class HotViewHolder extends RecyclerView.ViewHolder {
         NewsItemHotBinding itemHotBinding;
@@ -117,7 +114,7 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         public void loadMoreData() {
-            HttpModel.getActivityHotNews(page, a -> page++, hotBeans, refreshLayout);
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getActivityHotNews(page, b -> page++, hotBeans, refreshLayout));
         }
     }
 }

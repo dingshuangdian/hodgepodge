@@ -30,7 +30,12 @@ public class InterfaceListenter {
         void viewLoadFinish(RvhMoreBinding moreBinding);
 
     }
+
     public interface HasFinish {
         void hasFinish(List<String> list);
+    }
+
+    public interface LoadFinish {
+        void loadFinish();
     }
 }

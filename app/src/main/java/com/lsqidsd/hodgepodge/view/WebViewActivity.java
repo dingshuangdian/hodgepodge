@@ -1,10 +1,12 @@
 package com.lsqidsd.hodgepodge.view;
+
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.GeolocationPermissions;
 import android.webkit.WebChromeClient;
@@ -12,14 +14,19 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
 import com.lsqidsd.hodgepodge.databinding.ActivityWebViewBinding;
 import com.lsqidsd.hodgepodge.http.NetUtil;
+
 public class WebViewActivity extends BaseActivity {
     private ActivityWebViewBinding webViewBinding;
     private WebView webView;
     private String url;
+    private ProgressBar progressBar;
+
     @Override
     public int getLayout() {
         return R.layout.activity_web_view;
@@ -28,7 +35,7 @@ public class WebViewActivity extends BaseActivity {
     public void initView() {
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
-        webViewBinding = DataBindingUtil.setContentView(this,R.layout.activity_web_view);
+        webViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_web_view);
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         webView = new WebView(getApplicationContext());
         webView.setLayoutParams(params);
@@ -38,7 +45,6 @@ public class WebViewActivity extends BaseActivity {
         webView.setWebChromeClient(webChromeClient);
         webView.loadUrl(url);
     }
-
     private void webviewSetting() {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);//支持js
@@ -108,6 +114,16 @@ public class WebViewActivity extends BaseActivity {
             callback.invoke(origin, true, false);
             super.onGeolocationPermissionsShowPrompt(origin, callback);
         }
+
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            super.onProgressChanged(view, newProgress);
+            if (newProgress == 100) {
+                webViewBinding.progress.setVisibility(View.GONE);
+            } else {
+                webViewBinding.progress.setVisibility(View.VISIBLE);
+            }
+        }
     };
     /**
      * 多窗口问题
@@ -124,12 +140,14 @@ public class WebViewActivity extends BaseActivity {
         webView.onPause();
         webView.pauseTimers();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         webView.onResume();
         webView.resumeTimers();
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
@@ -138,6 +156,7 @@ public class WebViewActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

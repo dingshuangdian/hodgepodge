@@ -25,10 +25,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
-        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+        <com.lsqidsd.hodgepodge.diyview.refresh.ClassicsFooter
             android:id="@+id/footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        </com.scwang.smartrefresh.layout.footer.ClassicsFooter>
+        </com.lsqidsd.hodgepodge.diyview.refresh.ClassicsFooter>
     </com.lsqidsd.hodgepodge.diyview.refresh.SmartRefreshLayout>
 </layout>

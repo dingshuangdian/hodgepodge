@@ -24,11 +24,11 @@ public class BaseApplication extends Application {
             @Override
             public void initialize(@NonNull Context context, @NonNull RefreshLayout layout) {
 
-//                layout.setEnableAutoLoadMore(true);
-//                layout.setEnableOverScrollDrag(false);
-//                layout.setEnableOverScrollBounce(true);
-//                layout.setEnableLoadMoreWhenContentNotFull(true);
-//                layout.setEnableScrollContentWhenRefreshed(true);
+                layout.setEnableAutoLoadMore(true);
+                layout.setEnableOverScrollDrag(false);
+                layout.setEnableOverScrollBounce(true);
+                layout.setEnableLoadMoreWhenContentNotFull(true);
+                layout.setEnableScrollContentWhenRefreshed(true);
             }
         });
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
