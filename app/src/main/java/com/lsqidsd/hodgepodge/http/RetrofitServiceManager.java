@@ -30,12 +30,10 @@ public class RetrofitServiceManager {
     private Retrofit retrofit;
     private static RetrofitServiceManager instance;
     public static final String CACHE_NAME = "appName";
-    private HttpApi httpApi;
-
     /**
      * 请求失败重连次数
      */
-    private int RETRY_COUNT = 0;
+    private static int RETRY_COUNT = 5;
     private OkHttpClient.Builder builder;
 
     //构造方法私有
@@ -90,10 +88,8 @@ public class RetrofitServiceManager {
                         .addHeader("Accept", "application/json")
                         .addHeader("Content-Type", "application/json; charset=utf-8")
                         .method(request.method(), request.body());
-                builder.addHeader("Authorization", "Bearer " + BaseConstant.TOKEN);////添加请求头信息，服务器进行token有效性验证
+                //builder.addHeader("Authorization", "Bearer " + BaseConstant.TOKEN);////添加请求头信息，服务器进行token有效性验证
                 Request request1 = builder.build();
-
-
                 return chain.proceed(request1);
             }
         };
@@ -114,16 +110,8 @@ public class RetrofitServiceManager {
         builder.connectTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);//连接超时时间
         builder.writeTimeout(DEFAULT_READ_TIME_OUT, TimeUnit.SECONDS);//写操作 超时时间
         builder.readTimeout(DEFAULT_READ_TIME_OUT, TimeUnit.SECONDS);//读操作超时时间
-
         //错误重连
         builder.retryOnConnectionFailure(true);
-        retrofit = new Retrofit.Builder()
-                .client(builder.build())
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BaseConstant.BASE_URL)
-                .build();
-        httpApi = retrofit.create(HttpApi.class);
 
 
     }
@@ -138,25 +126,19 @@ public class RetrofitServiceManager {
         }
         return instance;
     }
-
-    /**
-     * 获取retrofit
-     */
-    public Retrofit getRetrofit() {
-        return retrofit;
+    public HttpApi setUrl(String url) {
+        retrofit = new Retrofit.Builder()
+                .client(builder.build())
+                .addConverterFactory(DsGsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(url)
+                .build();
+        return retrofit.create(HttpApi.class);
     }
-
-    /**
-     * 获取httpService
-     */
-    public HttpApi getHttpApi() {
-        return httpApi;
-    }
-
     /**
      * 设置订阅和所在的线程环境
      */
-    public <T> void toSubscribe(Observable<T> o, DisposableObserver<T> s) {
+    public static <T> void toSubscribe(Observable<T> o, DisposableObserver<T> s) {
         o.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

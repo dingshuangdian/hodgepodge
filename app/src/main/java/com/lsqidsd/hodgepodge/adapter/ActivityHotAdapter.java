@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.ViewHolder.LoadMoreHolder;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.databinding.Loadbinding;
@@ -53,6 +54,7 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             case LOAD_MORE:
                 loadbinding = DataBindingUtil.inflate(layoutInflater, R.layout.loadmore, parent, false);
                 viewHolder = new LoadMoreHolder(loadbinding);
+                break;
         }
         return viewHolder;
     }
@@ -64,14 +66,15 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             hotViewHolder.loadData(hotBeans.get(position));
         }
         if (holder instanceof LoadMoreHolder) {
-            LoadMoreHolder loadMoreHolder = (LoadMoreHolder) holder;
-            loadMoreHolder.loadMoreData();
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getActivityHotNews(page, b -> page++, hotBeans, refreshLayout));
         }
     }
+
     @Override
     public int getItemCount() {
         return hotBeans.size() + 1;
     }
+
     @Override
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()) {
@@ -102,19 +105,6 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
             itemHotBinding.setNewsitem(new HotViewModule(context, jsonArray, bean));
 
-        }
-    }
-
-    public class LoadMoreHolder extends RecyclerView.ViewHolder {
-        Loadbinding loadmoreBinding;
-
-        public LoadMoreHolder(@NonNull Loadbinding itemView) {
-            super(itemView.getRoot());
-            this.loadmoreBinding = itemView;
-        }
-
-        public void loadMoreData() {
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getActivityHotNews(page, b -> page++, hotBeans, refreshLayout));
         }
     }
 }

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.ViewHolder.LoadMoreHolder;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
@@ -87,8 +88,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (holder instanceof LoadMoreHolder) {
-            LoadMoreHolder loadMoreHolder = (LoadMoreHolder) holder;
-            loadMoreHolder.loadMoreData();
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getNewsData(page, b -> page++, newsMain, refreshLayout));
         } else if (holder instanceof YWViwHolder) {
             YWViwHolder ywViwHolder = (YWViwHolder) holder;
             NewsItem.DataBean dataBean = dataBeanList.get(position - 3);
@@ -145,17 +145,6 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    public class LoadMoreHolder extends ViewHolder {
-        Loadbinding loadmoreBinding;
-
-        public LoadMoreHolder(@NonNull Loadbinding itemView) {
-            super(itemView.getRoot());
-            this.loadmoreBinding = itemView;
-        }
-        public void loadMoreData() {
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getNewsData(page, b -> page++, newsMain, refreshLayout));
-        }
-    }
     public class TopHolder extends ViewHolder {
         TopBinding topBinding;
         JSONArray jsonArray = null;

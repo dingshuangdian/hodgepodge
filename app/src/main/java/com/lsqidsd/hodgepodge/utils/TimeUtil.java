@@ -1,7 +1,9 @@
 package com.lsqidsd.hodgepodge.utils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 public class TimeUtil {
     public static String formatTime(String time) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -25,5 +27,22 @@ public class TimeUtil {
         } else {
             return hour + "小时前";
         }
+    }
+    public static String formatTime_(int duration) {
+        int last = duration % 60;
+        String stringLast;
+        if (last <= 9) {
+            stringLast = "0" + last;
+        } else {
+            stringLast = last + "";
+        }
+        String durationString;
+        int minit = duration / 60;
+        if (minit < 10) {
+            durationString = "0" + minit;
+        } else {
+            durationString = "" + minit;
+        }
+        return durationString + "' " + stringLast + '"';
     }
 }

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.ViewHolder.LoadMoreHolder;
-import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
+import com.lsqidsd.hodgepodge.bean.AdVideos;
 import com.lsqidsd.hodgepodge.databinding.Loadbinding;
 import com.lsqidsd.hodgepodge.databinding.VideosItemBinding;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
@@ -18,46 +18,49 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.List;
 
-public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<NewsVideoItem.DataBean> videos;
+public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private List<AdVideos.ItemListBean> listBeans;
     private Context context;
-    private LayoutInflater inflate;
-    private final int NORMAL_ITEM = 0;
     private int page = 1;
-    private final int LOAD_MORE = -1;//上拉加载
+    private LayoutInflater layoutInflater;
     private RefreshLayout refreshLayout;
-    public VideoViewAdapter(List<NewsVideoItem.DataBean> videos, Context context, RefreshLayout refreshLayout) {
-        this.videos = videos;
+    private final int LOAD_MORE = -1;
+    private final int NORMAL = 1;
+
+    public VideoListAdapter(List<AdVideos.ItemListBean> listBeans, Context context, RefreshLayout refreshLayout) {
+        this.listBeans = listBeans;
         this.context = context;
-        this.inflate = LayoutInflater.from(context);
         this.refreshLayout = refreshLayout;
+        this.layoutInflater = LayoutInflater.from(context);
     }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
         VideosItemBinding videosItemBinding;
         Loadbinding loadbinding;
+
         switch (viewType) {
-            case NORMAL_ITEM:
-                videosItemBinding = DataBindingUtil.inflate(inflate, R.layout.videos_item, parent, false);
-                viewHolder = new VideoHolder(videosItemBinding);
+            case NORMAL:
+                videosItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.videos_item, parent, false);
+                viewHolder = new DataViewHolder(videosItemBinding);
                 break;
             case LOAD_MORE:
-                loadbinding = DataBindingUtil.inflate(inflate, R.layout.loadmore, parent, false);
+                loadbinding = DataBindingUtil.inflate(layoutInflater, R.layout.loadmore, parent, false);
                 viewHolder = new LoadMoreHolder(loadbinding);
                 break;
+
         }
         return viewHolder;
     }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof VideoHolder) {
-            VideoHolder videoHolder = (VideoHolder) holder;
-            videoHolder.bindData(videos.get(position));
-        }
         if (holder instanceof LoadMoreHolder) {
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getVideoList(page, b -> page++, videos, refreshLayout));
+            HttpModel.getVideo(page, listBeans, a -> page++, refreshLayout);
+        } else if (holder instanceof DataViewHolder) {
+            ((DataViewHolder) holder).initData(listBeans.get(position));
         }
     }
 
@@ -66,25 +69,28 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (position + 1 == getItemCount()) {
             return LOAD_MORE;
         } else {
-            return NORMAL_ITEM;
+            return NORMAL;
         }
     }
 
     @Override
     public int getItemCount() {
-        return videos.size() + 1;
+        return listBeans.size() + 1;
     }
 
-    public class VideoHolder extends RecyclerView.ViewHolder {
-        VideosItemBinding itemBinding;
+    public class DataViewHolder extends RecyclerView.ViewHolder {
+        VideosItemBinding binding;
 
-        public VideoHolder(VideosItemBinding itemView) {
+
+        public DataViewHolder(VideosItemBinding itemView) {
             super(itemView.getRoot());
-            itemBinding = itemView;
+            binding = itemView;
+
         }
 
-        public void bindData(NewsVideoItem.DataBean video) {
-            itemBinding.setVideoitem(new VideosViewModule(video, context));
+        public void initData(AdVideos.ItemListBean bean) {
+            binding.setVideoitem(new VideosViewModule(bean, context));
         }
+
     }
 }

@@ -1,9 +1,8 @@
 package com.lsqidsd.hodgepodge.base;
 
 public class BaseConstant {
-    public static String TOKEN = "349ee24cdf9327a050ddad8c166bd3e3";
     public static String BASE_URL = "https://pacaio.match.qq.com/";
-    public static String VIDEO_URL="http://baobab.kaiyanapp.com/";
+    public static String VIDEO_URL="http://baobab.kaiyanapp.com/api/v4/video/related?id=150606&page=0";
     /**
      * Jsoup
      */

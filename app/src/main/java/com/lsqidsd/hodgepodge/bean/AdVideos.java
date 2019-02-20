@@ -5,13 +5,12 @@ import java.util.List;
 public class AdVideos {
 
     /**
-     * itemList : [{"type":"videoSmallCard","data":{"dataType":"VideoBeanForClient","id":149929,"title":"让任何照片变成艺术品 | Apple","description":"iPhone XS 和 iPhone XR 上的深度控制「Depth Control」允许你调整景深以获得完美的背景模糊，将任何照片变成艺术品。","library":"DEFAULT","tags":[{"id":556,"name":"最近有什么黑科技","actionUrl":"eyepetizer://tag/556/?title=%E6%9C%80%E8%BF%91%E6%9C%89%E4%BB%80%E4%B9%88%E9%BB%91%E7%A7%91%E6%8A%80","adTrack":null,"desc":"在这里，见证世界的改变","bgPicture":"http://img.kaiyanapp.com/aa919a931bc1f73d5926183d660fa6ba.png?imageMogr2/quality/60/format/jpg","headerImage":"http://img.kaiyanapp.com/aa919a931bc1f73d5926183d660fa6ba.png?imageMogr2/quality/60/format/jpg","tagRecType":"IMPORTANT","childTagList":null,"childTagIdList":null,"communityIndex":0},{"id":16,"name":"广告","actionUrl":"eyepetizer://tag/16/?title=%E5%B9%BF%E5%91%8A","adTrack":null,"desc":"为广告人的精彩创意点赞","bgPicture":"http://img.kaiyanapp.com/e41e74fe73882b552de00d95d56748d2.jpeg?imageMogr2/quality/60","headerImage":"http://img.kaiyanapp.com/3054658dbd559ac42c4c282e9cab7a32.jpeg?imageMogr2/quality/100","tagRecType":"NORMAL","childTagList":null,"childTagIdList":null,"communityIndex":0},{"id":450,"name":"Apple","actionUrl":"eyepetizer://tag/450/?title=Apple","adTrack":null,"desc":null,"bgPicture":"http://img.kaiyanapp.com/b9c9e5b6ec99f982b07dba9a25d7f29c.png?imageMogr2/quality/60/format/jpg","headerImage":"http://img.kaiyanapp.com/b9c9e5b6ec99f982b07dba9a25d7f29c.png?imageMogr2/quality/60/format/jpg","tagRecType":"NORMAL","childTagList":null,"childTagIdList":null,"communityIndex":0}],"consumption":{"collectionCount":61,"shareCount":13,"replyCount":0},"resourceType":"video","slogan":null,"provider":{"name":"YouTube","alias":"youtube","icon":"http://img.kaiyanapp.com/fa20228bc5b921e837156923a58713f6.png"},"category":"广告","author":{"id":3462,"icon":"http://img.kaiyanapp.com/c643fc4c57f32e734de32689b67a1f0a.png?imageMogr2/quality/60/format/jpg","name":"Apple 苹果","description":"苹果公司「Apple Inc.」是总部位于美国加州库比蒂诺的跨国科技公司。创立于 1976 年 4 月 1 日，业务包括设计、开发和销售消费电子、计算机软件、在线服务和个人计算机。","link":"","latestReleaseTime":1550420438000,"videoNum":34,"adTrack":null,"follow":{"itemType":"author","itemId":3462,"followed":false},"shield":{"itemType":"author","itemId":3462,"shielded":false},"approvedNotReadyVideoCount":0,"ifPgc":true,"recSort":0,"expert":false},"cover":{"feed":"http://img.kaiyanapp.com/c00d99daff6d19d28f0a5529d1b3a95f.jpeg?imageMogr2/quality/60/format/jpg","detail":"http://img.kaiyanapp.com/c00d99daff6d19d28f0a5529d1b3a95f.jpeg?imageMogr2/quality/60/format/jpg","blurred":"http://img.kaiyanapp.com/dc9a8f73fdd7dcd4799ba9da5b1105d7.jpeg?imageMogr2/quality/60/format/jpg","sharing":null,"homepage":"http://img.kaiyanapp.com/c00d99daff6d19d28f0a5529d1b3a95f.jpeg?imageView2/1/w/720/h/560/format/jpg/q/75|watermark/1/image/aHR0cDovL2ltZy5rYWl5YW5hcHAuY29tL2JsYWNrXzMwLnBuZw==/dissolve/100/gravity/Center/dx/0/dy/0|imageslim"},"playUrl":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=default&source=aliyun","thumbPlayUrl":null,"duration":38,"webUrl":{"raw":"http://www.eyepetizer.net/detail.html?vid=149929","forWeibo":"http://www.eyepetizer.net/detail.html?vid=149929&resourceType=video&utm_campaign=routine&utm_medium=share&utm_source=weibo&uid=0"},"releaseTime":1550420438000,"playInfo":[{"height":480,"width":854,"urlList":[{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=aliyun","size":4554381},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=qcloud","size":4554381},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=ucloud","size":4554381}],"name":"标清","type":"normal","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=aliyun"},{"height":720,"width":1280,"urlList":[{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=high&source=aliyun","size":5902098},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=high&source=qcloud","size":5902098},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=high&source=ucloud","size":5902098}],"name":"高清","type":"high","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=high&source=aliyun"}],"campaign":null,"waterMarks":null,"ad":false,"adTrack":null,"type":"NORMAL","titlePgc":null,"descriptionPgc":null,"remark":null,"ifLimitVideo":false,"searchWeight":0,"idx":0,"shareAdTrack":null,"favoriteAdTrack":null,"webAdTrack":null,"date":1550420438000,"promotion":null,"label":null,"labelList":[],"descriptionEditor":"iPhone XS 和 iPhone XR 上的深度控制「Depth Control」允许你调整景深以获得完美的背景模糊，将任何照片变成艺术品。","collected":false,"played":false,"subtitles":[],"lastViewTime":null,"playlists":null,"src":null},"tag":null,"id":0,"adIndex":-1}]
+     * itemList : [{"type":"videoSmallCard","data":{"dataType":"VideoBeanForClient","id":121648,"title":"味增汤食用哲学：感受宇宙的脉搏","description":"DJ MARUKOME 是一位通过全球音乐传播日本「味噌」和「发酵」文化的艺术家。短片中他将味增汤和音乐、自然现象相结合研究，把你习以为常的美食吹出别样「彩虹屁」。下次再吃，是不是要重新认识一下了？From DJ MARUKOME","library":"DAILY","tags":[{"id":748,"name":"这些广告超有梗","actionUrl":"eyepetizer://tag/748/?title=%E8%BF%99%E4%BA%9B%E5%B9%BF%E5%91%8A%E8%B6%85%E6%9C%89%E6%A2%97","adTrack":null,"desc":null,"bgPicture":"http://img.kaiyanapp.com/9056413cfeffaf0c841d894390aa8e08.jpeg?imageMogr2/quality/60/format/jpg","headerImage":"http://img.kaiyanapp.com/ff0f6d0ad5f4b6211a3f746aaaffd916.jpeg?imageMogr2/quality/60/format/jpg","tagRecType":"IMPORTANT","childTagList":null,"childTagIdList":null,"communityIndex":0},{"id":384,"name":"日本广告","actionUrl":"eyepetizer://tag/384/?title=%E6%97%A5%E6%9C%AC%E5%B9%BF%E5%91%8A","adTrack":null,"desc":null,"bgPicture":"http://img.kaiyanapp.com/f634bdddac9a0002cfdd023c65b6b58d.jpeg?imageMogr2/quality/60/format/jpg","headerImage":"http://img.kaiyanapp.com/52c3b499903ed3a5a179a87be706e9fa.jpeg?imageMogr2/quality/60/format/jpg","tagRecType":"NORMAL","childTagList":null,"childTagIdList":null,"communityIndex":0},{"id":16,"name":"广告","actionUrl":"eyepetizer://tag/16/?title=%E5%B9%BF%E5%91%8A","adTrack":null,"desc":"为广告人的精彩创意点赞","bgPicture":"http://img.kaiyanapp.com/e41e74fe73882b552de00d95d56748d2.jpeg?imageMogr2/quality/60","headerImage":"http://img.kaiyanapp.com/3054658dbd559ac42c4c282e9cab7a32.jpeg?imageMogr2/quality/100","tagRecType":"NORMAL","childTagList":null,"childTagIdList":null,"communityIndex":0}],"consumption":{"collectionCount":247,"shareCount":111,"replyCount":7},"resourceType":"video","slogan":"只是一碗汤，就能窥探全世界","provider":{"name":"YouTube","alias":"youtube","icon":"http://img.kaiyanapp.com/fa20228bc5b921e837156923a58713f6.png"},"category":"广告","author":{"id":2162,"icon":"http://img.kaiyanapp.com/98beab66d3885a139b54f21e91817c4f.jpeg","name":"开眼广告精选","description":"为广告人的精彩创意点赞","link":"","latestReleaseTime":1550624400000,"videoNum":1094,"adTrack":null,"follow":{"itemType":"author","itemId":2162,"followed":false},"shield":{"itemType":"author","itemId":2162,"shielded":false},"approvedNotReadyVideoCount":0,"ifPgc":true,"recSort":0,"expert":false},"cover":{"feed":"http://img.kaiyanapp.com/e5fc514ba5108da7e5927896009fd82e.png?imageMogr2/quality/60/format/jpg","detail":"http://img.kaiyanapp.com/e5fc514ba5108da7e5927896009fd82e.png?imageMogr2/quality/60/format/jpg","blurred":"http://img.kaiyanapp.com/4fd845482671441fd33b97a551ed43dd.png?imageMogr2/quality/60/format/jpg","sharing":null,"homepage":"http://img.kaiyanapp.com/e5fc514ba5108da7e5927896009fd82e.png?imageView2/1/w/720/h/560/format/jpg/q/75|watermark/1/image/aHR0cDovL2ltZy5rYWl5YW5hcHAuY29tL2JsYWNrXzMwLnBuZw==/dissolve/100/gravity/Center/dx/0/dy/0|imageslim"},"playUrl":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=default&source=aliyun","thumbPlayUrl":null,"duration":106,"webUrl":{"raw":"http://www.eyepetizer.net/detail.html?vid=121648","forWeibo":"http://www.eyepetizer.net/detail.html?vid=121648&resourceType=video&utm_campaign=routine&utm_medium=share&utm_source=weibo&uid=0"},"releaseTime":1550365204000,"playInfo":[{"height":480,"width":854,"urlList":[{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=aliyun","size":11659839},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=qcloud","size":11659839},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=ucloud","size":11659839}],"name":"标清","type":"normal","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=aliyun"},{"height":720,"width":1280,"urlList":[{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=high&source=aliyun","size":19880968},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=high&source=qcloud","size":19880968},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=high&source=ucloud","size":19880968}],"name":"高清","type":"high","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=high&source=aliyun"}],"campaign":null,"waterMarks":null,"ad":false,"adTrack":null,"type":"NORMAL","titlePgc":null,"descriptionPgc":null,"remark":null,"ifLimitVideo":false,"searchWeight":0,"idx":0,"shareAdTrack":null,"favoriteAdTrack":null,"webAdTrack":null,"date":1550365204000,"promotion":null,"label":null,"labelList":[],"descriptionEditor":"DJ MARUKOME 是一位通过全球音乐传播日本「味噌」和「发酵」文化的艺术家。短片中他将味增汤和音乐、自然现象相结合研究，把你习以为常的美食吹出别样「彩虹屁」。下次再吃，是不是要重新认识一下了？From DJ MARUKOME","collected":false,"played":false,"subtitles":[],"lastViewTime":null,"playlists":null,"src":null},"tag":null,"id":0,"adIndex":-1}]
      * count : 30
      * total : 0
      * nextPageUrl : null
      * adExist : false
      */
-
     private int count;
     private int total;
     private Object nextPageUrl;
@@ -61,17 +60,17 @@ public class AdVideos {
     public static class ItemListBean {
         /**
          * type : videoSmallCard
-         * data : {"dataType":"VideoBeanForClient","id":149929,"title":"让任何照片变成艺术品 | Apple","description":"iPhone XS 和 iPhone XR 上的深度控制「Depth Control」允许你调整景深以获得完美的背景模糊，将任何照片变成艺术品。","library":"DEFAULT","tags":[{"id":556,"name":"最近有什么黑科技","actionUrl":"eyepetizer://tag/556/?title=%E6%9C%80%E8%BF%91%E6%9C%89%E4%BB%80%E4%B9%88%E9%BB%91%E7%A7%91%E6%8A%80","adTrack":null,"desc":"在这里，见证世界的改变","bgPicture":"http://img.kaiyanapp.com/aa919a931bc1f73d5926183d660fa6ba.png?imageMogr2/quality/60/format/jpg","headerImage":"http://img.kaiyanapp.com/aa919a931bc1f73d5926183d660fa6ba.png?imageMogr2/quality/60/format/jpg","tagRecType":"IMPORTANT","childTagList":null,"childTagIdList":null,"communityIndex":0},{"id":16,"name":"广告","actionUrl":"eyepetizer://tag/16/?title=%E5%B9%BF%E5%91%8A","adTrack":null,"desc":"为广告人的精彩创意点赞","bgPicture":"http://img.kaiyanapp.com/e41e74fe73882b552de00d95d56748d2.jpeg?imageMogr2/quality/60","headerImage":"http://img.kaiyanapp.com/3054658dbd559ac42c4c282e9cab7a32.jpeg?imageMogr2/quality/100","tagRecType":"NORMAL","childTagList":null,"childTagIdList":null,"communityIndex":0},{"id":450,"name":"Apple","actionUrl":"eyepetizer://tag/450/?title=Apple","adTrack":null,"desc":null,"bgPicture":"http://img.kaiyanapp.com/b9c9e5b6ec99f982b07dba9a25d7f29c.png?imageMogr2/quality/60/format/jpg","headerImage":"http://img.kaiyanapp.com/b9c9e5b6ec99f982b07dba9a25d7f29c.png?imageMogr2/quality/60/format/jpg","tagRecType":"NORMAL","childTagList":null,"childTagIdList":null,"communityIndex":0}],"consumption":{"collectionCount":61,"shareCount":13,"replyCount":0},"resourceType":"video","slogan":null,"provider":{"name":"YouTube","alias":"youtube","icon":"http://img.kaiyanapp.com/fa20228bc5b921e837156923a58713f6.png"},"category":"广告","author":{"id":3462,"icon":"http://img.kaiyanapp.com/c643fc4c57f32e734de32689b67a1f0a.png?imageMogr2/quality/60/format/jpg","name":"Apple 苹果","description":"苹果公司「Apple Inc.」是总部位于美国加州库比蒂诺的跨国科技公司。创立于 1976 年 4 月 1 日，业务包括设计、开发和销售消费电子、计算机软件、在线服务和个人计算机。","link":"","latestReleaseTime":1550420438000,"videoNum":34,"adTrack":null,"follow":{"itemType":"author","itemId":3462,"followed":false},"shield":{"itemType":"author","itemId":3462,"shielded":false},"approvedNotReadyVideoCount":0,"ifPgc":true,"recSort":0,"expert":false},"cover":{"feed":"http://img.kaiyanapp.com/c00d99daff6d19d28f0a5529d1b3a95f.jpeg?imageMogr2/quality/60/format/jpg","detail":"http://img.kaiyanapp.com/c00d99daff6d19d28f0a5529d1b3a95f.jpeg?imageMogr2/quality/60/format/jpg","blurred":"http://img.kaiyanapp.com/dc9a8f73fdd7dcd4799ba9da5b1105d7.jpeg?imageMogr2/quality/60/format/jpg","sharing":null,"homepage":"http://img.kaiyanapp.com/c00d99daff6d19d28f0a5529d1b3a95f.jpeg?imageView2/1/w/720/h/560/format/jpg/q/75|watermark/1/image/aHR0cDovL2ltZy5rYWl5YW5hcHAuY29tL2JsYWNrXzMwLnBuZw==/dissolve/100/gravity/Center/dx/0/dy/0|imageslim"},"playUrl":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=default&source=aliyun","thumbPlayUrl":null,"duration":38,"webUrl":{"raw":"http://www.eyepetizer.net/detail.html?vid=149929","forWeibo":"http://www.eyepetizer.net/detail.html?vid=149929&resourceType=video&utm_campaign=routine&utm_medium=share&utm_source=weibo&uid=0"},"releaseTime":1550420438000,"playInfo":[{"height":480,"width":854,"urlList":[{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=aliyun","size":4554381},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=qcloud","size":4554381},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=ucloud","size":4554381}],"name":"标清","type":"normal","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=aliyun"},{"height":720,"width":1280,"urlList":[{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=high&source=aliyun","size":5902098},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=high&source=qcloud","size":5902098},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=high&source=ucloud","size":5902098}],"name":"高清","type":"high","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=high&source=aliyun"}],"campaign":null,"waterMarks":null,"ad":false,"adTrack":null,"type":"NORMAL","titlePgc":null,"descriptionPgc":null,"remark":null,"ifLimitVideo":false,"searchWeight":0,"idx":0,"shareAdTrack":null,"favoriteAdTrack":null,"webAdTrack":null,"date":1550420438000,"promotion":null,"label":null,"labelList":[],"descriptionEditor":"iPhone XS 和 iPhone XR 上的深度控制「Depth Control」允许你调整景深以获得完美的背景模糊，将任何照片变成艺术品。","collected":false,"played":false,"subtitles":[],"lastViewTime":null,"playlists":null,"src":null}
+         * data : {"dataType":"VideoBeanForClient","id":121648,"title":"味增汤食用哲学：感受宇宙的脉搏","description":"DJ MARUKOME 是一位通过全球音乐传播日本「味噌」和「发酵」文化的艺术家。短片中他将味增汤和音乐、自然现象相结合研究，把你习以为常的美食吹出别样「彩虹屁」。下次再吃，是不是要重新认识一下了？From DJ MARUKOME","library":"DAILY","tags":[{"id":748,"name":"这些广告超有梗","actionUrl":"eyepetizer://tag/748/?title=%E8%BF%99%E4%BA%9B%E5%B9%BF%E5%91%8A%E8%B6%85%E6%9C%89%E6%A2%97","adTrack":null,"desc":null,"bgPicture":"http://img.kaiyanapp.com/9056413cfeffaf0c841d894390aa8e08.jpeg?imageMogr2/quality/60/format/jpg","headerImage":"http://img.kaiyanapp.com/ff0f6d0ad5f4b6211a3f746aaaffd916.jpeg?imageMogr2/quality/60/format/jpg","tagRecType":"IMPORTANT","childTagList":null,"childTagIdList":null,"communityIndex":0},{"id":384,"name":"日本广告","actionUrl":"eyepetizer://tag/384/?title=%E6%97%A5%E6%9C%AC%E5%B9%BF%E5%91%8A","adTrack":null,"desc":null,"bgPicture":"http://img.kaiyanapp.com/f634bdddac9a0002cfdd023c65b6b58d.jpeg?imageMogr2/quality/60/format/jpg","headerImage":"http://img.kaiyanapp.com/52c3b499903ed3a5a179a87be706e9fa.jpeg?imageMogr2/quality/60/format/jpg","tagRecType":"NORMAL","childTagList":null,"childTagIdList":null,"communityIndex":0},{"id":16,"name":"广告","actionUrl":"eyepetizer://tag/16/?title=%E5%B9%BF%E5%91%8A","adTrack":null,"desc":"为广告人的精彩创意点赞","bgPicture":"http://img.kaiyanapp.com/e41e74fe73882b552de00d95d56748d2.jpeg?imageMogr2/quality/60","headerImage":"http://img.kaiyanapp.com/3054658dbd559ac42c4c282e9cab7a32.jpeg?imageMogr2/quality/100","tagRecType":"NORMAL","childTagList":null,"childTagIdList":null,"communityIndex":0}],"consumption":{"collectionCount":247,"shareCount":111,"replyCount":7},"resourceType":"video","slogan":"只是一碗汤，就能窥探全世界","provider":{"name":"YouTube","alias":"youtube","icon":"http://img.kaiyanapp.com/fa20228bc5b921e837156923a58713f6.png"},"category":"广告","author":{"id":2162,"icon":"http://img.kaiyanapp.com/98beab66d3885a139b54f21e91817c4f.jpeg","name":"开眼广告精选","description":"为广告人的精彩创意点赞","link":"","latestReleaseTime":1550624400000,"videoNum":1094,"adTrack":null,"follow":{"itemType":"author","itemId":2162,"followed":false},"shield":{"itemType":"author","itemId":2162,"shielded":false},"approvedNotReadyVideoCount":0,"ifPgc":true,"recSort":0,"expert":false},"cover":{"feed":"http://img.kaiyanapp.com/e5fc514ba5108da7e5927896009fd82e.png?imageMogr2/quality/60/format/jpg","detail":"http://img.kaiyanapp.com/e5fc514ba5108da7e5927896009fd82e.png?imageMogr2/quality/60/format/jpg","blurred":"http://img.kaiyanapp.com/4fd845482671441fd33b97a551ed43dd.png?imageMogr2/quality/60/format/jpg","sharing":null,"homepage":"http://img.kaiyanapp.com/e5fc514ba5108da7e5927896009fd82e.png?imageView2/1/w/720/h/560/format/jpg/q/75|watermark/1/image/aHR0cDovL2ltZy5rYWl5YW5hcHAuY29tL2JsYWNrXzMwLnBuZw==/dissolve/100/gravity/Center/dx/0/dy/0|imageslim"},"playUrl":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=default&source=aliyun","thumbPlayUrl":null,"duration":106,"webUrl":{"raw":"http://www.eyepetizer.net/detail.html?vid=121648","forWeibo":"http://www.eyepetizer.net/detail.html?vid=121648&resourceType=video&utm_campaign=routine&utm_medium=share&utm_source=weibo&uid=0"},"releaseTime":1550365204000,"playInfo":[{"height":480,"width":854,"urlList":[{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=aliyun","size":11659839},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=qcloud","size":11659839},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=ucloud","size":11659839}],"name":"标清","type":"normal","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=aliyun"},{"height":720,"width":1280,"urlList":[{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=high&source=aliyun","size":19880968},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=high&source=qcloud","size":19880968},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=high&source=ucloud","size":19880968}],"name":"高清","type":"high","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=high&source=aliyun"}],"campaign":null,"waterMarks":null,"ad":false,"adTrack":null,"type":"NORMAL","titlePgc":null,"descriptionPgc":null,"remark":null,"ifLimitVideo":false,"searchWeight":0,"idx":0,"shareAdTrack":null,"favoriteAdTrack":null,"webAdTrack":null,"date":1550365204000,"promotion":null,"label":null,"labelList":[],"descriptionEditor":"DJ MARUKOME 是一位通过全球音乐传播日本「味噌」和「发酵」文化的艺术家。短片中他将味增汤和音乐、自然现象相结合研究，把你习以为常的美食吹出别样「彩虹屁」。下次再吃，是不是要重新认识一下了？From DJ MARUKOME","collected":false,"played":false,"subtitles":[],"lastViewTime":null,"playlists":null,"src":null}
          * tag : null
          * id : 0
          * adIndex : -1
          */
-
         private String type;
         private DataBean data;
         private Object tag;
         private int id;
         private int adIndex;
+
 
         public String getType() {
             return type;
@@ -116,24 +115,24 @@ public class AdVideos {
         public static class DataBean {
             /**
              * dataType : VideoBeanForClient
-             * id : 149929
-             * title : 让任何照片变成艺术品 | Apple
-             * description : iPhone XS 和 iPhone XR 上的深度控制「Depth Control」允许你调整景深以获得完美的背景模糊，将任何照片变成艺术品。
-             * library : DEFAULT
-             * tags : [{"id":556,"name":"最近有什么黑科技","actionUrl":"eyepetizer://tag/556/?title=%E6%9C%80%E8%BF%91%E6%9C%89%E4%BB%80%E4%B9%88%E9%BB%91%E7%A7%91%E6%8A%80","adTrack":null,"desc":"在这里，见证世界的改变","bgPicture":"http://img.kaiyanapp.com/aa919a931bc1f73d5926183d660fa6ba.png?imageMogr2/quality/60/format/jpg","headerImage":"http://img.kaiyanapp.com/aa919a931bc1f73d5926183d660fa6ba.png?imageMogr2/quality/60/format/jpg","tagRecType":"IMPORTANT","childTagList":null,"childTagIdList":null,"communityIndex":0},{"id":16,"name":"广告","actionUrl":"eyepetizer://tag/16/?title=%E5%B9%BF%E5%91%8A","adTrack":null,"desc":"为广告人的精彩创意点赞","bgPicture":"http://img.kaiyanapp.com/e41e74fe73882b552de00d95d56748d2.jpeg?imageMogr2/quality/60","headerImage":"http://img.kaiyanapp.com/3054658dbd559ac42c4c282e9cab7a32.jpeg?imageMogr2/quality/100","tagRecType":"NORMAL","childTagList":null,"childTagIdList":null,"communityIndex":0},{"id":450,"name":"Apple","actionUrl":"eyepetizer://tag/450/?title=Apple","adTrack":null,"desc":null,"bgPicture":"http://img.kaiyanapp.com/b9c9e5b6ec99f982b07dba9a25d7f29c.png?imageMogr2/quality/60/format/jpg","headerImage":"http://img.kaiyanapp.com/b9c9e5b6ec99f982b07dba9a25d7f29c.png?imageMogr2/quality/60/format/jpg","tagRecType":"NORMAL","childTagList":null,"childTagIdList":null,"communityIndex":0}]
-             * consumption : {"collectionCount":61,"shareCount":13,"replyCount":0}
+             * id : 121648
+             * title : 味增汤食用哲学：感受宇宙的脉搏
+             * description : DJ MARUKOME 是一位通过全球音乐传播日本「味噌」和「发酵」文化的艺术家。短片中他将味增汤和音乐、自然现象相结合研究，把你习以为常的美食吹出别样「彩虹屁」。下次再吃，是不是要重新认识一下了？From DJ MARUKOME
+             * library : DAILY
+             * tags : [{"id":748,"name":"这些广告超有梗","actionUrl":"eyepetizer://tag/748/?title=%E8%BF%99%E4%BA%9B%E5%B9%BF%E5%91%8A%E8%B6%85%E6%9C%89%E6%A2%97","adTrack":null,"desc":null,"bgPicture":"http://img.kaiyanapp.com/9056413cfeffaf0c841d894390aa8e08.jpeg?imageMogr2/quality/60/format/jpg","headerImage":"http://img.kaiyanapp.com/ff0f6d0ad5f4b6211a3f746aaaffd916.jpeg?imageMogr2/quality/60/format/jpg","tagRecType":"IMPORTANT","childTagList":null,"childTagIdList":null,"communityIndex":0},{"id":384,"name":"日本广告","actionUrl":"eyepetizer://tag/384/?title=%E6%97%A5%E6%9C%AC%E5%B9%BF%E5%91%8A","adTrack":null,"desc":null,"bgPicture":"http://img.kaiyanapp.com/f634bdddac9a0002cfdd023c65b6b58d.jpeg?imageMogr2/quality/60/format/jpg","headerImage":"http://img.kaiyanapp.com/52c3b499903ed3a5a179a87be706e9fa.jpeg?imageMogr2/quality/60/format/jpg","tagRecType":"NORMAL","childTagList":null,"childTagIdList":null,"communityIndex":0},{"id":16,"name":"广告","actionUrl":"eyepetizer://tag/16/?title=%E5%B9%BF%E5%91%8A","adTrack":null,"desc":"为广告人的精彩创意点赞","bgPicture":"http://img.kaiyanapp.com/e41e74fe73882b552de00d95d56748d2.jpeg?imageMogr2/quality/60","headerImage":"http://img.kaiyanapp.com/3054658dbd559ac42c4c282e9cab7a32.jpeg?imageMogr2/quality/100","tagRecType":"NORMAL","childTagList":null,"childTagIdList":null,"communityIndex":0}]
+             * consumption : {"collectionCount":247,"shareCount":111,"replyCount":7}
              * resourceType : video
-             * slogan : null
+             * slogan : 只是一碗汤，就能窥探全世界
              * provider : {"name":"YouTube","alias":"youtube","icon":"http://img.kaiyanapp.com/fa20228bc5b921e837156923a58713f6.png"}
              * category : 广告
-             * author : {"id":3462,"icon":"http://img.kaiyanapp.com/c643fc4c57f32e734de32689b67a1f0a.png?imageMogr2/quality/60/format/jpg","name":"Apple 苹果","description":"苹果公司「Apple Inc.」是总部位于美国加州库比蒂诺的跨国科技公司。创立于 1976 年 4 月 1 日，业务包括设计、开发和销售消费电子、计算机软件、在线服务和个人计算机。","link":"","latestReleaseTime":1550420438000,"videoNum":34,"adTrack":null,"follow":{"itemType":"author","itemId":3462,"followed":false},"shield":{"itemType":"author","itemId":3462,"shielded":false},"approvedNotReadyVideoCount":0,"ifPgc":true,"recSort":0,"expert":false}
-             * cover : {"feed":"http://img.kaiyanapp.com/c00d99daff6d19d28f0a5529d1b3a95f.jpeg?imageMogr2/quality/60/format/jpg","detail":"http://img.kaiyanapp.com/c00d99daff6d19d28f0a5529d1b3a95f.jpeg?imageMogr2/quality/60/format/jpg","blurred":"http://img.kaiyanapp.com/dc9a8f73fdd7dcd4799ba9da5b1105d7.jpeg?imageMogr2/quality/60/format/jpg","sharing":null,"homepage":"http://img.kaiyanapp.com/c00d99daff6d19d28f0a5529d1b3a95f.jpeg?imageView2/1/w/720/h/560/format/jpg/q/75|watermark/1/image/aHR0cDovL2ltZy5rYWl5YW5hcHAuY29tL2JsYWNrXzMwLnBuZw==/dissolve/100/gravity/Center/dx/0/dy/0|imageslim"}
-             * playUrl : http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=default&source=aliyun
+             * author : {"id":2162,"icon":"http://img.kaiyanapp.com/98beab66d3885a139b54f21e91817c4f.jpeg","name":"开眼广告精选","description":"为广告人的精彩创意点赞","link":"","latestReleaseTime":1550624400000,"videoNum":1094,"adTrack":null,"follow":{"itemType":"author","itemId":2162,"followed":false},"shield":{"itemType":"author","itemId":2162,"shielded":false},"approvedNotReadyVideoCount":0,"ifPgc":true,"recSort":0,"expert":false}
+             * cover : {"feed":"http://img.kaiyanapp.com/e5fc514ba5108da7e5927896009fd82e.png?imageMogr2/quality/60/format/jpg","detail":"http://img.kaiyanapp.com/e5fc514ba5108da7e5927896009fd82e.png?imageMogr2/quality/60/format/jpg","blurred":"http://img.kaiyanapp.com/4fd845482671441fd33b97a551ed43dd.png?imageMogr2/quality/60/format/jpg","sharing":null,"homepage":"http://img.kaiyanapp.com/e5fc514ba5108da7e5927896009fd82e.png?imageView2/1/w/720/h/560/format/jpg/q/75|watermark/1/image/aHR0cDovL2ltZy5rYWl5YW5hcHAuY29tL2JsYWNrXzMwLnBuZw==/dissolve/100/gravity/Center/dx/0/dy/0|imageslim"}
+             * playUrl : http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=default&source=aliyun
              * thumbPlayUrl : null
-             * duration : 38
-             * webUrl : {"raw":"http://www.eyepetizer.net/detail.html?vid=149929","forWeibo":"http://www.eyepetizer.net/detail.html?vid=149929&resourceType=video&utm_campaign=routine&utm_medium=share&utm_source=weibo&uid=0"}
-             * releaseTime : 1550420438000
-             * playInfo : [{"height":480,"width":854,"urlList":[{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=aliyun","size":4554381},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=qcloud","size":4554381},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=ucloud","size":4554381}],"name":"标清","type":"normal","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=aliyun"},{"height":720,"width":1280,"urlList":[{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=high&source=aliyun","size":5902098},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=high&source=qcloud","size":5902098},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=high&source=ucloud","size":5902098}],"name":"高清","type":"high","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=high&source=aliyun"}]
+             * duration : 106
+             * webUrl : {"raw":"http://www.eyepetizer.net/detail.html?vid=121648","forWeibo":"http://www.eyepetizer.net/detail.html?vid=121648&resourceType=video&utm_campaign=routine&utm_medium=share&utm_source=weibo&uid=0"}
+             * releaseTime : 1550365204000
+             * playInfo : [{"height":480,"width":854,"urlList":[{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=aliyun","size":11659839},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=qcloud","size":11659839},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=ucloud","size":11659839}],"name":"标清","type":"normal","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=aliyun"},{"height":720,"width":1280,"urlList":[{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=high&source=aliyun","size":19880968},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=high&source=qcloud","size":19880968},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=high&source=ucloud","size":19880968}],"name":"高清","type":"high","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=high&source=aliyun"}]
              * campaign : null
              * waterMarks : null
              * ad : false
@@ -148,11 +147,11 @@ public class AdVideos {
              * shareAdTrack : null
              * favoriteAdTrack : null
              * webAdTrack : null
-             * date : 1550420438000
+             * date : 1550365204000
              * promotion : null
              * label : null
              * labelList : []
-             * descriptionEditor : iPhone XS 和 iPhone XR 上的深度控制「Depth Control」允许你调整景深以获得完美的背景模糊，将任何照片变成艺术品。
+             * descriptionEditor : DJ MARUKOME 是一位通过全球音乐传播日本「味噌」和「发酵」文化的艺术家。短片中他将味增汤和音乐、自然现象相结合研究，把你习以为常的美食吹出别样「彩虹屁」。下次再吃，是不是要重新认识一下了？From DJ MARUKOME
              * collected : false
              * played : false
              * subtitles : []
@@ -160,15 +159,20 @@ public class AdVideos {
              * playlists : null
              * src : null
              */
-
             private String dataType;
             private int id;
+            private String type;
+            private String text;
+            private Object subTitle;
+            private String actionUrl;
+            private Object adTrack;
+            private Object follow;
             private String title;
             private String description;
             private String library;
             private ConsumptionBean consumption;
             private String resourceType;
-            private Object slogan;
+            private String slogan;
             private ProviderBean provider;
             private String category;
             private AuthorBean author;
@@ -181,8 +185,6 @@ public class AdVideos {
             private Object campaign;
             private Object waterMarks;
             private boolean ad;
-            private Object adTrack;
-            private String type;
             private Object titlePgc;
             private Object descriptionPgc;
             private Object remark;
@@ -212,6 +214,38 @@ public class AdVideos {
 
             public void setDataType(String dataType) {
                 this.dataType = dataType;
+            }
+
+            public String getText() {
+                return text;
+            }
+
+            public void setText(String text) {
+                this.text = text;
+            }
+
+            public Object getSubTitle() {
+                return subTitle;
+            }
+
+            public void setSubTitle(Object subTitle) {
+                this.subTitle = subTitle;
+            }
+
+            public String getActionUrl() {
+                return actionUrl;
+            }
+
+            public void setActionUrl(String actionUrl) {
+                this.actionUrl = actionUrl;
+            }
+
+            public Object getFollow() {
+                return follow;
+            }
+
+            public void setFollow(Object follow) {
+                this.follow = follow;
             }
 
             public int getId() {
@@ -262,11 +296,11 @@ public class AdVideos {
                 this.resourceType = resourceType;
             }
 
-            public Object getSlogan() {
+            public String getSlogan() {
                 return slogan;
             }
 
-            public void setSlogan(Object slogan) {
+            public void setSlogan(String slogan) {
                 this.slogan = slogan;
             }
 
@@ -560,9 +594,9 @@ public class AdVideos {
 
             public static class ConsumptionBean {
                 /**
-                 * collectionCount : 61
-                 * shareCount : 13
-                 * replyCount : 0
+                 * collectionCount : 247
+                 * shareCount : 111
+                 * replyCount : 7
                  */
 
                 private int collectionCount;
@@ -632,16 +666,16 @@ public class AdVideos {
 
             public static class AuthorBean {
                 /**
-                 * id : 3462
-                 * icon : http://img.kaiyanapp.com/c643fc4c57f32e734de32689b67a1f0a.png?imageMogr2/quality/60/format/jpg
-                 * name : Apple 苹果
-                 * description : 苹果公司「Apple Inc.」是总部位于美国加州库比蒂诺的跨国科技公司。创立于 1976 年 4 月 1 日，业务包括设计、开发和销售消费电子、计算机软件、在线服务和个人计算机。
+                 * id : 2162
+                 * icon : http://img.kaiyanapp.com/98beab66d3885a139b54f21e91817c4f.jpeg
+                 * name : 开眼广告精选
+                 * description : 为广告人的精彩创意点赞
                  * link :
-                 * latestReleaseTime : 1550420438000
-                 * videoNum : 34
+                 * latestReleaseTime : 1550624400000
+                 * videoNum : 1094
                  * adTrack : null
-                 * follow : {"itemType":"author","itemId":3462,"followed":false}
-                 * shield : {"itemType":"author","itemId":3462,"shielded":false}
+                 * follow : {"itemType":"author","itemId":2162,"followed":false}
+                 * shield : {"itemType":"author","itemId":2162,"shielded":false}
                  * approvedNotReadyVideoCount : 0
                  * ifPgc : true
                  * recSort : 0
@@ -778,7 +812,7 @@ public class AdVideos {
                 public static class FollowBean {
                     /**
                      * itemType : author
-                     * itemId : 3462
+                     * itemId : 2162
                      * followed : false
                      */
 
@@ -814,7 +848,7 @@ public class AdVideos {
                 public static class ShieldBean {
                     /**
                      * itemType : author
-                     * itemId : 3462
+                     * itemId : 2162
                      * shielded : false
                      */
 
@@ -850,11 +884,11 @@ public class AdVideos {
 
             public static class CoverBean {
                 /**
-                 * feed : http://img.kaiyanapp.com/c00d99daff6d19d28f0a5529d1b3a95f.jpeg?imageMogr2/quality/60/format/jpg
-                 * detail : http://img.kaiyanapp.com/c00d99daff6d19d28f0a5529d1b3a95f.jpeg?imageMogr2/quality/60/format/jpg
-                 * blurred : http://img.kaiyanapp.com/dc9a8f73fdd7dcd4799ba9da5b1105d7.jpeg?imageMogr2/quality/60/format/jpg
+                 * feed : http://img.kaiyanapp.com/e5fc514ba5108da7e5927896009fd82e.png?imageMogr2/quality/60/format/jpg
+                 * detail : http://img.kaiyanapp.com/e5fc514ba5108da7e5927896009fd82e.png?imageMogr2/quality/60/format/jpg
+                 * blurred : http://img.kaiyanapp.com/4fd845482671441fd33b97a551ed43dd.png?imageMogr2/quality/60/format/jpg
                  * sharing : null
-                 * homepage : http://img.kaiyanapp.com/c00d99daff6d19d28f0a5529d1b3a95f.jpeg?imageView2/1/w/720/h/560/format/jpg/q/75|watermark/1/image/aHR0cDovL2ltZy5rYWl5YW5hcHAuY29tL2JsYWNrXzMwLnBuZw==/dissolve/100/gravity/Center/dx/0/dy/0|imageslim
+                 * homepage : http://img.kaiyanapp.com/e5fc514ba5108da7e5927896009fd82e.png?imageView2/1/w/720/h/560/format/jpg/q/75|watermark/1/image/aHR0cDovL2ltZy5rYWl5YW5hcHAuY29tL2JsYWNrXzMwLnBuZw==/dissolve/100/gravity/Center/dx/0/dy/0|imageslim
                  */
 
                 private String feed;
@@ -906,8 +940,8 @@ public class AdVideos {
 
             public static class WebUrlBean {
                 /**
-                 * raw : http://www.eyepetizer.net/detail.html?vid=149929
-                 * forWeibo : http://www.eyepetizer.net/detail.html?vid=149929&resourceType=video&utm_campaign=routine&utm_medium=share&utm_source=weibo&uid=0
+                 * raw : http://www.eyepetizer.net/detail.html?vid=121648
+                 * forWeibo : http://www.eyepetizer.net/detail.html?vid=121648&resourceType=video&utm_campaign=routine&utm_medium=share&utm_source=weibo&uid=0
                  */
 
                 private String raw;
@@ -932,13 +966,13 @@ public class AdVideos {
 
             public static class TagsBean {
                 /**
-                 * id : 556
-                 * name : 最近有什么黑科技
-                 * actionUrl : eyepetizer://tag/556/?title=%E6%9C%80%E8%BF%91%E6%9C%89%E4%BB%80%E4%B9%88%E9%BB%91%E7%A7%91%E6%8A%80
+                 * id : 748
+                 * name : 这些广告超有梗
+                 * actionUrl : eyepetizer://tag/748/?title=%E8%BF%99%E4%BA%9B%E5%B9%BF%E5%91%8A%E8%B6%85%E6%9C%89%E6%A2%97
                  * adTrack : null
-                 * desc : 在这里，见证世界的改变
-                 * bgPicture : http://img.kaiyanapp.com/aa919a931bc1f73d5926183d660fa6ba.png?imageMogr2/quality/60/format/jpg
-                 * headerImage : http://img.kaiyanapp.com/aa919a931bc1f73d5926183d660fa6ba.png?imageMogr2/quality/60/format/jpg
+                 * desc : null
+                 * bgPicture : http://img.kaiyanapp.com/9056413cfeffaf0c841d894390aa8e08.jpeg?imageMogr2/quality/60/format/jpg
+                 * headerImage : http://img.kaiyanapp.com/ff0f6d0ad5f4b6211a3f746aaaffd916.jpeg?imageMogr2/quality/60/format/jpg
                  * tagRecType : IMPORTANT
                  * childTagList : null
                  * childTagIdList : null
@@ -949,7 +983,7 @@ public class AdVideos {
                 private String name;
                 private String actionUrl;
                 private Object adTrack;
-                private String desc;
+                private Object desc;
                 private String bgPicture;
                 private String headerImage;
                 private String tagRecType;
@@ -989,11 +1023,11 @@ public class AdVideos {
                     this.adTrack = adTrack;
                 }
 
-                public String getDesc() {
+                public Object getDesc() {
                     return desc;
                 }
 
-                public void setDesc(String desc) {
+                public void setDesc(Object desc) {
                     this.desc = desc;
                 }
 
@@ -1050,10 +1084,10 @@ public class AdVideos {
                 /**
                  * height : 480
                  * width : 854
-                 * urlList : [{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=aliyun","size":4554381},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=qcloud","size":4554381},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=ucloud","size":4554381}]
+                 * urlList : [{"name":"aliyun","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=aliyun","size":11659839},{"name":"qcloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=qcloud","size":11659839},{"name":"ucloud","url":"http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=ucloud","size":11659839}]
                  * name : 标清
                  * type : normal
-                 * url : http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=aliyun
+                 * url : http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=aliyun
                  */
 
                 private int height;
@@ -1114,8 +1148,8 @@ public class AdVideos {
                 public static class UrlListBean {
                     /**
                      * name : aliyun
-                     * url : http://baobab.kaiyanapp.com/api/v1/playUrl?vid=149929&resourceType=video&editionType=normal&source=aliyun
-                     * size : 4554381
+                     * url : http://baobab.kaiyanapp.com/api/v1/playUrl?vid=121648&resourceType=video&editionType=normal&source=aliyun
+                     * size : 11659839
                      */
 
                     private String name;
