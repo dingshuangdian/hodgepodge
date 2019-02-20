@@ -1,15 +1,12 @@
 package com.lsqidsd.hodgepodge.http;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.lsqidsd.hodgepodge.bean.AdRelVideos;
-import com.lsqidsd.hodgepodge.bean.AdVideos;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -17,8 +14,6 @@ import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;

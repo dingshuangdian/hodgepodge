@@ -33,7 +33,7 @@ public class InterfaceListenter {
     }
 
     public interface VideosLoadFinish {
-        void videosLoadFinish(List<AdVideos.ItemListBean> beans);
+        void videosLoadFinish(List<AdVideos> beans);
     }
 
     public interface HasFinish {

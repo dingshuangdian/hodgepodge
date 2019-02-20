@@ -3,10 +3,8 @@ package com.lsqidsd.hodgepodge.viewmodel;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
-import com.lsqidsd.hodgepodge.bean.AdRelVideos;
 import com.lsqidsd.hodgepodge.bean.AdVideos;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
@@ -16,7 +14,6 @@ import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultListener;
 import com.lsqidsd.hodgepodge.http.OnSuccessAndFaultSub;
 import com.lsqidsd.hodgepodge.http.RetrofitServiceManager;
-import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -30,8 +27,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.security.acl.LastOwnerException;
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -211,7 +206,7 @@ public class HttpModel {
         }));
     }
 
-    public static void getVideo(int page, List<AdVideos.ItemListBean> beans, InterfaceListenter.VideosLoadFinish listener, RefreshLayout refreshLayout) {
+    public static void getVideo(int page, List<AdVideos> beans, InterfaceListenter.VideosLoadFinish listener, RefreshLayout refreshLayout) {
         OkHttpUtils.get()
                 .url(BaseConstant.VIDEO_URL)
                 .build()
@@ -223,7 +218,14 @@ public class HttpModel {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        JSONObject jsonObject = JsonUtils.toJsonObject(response);
+                        Log.e("response", response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.e("jsonObject", jsonObject.toString());
                         JSONArray jsonArray = null;
                         try {
                             jsonArray = jsonObject.getJSONArray("itemList");
@@ -234,11 +236,22 @@ public class HttpModel {
                             try {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 if (object.opt("type").equals("videoSmallCard")) {
-                                    Log.e("title", object.opt("title").toString());
+                                    Gson gson = new Gson();
+                                    AdVideos adVideos = gson.fromJson(object.toString(), AdVideos.class);
+                                    beans.add(adVideos);
                                 }
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                            }
+                        }
+                        if (listener != null) {
+                            listener.videosLoadFinish(beans);
+                            if (page > 0) {
+                                refreshLayout.finishLoadMore();
+                            } else {
+                                refreshLayout.finishRefresh();
+                                refreshLayout.resetNoMoreData();
                             }
                         }
 
@@ -298,6 +311,7 @@ public class HttpModel {
     }
 
     private void pareJson(String jsonData) {
+
 
     }
 

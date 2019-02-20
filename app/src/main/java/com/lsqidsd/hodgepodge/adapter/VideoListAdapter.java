@@ -19,7 +19,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import java.util.List;
 
 public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<AdVideos.ItemListBean> listBeans;
+    private List<AdVideos> listBeans;
     private Context context;
     private int page = 1;
     private LayoutInflater layoutInflater;
@@ -27,7 +27,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int LOAD_MORE = -1;
     private final int NORMAL = 1;
 
-    public VideoListAdapter(List<AdVideos.ItemListBean> listBeans, Context context, RefreshLayout refreshLayout) {
+    public VideoListAdapter(List<AdVideos> listBeans, Context context, RefreshLayout refreshLayout) {
         this.listBeans = listBeans;
         this.context = context;
         this.refreshLayout = refreshLayout;
@@ -88,7 +88,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }
 
-        public void initData(AdVideos.ItemListBean bean) {
+        public void initData(AdVideos bean) {
             binding.setVideoitem(new VideosViewModule(bean, context));
         }
 

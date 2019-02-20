@@ -17,7 +17,7 @@ public class VideosViewModule<T> {
     private NewsVideoItem.DataBean videos;
     private Context context;
     private boolean thisVideo;
-    private AdVideos.ItemListBean adVieos;
+    private AdVideos adVieos;
     public ObservableInt show = new ObservableInt(View.VISIBLE);
     public ObservableInt unshow = new ObservableInt(View.GONE);
 
@@ -25,8 +25,8 @@ public class VideosViewModule<T> {
         if (videos instanceof NewsVideoItem.DataBean) {
             this.videos = (NewsVideoItem.DataBean) videos;
             thisVideo = true;
-        } else if (videos instanceof AdVideos.ItemListBean) {
-            this.adVieos = (AdVideos.ItemListBean) videos;
+        } else if (videos instanceof AdVideos) {
+            this.adVieos = (AdVideos) videos;
             thisVideo = false;
         }
         this.context = context;
@@ -48,7 +48,12 @@ public class VideosViewModule<T> {
     }
 
     public String getAuthor() {
-        return videos.getSource();
+        if (thisVideo) {
+            return videos.getSource();
+        } else {
+            return null;
+        }
+
     }
 
     public String getTime() {
@@ -69,7 +74,11 @@ public class VideosViewModule<T> {
     }
 
     public String getViewCount() {
-        return videos.getView_count() + "";
+        if (thisVideo) {
+            return videos.getView_count() + "";
+        } else {
+            return null;
+        }
     }
 
     @BindingAdapter({"imageView"})

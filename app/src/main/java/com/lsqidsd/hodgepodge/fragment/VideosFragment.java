@@ -51,12 +51,12 @@ public class VideosFragment extends Fragment implements InterfaceListenter.Video
     }
 
     private void loadData() {
-        List<AdVideos.ItemListBean> videosList = new ArrayList<>();
+        List<AdVideos> videosList = new ArrayList<>();
         HttpModel.getVideo(0, videosList, this::videosLoadFinish, videosFragmentBinding.refreshLayout);
     }
 
     @Override
-    public void videosLoadFinish(List<AdVideos.ItemListBean> beans) {
+    public void videosLoadFinish(List<AdVideos> beans) {
 
         VideoListAdapter adapter = new VideoListAdapter(beans, getContext(), videosFragmentBinding.refreshLayout);
         videosFragmentBinding.recyview.setAdapter(adapter);
