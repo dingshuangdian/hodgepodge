@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.ViewHolder.LoadMoreHolder;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
@@ -15,9 +14,7 @@ import com.lsqidsd.hodgepodge.databinding.VideosItemBinding;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.lsqidsd.hodgepodge.viewmodel.VideosViewModule;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-
 import java.util.List;
-
 public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<NewsVideoItem.DataBean> videos;
     private Context context;
@@ -57,10 +54,12 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             videoHolder.bindData(videos.get(position));
         }
         if (holder instanceof LoadMoreHolder) {
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getVideoList(page, b -> page++, videos, refreshLayout));
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getVideoList(page, b -> {
+                page++;
+                videos = b;
+            }, videos, refreshLayout));
         }
     }
-
     @Override
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()) {

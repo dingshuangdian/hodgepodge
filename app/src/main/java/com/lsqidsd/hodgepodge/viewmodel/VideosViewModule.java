@@ -6,8 +6,7 @@ import android.databinding.ObservableInt;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-
-import com.lsqidsd.hodgepodge.bean.AdVideos;
+import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
@@ -17,17 +16,21 @@ public class VideosViewModule<T> {
     private NewsVideoItem.DataBean videos;
     private Context context;
     private boolean thisVideo;
-    private AdVideos adVieos;
-    public ObservableInt show = new ObservableInt(View.VISIBLE);
-    public ObservableInt unshow = new ObservableInt(View.GONE);
+    public ObservableInt showVideo = new ObservableInt(View.GONE);
+    public ObservableInt showPicture = new ObservableInt(View.GONE);
+    private DailyVideos.IssueListBean.ItemListBean adVieos;
 
     public VideosViewModule(T videos, Context context) {
         if (videos instanceof NewsVideoItem.DataBean) {
             this.videos = (NewsVideoItem.DataBean) videos;
+            showVideo.set(View.GONE);
+            showPicture.set(View.VISIBLE);
             thisVideo = true;
-        } else if (videos instanceof AdVideos) {
-            this.adVieos = (AdVideos) videos;
+        } else if (videos instanceof DailyVideos.IssueListBean.ItemListBean) {
+            this.adVieos = (DailyVideos.IssueListBean.ItemListBean) videos;
             thisVideo = false;
+            showVideo.set(View.VISIBLE);
+            showPicture.set(View.GONE);
         }
         this.context = context;
     }
@@ -35,13 +38,8 @@ public class VideosViewModule<T> {
 
     public String getTitle() {
         if (thisVideo) {
-            show.set(View.VISIBLE);
-            unshow.set(View.GONE);
-
             return videos.getTitle();
         } else {
-            show.set(View.GONE);
-            unshow.set(View.VISIBLE);
             return adVieos.getData().getTitle();
         }
 
@@ -51,16 +49,40 @@ public class VideosViewModule<T> {
         if (thisVideo) {
             return videos.getSource();
         } else {
-            return null;
+            return adVieos.getData().getAuthor().getName();
         }
 
+    }
+
+    public String getReplyCount() {
+        if (thisVideo) {
+            return "回复";
+        } else {
+            return adVieos.getData().getConsumption().getReplyCount() + "";
+        }
+    }
+
+    public String getShareCount() {
+        if (thisVideo) {
+            return "分享";
+        } else {
+            return adVieos.getData().getConsumption().getShareCount() + "";
+        }
+    }
+
+    public String getCollectionCount() {
+        if (thisVideo) {
+            return "收藏";
+        } else {
+            return adVieos.getData().getConsumption().getCollectionCount() + "";
+        }
     }
 
     public String getTime() {
         if (thisVideo) {
             return TimeUtil.formatTime(videos.getPublish_time());
         } else {
-            return "#" + adVieos.getData().getCategory() + "  /  " + TimeUtil.formatTime_(adVieos.getData().getDuration());
+            return adVieos.getData().getCategory() + "  |  " + TimeUtil.formatTime_(adVieos.getData().getDuration());
         }
     }
 
@@ -70,7 +92,14 @@ public class VideosViewModule<T> {
         } else {
             return adVieos.getData().getCover().getFeed();
         }
+    }
 
+    public String getImageAuthor() {
+        if (thisVideo) {
+            return "";
+        } else {
+            return adVieos.getData().getAuthor().getIcon();
+        }
     }
 
     public String getViewCount() {
@@ -81,6 +110,14 @@ public class VideosViewModule<T> {
         }
     }
 
+    @BindingAdapter({"imageAuthor"})
+    public static void setImageAuthor(ImageView imageAuthor, String imageUrl) {
+        if (!TextUtils.isEmpty(imageUrl)) {
+            Picasso.get().load(imageUrl).into(imageAuthor);
+        }
+    }
+
+
     @BindingAdapter({"imageView"})
     public static void setView(ImageView imageView, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
@@ -89,6 +126,11 @@ public class VideosViewModule<T> {
     }
 
     public void toPlay(View view) {
-        Jump.jumpToWebActivity(context, videos.getUrl());
+        if (thisVideo) {
+            Jump.jumpToWebActivity(context, videos.getUrl());
+        } else {
+
+        }
+
     }
 }

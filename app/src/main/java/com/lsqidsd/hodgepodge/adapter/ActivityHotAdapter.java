@@ -66,7 +66,10 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             hotViewHolder.loadData(hotBeans.get(position));
         }
         if (holder instanceof LoadMoreHolder) {
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getActivityHotNews(page, b -> page++, hotBeans, refreshLayout));
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getActivityHotNews(page, b -> {
+                page++;
+                hotBeans = b;
+            }, hotBeans, refreshLayout));
         }
     }
 

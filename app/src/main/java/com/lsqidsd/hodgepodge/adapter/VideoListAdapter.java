@@ -6,30 +6,37 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.MediaController;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.ViewHolder.LoadMoreHolder;
-import com.lsqidsd.hodgepodge.bean.AdVideos;
+import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.databinding.Loadbinding;
 import com.lsqidsd.hodgepodge.databinding.VideosItemBinding;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.lsqidsd.hodgepodge.viewmodel.VideosViewModule;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.List;
 
+import cn.jzvd.Jzvd;
+import cn.jzvd.JzvdStd;
+
 public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<AdVideos> listBeans;
+    private List<DailyVideos.IssueListBean.ItemListBean> listBeans;
     private Context context;
-    private int page = 1;
     private LayoutInflater layoutInflater;
     private RefreshLayout refreshLayout;
     private final int LOAD_MORE = -1;
     private final int NORMAL = 1;
+    private String url;
 
-    public VideoListAdapter(List<AdVideos> listBeans, Context context, RefreshLayout refreshLayout) {
+    public VideoListAdapter(List<DailyVideos.IssueListBean.ItemListBean> listBeans, Context context, RefreshLayout refreshLayout, String url) {
         this.listBeans = listBeans;
         this.context = context;
+        this.url = url;
         this.refreshLayout = refreshLayout;
         this.layoutInflater = LayoutInflater.from(context);
     }
@@ -58,7 +65,10 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof LoadMoreHolder) {
-            HttpModel.getVideo(page, listBeans, a -> page++, refreshLayout);
+            HttpModel.getDailyVideos(listBeans, (a, b) -> {
+                url = b;
+                listBeans = a;
+            }, refreshLayout, url, "");
         } else if (holder instanceof DataViewHolder) {
             ((DataViewHolder) holder).initData(listBeans.get(position));
         }
@@ -85,12 +95,12 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public DataViewHolder(VideosItemBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
-
         }
-
-        public void initData(AdVideos bean) {
+        public void initData(DailyVideos.IssueListBean.ItemListBean bean) {
+            JzvdStd jzvdStd = binding.videoItem;
+            jzvdStd.setUp(bean.getData().getPlayUrl(), bean.getData().getTitle(), Jzvd.SCREEN_WINDOW_NORMAL);
+            Picasso.get().load(bean.getData().getCover().getFeed()).into(jzvdStd.thumbImageView);
             binding.setVideoitem(new VideosViewModule(bean, context));
         }
-
     }
 }

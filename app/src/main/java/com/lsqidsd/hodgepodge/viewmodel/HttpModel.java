@@ -5,7 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
-import com.lsqidsd.hodgepodge.bean.AdVideos;
+import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
@@ -18,9 +18,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -206,113 +203,36 @@ public class HttpModel {
         }));
     }
 
-    public static void getVideo(int page, List<AdVideos> beans, InterfaceListenter.VideosLoadFinish listener, RefreshLayout refreshLayout) {
+    public static void getDailyVideos(List<DailyVideos.IssueListBean.ItemListBean> beans, InterfaceListenter.VideosLoadFinish listener, RefreshLayout refreshLayout, String... url) {
+        Log.e("url", url[0]);
         OkHttpUtils.get()
-                .url(BaseConstant.VIDEO_URL)
+                .url(url[0])
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
-                        Log.e("response", response);
-                        JSONObject jsonObject = null;
-                        try {
-                            jsonObject = new JSONObject(response);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.e("jsonObject", jsonObject.toString());
-                        JSONArray jsonArray = null;
-                        try {
-                            jsonArray = jsonObject.getJSONArray("itemList");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            try {
-                                JSONObject object = jsonArray.getJSONObject(i);
-                                if (object.opt("type").equals("videoSmallCard")) {
-                                    Gson gson = new Gson();
-                                    AdVideos adVideos = gson.fromJson(object.toString(), AdVideos.class);
-                                    beans.add(adVideos);
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                        Gson gson = new Gson();
+                        DailyVideos dailyVideos = gson.fromJson(response, DailyVideos.class);
+                        for (DailyVideos.IssueListBean.ItemListBean itemListBean : dailyVideos.getIssueList().get(0).getItemList()) {
+                            if (itemListBean.getType().equals("video")) {
+                                beans.add(itemListBean);
                             }
                         }
                         if (listener != null) {
-                            listener.videosLoadFinish(beans);
-                            if (page > 0) {
+                            if (url[1].isEmpty()) {
                                 refreshLayout.finishLoadMore();
                             } else {
                                 refreshLayout.finishRefresh();
                                 refreshLayout.resetNoMoreData();
                             }
+                            listener.videosLoadFinish(beans, dailyVideos.getNextPageUrl());
                         }
-
-
-                        //beans.addAll(hotStraetgyEntity.getItemList());
-                    /*    if (listener != null) {
-                            listener.videosLoadFinish(beans);
-                            if (page > 0) {
-                                refreshLayout.finishLoadMore();
-                            } else {
-                                refreshLayout.finishRefresh();
-                                refreshLayout.resetNoMoreData();
-                            }
-                        }*/
                     }
                 });
-
-     /*   Observable<AdVideos> observable = RetrofitServiceManager.getInstance().setUrl(BaseConstant.VIDEO_URL).getVideoList(page);
-
-        RetrofitServiceManager.toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(Object o) {
-                AdRelVideos adRelVideos = (AdRelVideos) o;
-                for (AdVideos.ItemListBean.DataBean beans : adRelVideos.getList()) {
-                    Log.e("title", beans.getTitle());
-                }
-                AdVideos adVideos = (AdVideos) o;
-                if (adVideos.getItemList().size() > 0) {
-                    for (AdVideos.ItemListBean item : adVideos.getItemList()) {
-                        beans.add(item);
-                    }
-                    if (listener != null) {
-                        listener.videosLoadFinish(beans);
-                        if (page > 0) {
-                            refreshLayout.finishLoadMore();
-                        } else {
-                            refreshLayout.finishRefresh();
-                            refreshLayout.resetNoMoreData();
-                        }
-                    }
-                } else {
-                    refreshLayout.finishLoadMoreWithNoMoreData();
-                }
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                if (page > 0) {
-                    refreshLayout.finishLoadMore();
-                } else {
-                    refreshLayout.finishRefresh();
-                    refreshLayout.resetNoMoreData();
-                }
-            }
-        }));*/
-
-    }
-
-    private void pareJson(String jsonData) {
-
-
     }
 
     /**
