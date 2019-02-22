@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +19,25 @@ import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.databinding.VideosFragmentBinding;
+import com.lsqidsd.hodgepodge.diyview.videoview.JZMediaManager;
+import com.lsqidsd.hodgepodge.diyview.videoview.Jzvd;
+import com.lsqidsd.hodgepodge.diyview.videoview.JzvdMgr;
 import com.lsqidsd.hodgepodge.utils.ScreenUtils;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 public class VideosFragment extends Fragment implements InterfaceListenter.VideosLoadFinish {
     private VideosFragmentBinding videosFragmentBinding;
     //用户手动点击播放后，自动播放开始，
     // 除非用户手动点击停止，或者视频播放完毕，停止自动播放，
-    private boolean isLooper = false;
+    private VideoListAdapter adapter;
+    private List<DailyVideos.IssueListBean.ItemListBean> videosList = new ArrayList<>();
     private int looperFlag = 0;//0,无自动播放，1.自动播放上一个，2自动播放下一个
     private int position_play = -1;//播放的位置
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,34 +45,60 @@ public class VideosFragment extends Fragment implements InterfaceListenter.Video
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         videosFragmentBinding.recyview.setLayoutManager(linearLayoutManager);
         initRefresh();
-        //videosFragmentBinding.recyview.addOnScrollListener(scrollListener);
+        videosFragmentBinding.recyview.addOnScrollListener(scrollListener);
+        videosFragmentBinding.recyview.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            @Override
+            public void onChildViewAttachedToWindow(View view) {
+                //子view显示界面调用
+            }
+
+            @Override
+            public void onChildViewDetachedFromWindow(View view) {
+                //子view离开界面调用
+                Jzvd jzvd = view.findViewById(R.id.video_item);
+                if (jzvd != null && jzvd.jzDataSource.containsTheUrl(JZMediaManager.getCurrentUrl())) {
+                    Jzvd currentJzvd = JzvdMgr.getCurrentJzvd();
+
+                    if (currentJzvd != null && currentJzvd.currentScreen != Jzvd.SCREEN_WINDOW_FULLSCREEN) {
+                        Jzvd.releaseAllVideos();
+                        //videosList.get(Jzvd.positionInList).setState(1);
+                    }
+                    position_play = Jzvd.positionInList + 1;
+
+                }
+            }
+        });
         return videosFragmentBinding.getRoot();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     private void initRefresh() {
         videosFragmentBinding.refreshLayout.setOnRefreshListener(a -> loadData());
         videosFragmentBinding.refreshLayout.autoRefresh();
     }
+
     private void loadData() {
-        List<DailyVideos.IssueListBean.ItemListBean> videosList = new ArrayList<>();
-        HttpModel.getDailyVideos(videosList, this::videosLoadFinish, videosFragmentBinding.refreshLayout, BaseConstant.VIDEO_URL, "first");
+        HttpModel.getDailyVideos(videosList, this::videosLoadFinish, videosFragmentBinding.refreshLayout, BaseConstant.VIDEO_URL, "refresh");
     }
+
     @Override
     public void videosLoadFinish(List<DailyVideos.IssueListBean.ItemListBean> beans, String url) {
-        VideoListAdapter adapter = new VideoListAdapter(beans, getContext(), videosFragmentBinding.refreshLayout, url);
+        videosList = beans;
+        for (int i = 0; i < beans.size(); i++) {
+        }
+        adapter = new VideoListAdapter(beans, getContext(), videosFragmentBinding.refreshLayout, url);
         videosFragmentBinding.recyview.setAdapter(adapter);
     }
+
     private OnScrollListener scrollListener = new OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
-            if (newState == RecyclerView.SCROLL_STATE_IDLE && isLooper && looperFlag != 0) {
+            if (newState == RecyclerView.SCROLL_STATE_IDLE && Jzvd.isLooper && looperFlag != 0) {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) videosFragmentBinding.recyview.getLayoutManager();
                 switch (looperFlag) {
                     case 1:
@@ -90,6 +124,7 @@ public class VideosFragment extends Fragment implements InterfaceListenter.Video
                         }
                         break;
                 }
+                videosList.get(position_play).setState(0);
 
                 //注意
                 looperFlag = 0;
@@ -99,7 +134,7 @@ public class VideosFragment extends Fragment implements InterfaceListenter.Video
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-            if (!isLooper) return;
+            if (!Jzvd.isLooper) return;
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) videosFragmentBinding.recyview.getLayoutManager();
             View view = linearLayoutManager.findViewByPosition(position_play);
             //说明播放的view还未完全消失
@@ -113,15 +148,25 @@ public class VideosFragment extends Fragment implements InterfaceListenter.Video
                 if (dy > 0) {
                     //播放的View上滑，消失了一半了，停止播放
                     if ((y_t_rv > y_t_view) && ((y_t_rv - y_t_view) > height_view * 1f / 2)) {
+                        videosList.get(position_play).setState(1);
+                        adapter.notifyItemChanged(position_play);
                         looperFlag = 2;//自动播放下一个
                     }
                 } else if (dy < 0) {
                     //播放的View下滑，消失了一半了,停止播放
                     if ((y_b_view > y_b_rv) && ((y_b_view - y_b_rv) > height_view * 1f / 2)) {
+                        videosList.get(position_play).setState(1);
+                        adapter.notifyItemChanged(position_play);
                         looperFlag = 1;//自动播放上一个
                     }
                 }
             }
         }
     };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Jzvd.releaseAllVideos();
+    }
 }

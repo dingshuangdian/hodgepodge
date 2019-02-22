@@ -137,6 +137,15 @@ public class DailyVideos {
             private Object tag;
             private int id;
             private int adIndex;
+            private int state;
+
+            public int getState() {
+                return state;
+            }
+
+            public void setState(int state) {
+                this.state = state;
+            }
 
             public String getType() {
                 return type;

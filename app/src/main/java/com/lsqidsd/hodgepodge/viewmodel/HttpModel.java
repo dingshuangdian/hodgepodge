@@ -1,6 +1,7 @@
 package com.lsqidsd.hodgepodge.viewmodel;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
@@ -203,21 +204,33 @@ public class HttpModel {
         }));
     }
 
+    /**
+     * 获取视频列表
+     *
+     * @param beans
+     * @param listener
+     * @param refreshLayout
+     * @param url
+     */
+
     public static void getDailyVideos(List<DailyVideos.IssueListBean.ItemListBean> beans, InterfaceListenter.VideosLoadFinish listener, RefreshLayout refreshLayout, String... url) {
-        Log.e("url", url[0]);
         OkHttpUtils.get()
                 .url(url[0])
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
+                        refreshLayout.finishRefresh();
                     }
-
                     @Override
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
                         DailyVideos dailyVideos = gson.fromJson(response, DailyVideos.class);
+                        if (!url[1].isEmpty()) {
+                            beans.removeAll(beans);
+                        }
                         for (DailyVideos.IssueListBean.ItemListBean itemListBean : dailyVideos.getIssueList().get(0).getItemList()) {
+                            itemListBean.setState(1);
                             if (itemListBean.getType().equals("video")) {
                                 beans.add(itemListBean);
                             }

@@ -6,23 +6,21 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.MediaController;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.ViewHolder.LoadMoreHolder;
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.databinding.Loadbinding;
 import com.lsqidsd.hodgepodge.databinding.VideosItemBinding;
+import com.lsqidsd.hodgepodge.diyview.videoview.Jzvd;
+import com.lsqidsd.hodgepodge.diyview.videoview.JzvdStd;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.lsqidsd.hodgepodge.viewmodel.VideosViewModule;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.List;
 
-import cn.jzvd.Jzvd;
-import cn.jzvd.JzvdStd;
 
 public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<DailyVideos.IssueListBean.ItemListBean> listBeans;
@@ -91,16 +89,22 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class DataViewHolder extends RecyclerView.ViewHolder {
         VideosItemBinding binding;
 
-
         public DataViewHolder(VideosItemBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
         }
+
         public void initData(DailyVideos.IssueListBean.ItemListBean bean) {
             JzvdStd jzvdStd = binding.videoItem;
-            jzvdStd.setUp(bean.getData().getPlayUrl(), bean.getData().getTitle(), Jzvd.SCREEN_WINDOW_NORMAL);
+            jzvdStd.setUp(bean.getData().getPlayUrl(), bean.getData().getTitle(), Jzvd.SCREEN_WINDOW_LIST);
             Picasso.get().load(bean.getData().getCover().getFeed()).into(jzvdStd.thumbImageView);
+            switch (bean.getState()) {
+                case 0:
+                    jzvdStd.startVideo();
+                    break;
+            }
             binding.setVideoitem(new VideosViewModule(bean, context));
         }
     }
+
 }
