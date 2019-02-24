@@ -7,16 +7,17 @@ import android.databinding.ObservableInt;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
-import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 
 public class HotViewModule {
-    private Context mContext;
+    private static Context mContext;
     public ObservableInt imgfVisbility = new ObservableInt(View.VISIBLE);
     public ObservableInt gvVisbility = new ObservableInt(View.GONE);
     public ObservableInt commentVisibility = new ObservableInt(View.GONE);
@@ -59,7 +60,7 @@ public class HotViewModule {
         return dataBean.getComment_num() + "评";
     }
 
-    public String getImageUrl() {
+    public String getImageeUrl() {
         if (jsonArray != null) {
             if (jsonArray.length() == 3) {
                 gvVisbility.set(View.VISIBLE);
@@ -72,10 +73,10 @@ public class HotViewModule {
         return JsonUtils.jsonKey(dataBean.getImgs(), 0);
     }
 
-    @BindingAdapter({"imageUrl"})
-    public static void setImageView(ImageView imageView, String imageUrl) {
+    @BindingAdapter({"imageeUrl"})
+    public static void setImageeUrl(ImageView imageView, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
-            Picasso.get().load(imageUrl).into(imageView);
+            Glide.with(mContext).load(imageUrl).into(imageView);
         }
     }
 

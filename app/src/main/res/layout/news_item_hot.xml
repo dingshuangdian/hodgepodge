@@ -49,7 +49,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:riv_corner_radius="5dp"
-            tools:imageUrl="@{newsitem.imageUrl}" />
+            tools:imageeUrl="@{newsitem.imageeUrl}" />
 
         <GridView
             android:id="@+id/gv"

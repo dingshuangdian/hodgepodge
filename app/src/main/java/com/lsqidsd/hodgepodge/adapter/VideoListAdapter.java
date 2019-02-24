@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.ViewHolder.LoadMoreHolder;
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
@@ -17,7 +18,6 @@ import com.lsqidsd.hodgepodge.diyview.videoview.JzvdStd;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.lsqidsd.hodgepodge.viewmodel.VideosViewModule;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -95,14 +95,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void initData(DailyVideos.IssueListBean.ItemListBean bean) {
-            JzvdStd jzvdStd = binding.videoItem;
+            JzvdStd jzvdStd = binding.video;
             jzvdStd.setUp(bean.getData().getPlayUrl(), bean.getData().getTitle(), Jzvd.SCREEN_WINDOW_LIST);
-            Picasso.get().load(bean.getData().getCover().getFeed()).into(jzvdStd.thumbImageView);
-            switch (bean.getState()) {
-                case 0:
-                    jzvdStd.startVideo();
-                    break;
-            }
+            Glide.with(context).load(bean.getData().getCover().getFeed()).into(jzvdStd.thumbImageView);
             binding.setVideoitem(new VideosViewModule(bean, context));
         }
     }

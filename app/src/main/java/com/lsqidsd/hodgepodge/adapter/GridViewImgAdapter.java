@@ -6,10 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.bumptech.glide.Glide;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.databinding.ImageBinding;
 import com.lsqidsd.hodgepodge.utils.Jump;
-import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -45,7 +46,7 @@ public class GridViewImgAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         ImageBinding imageBinding = DataBindingUtil.inflate(layoutInflater, R.layout.image, viewGroup, false);
         try {
-            Picasso.get().load(imgpath.get(i).toString()).into(imageBinding.ivImage);
+            Glide.with(context).load(imgpath.get(i).toString()).into(imageBinding.ivImage);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -134,13 +134,13 @@ public class JzvdStd extends Jzvd {
                 clarity.setText(jzDataSource.getCurrentKey().toString());
                 clarity.setVisibility(View.VISIBLE);
             }
-            changeStartButtonSize((int) getResources().getDimension(R.dimen.jz_start_button_w_h_fullscreen));
+            changeStartButtonSize((int) getResources().getDimension(R.dimen.start_button_w_h_fullscreen));
         } else if (currentScreen == SCREEN_WINDOW_NORMAL
                 || currentScreen == SCREEN_WINDOW_LIST) {
             fullscreenButton.setImageResource(R.mipmap.jz_enlarge);
             backButton.setVisibility(View.GONE);
             tinyBackImageView.setVisibility(View.INVISIBLE);
-            changeStartButtonSize((int) getResources().getDimension(R.dimen.jz_start_button_w_h_normal));
+            changeStartButtonSize((int) getResources().getDimension(R.dimen.start_button_w_h_normal));
             batteryTimeLayout.setVisibility(View.GONE);
             clarity.setVisibility(View.GONE);
         } else if (currentScreen == SCREEN_WINDOW_TINY) {
@@ -271,7 +271,7 @@ public class JzvdStd extends Jzvd {
         int i = v.getId();
         if (i == R.id.thumb) {
             if (jzDataSource == null || jzDataSource.urlsMap.isEmpty() || jzDataSource.getCurrentUrl() == null) {
-                Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.nourl), Toast.LENGTH_SHORT).show();
                 return;
             }
             if (currentState == CURRENT_STATE_NORMAL) {
@@ -340,7 +340,7 @@ public class JzvdStd extends Jzvd {
             clarityPopWindow.update(clarity, -offsetX, -offsetY, Math.round(layout.getMeasuredWidth() * 2), layout.getMeasuredHeight());
         } else if (i == R.id.retry_btn) {
             if (jzDataSource.urlsMap.isEmpty() || jzDataSource.getCurrentUrl() == null) {
-                Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.nourl), Toast.LENGTH_SHORT).show();
                 return;
             }
             if (!jzDataSource.getCurrentUrl().toString().startsWith("file") && !
@@ -361,14 +361,14 @@ public class JzvdStd extends Jzvd {
     public void showWifiDialog() {
         super.showWifiDialog();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(getResources().getString(R.string.tips_not_wifi));
-        builder.setPositiveButton(getResources().getString(R.string.tips_not_wifi_confirm), (dialog, which) -> {
+        builder.setMessage(getResources().getString(R.string._not_wifi));
+        builder.setPositiveButton(getResources().getString(R.string._not_wifi_confirm), (dialog, which) -> {
             dialog.dismiss();
             onEvent(JZUserActionStd.ON_CLICK_START_WIFIDIALOG);
             startVideo();
             WIFI_TIP_DIALOG_SHOWED = true;
         });
-        builder.setNegativeButton(getResources().getString(R.string.tips_not_wifi_cancel), (dialog, which) -> {
+        builder.setNegativeButton(getResources().getString(R.string._not_wifi_cancel), (dialog, which) -> {
             dialog.dismiss();
             clearFloatScreen();
         });
@@ -761,7 +761,7 @@ public class JzvdStd extends Jzvd {
     }
 
     public Dialog createDialogWithView(View localView) {
-        Dialog dialog = new Dialog(getContext(), R.style.jz_style_dialog_progress);
+        Dialog dialog = new Dialog(getContext(), R.style.style_dialog_progress);
         dialog.setContentView(localView);
         Window window = dialog.getWindow();
         window.addFlags(Window.FEATURE_ACTION_BAR);

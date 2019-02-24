@@ -39,7 +39,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'org.jsoup:jsoup:1.11.3'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.5'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
     // 必要rxjava2依赖
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     // 必要rxandrroid依赖，切线程时需要用到
@@ -55,7 +55,7 @@ dependencies {
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.2'
     implementation 'com.orhanobut:logger:1.15'
     implementation 'com.android.support:recyclerview-v7:27.+'
-    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-20'
     implementation 'com.zhy:okhttputils:2.6.2'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
 }

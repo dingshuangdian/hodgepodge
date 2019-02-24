@@ -14,41 +14,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv_image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:onClick="@{videoitem.toPlay}"
-            android:scaleType="centerCrop"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:imageView="@{videoitem.imageView}"
-            tools:visibility="@{videoitem.showPicture}" />
-        <com.lsqidsd.hodgepodge.diyview.videoview.JzvdStd
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/video_item"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="@{videoitem.showVideo}" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="@{videoitem.toPlay}"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:imageView="@{videoitem.imageView}"
+                tools:visibility="@{videoitem.showPicture}" />
+            <com.lsqidsd.hodgepodge.diyview.videoview.JzvdStd
+                android:layout_width="match_parent"
+                android:id="@+id/video"
+                android:layout_height="match_parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="@{videoitem.showVideo}" />
+        </android.support.constraint.ConstraintLayout>
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:maxLines="2"
+            android:ellipsize="end"
             android:textColor="@color/edit_stroke"
             android:textSize="18sp"
-            tools:visibility="@{videoitem.showPicture}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@{videoitem.title}" />
+            tools:text="@{videoitem.title}"
+            tools:visibility="@{videoitem.showPicture}" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,15 +71,15 @@
             tools:text="@{videoitem.time}" />
 
         <ImageView
-            tools:visibility="@{videoitem.showPicture}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/play"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/jz_click_play_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4" />
+            app:layout_constraintVertical_bias="0.4"
+            tools:visibility="@{videoitem.showPicture}" />
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

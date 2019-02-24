@@ -6,15 +6,16 @@ import android.databinding.ObservableInt;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
-import com.squareup.picasso.Picasso;
 
 public class VideosViewModule<T> {
     private NewsVideoItem.DataBean videos;
-    private Context context;
+    private static Context context;
     private boolean thisVideo;
     public ObservableInt showVideo = new ObservableInt(View.GONE);
     public ObservableInt showPicture = new ObservableInt(View.GONE);
@@ -111,9 +112,9 @@ public class VideosViewModule<T> {
     }
 
     @BindingAdapter({"imageAuthor"})
-    public static void setImageAuthor(ImageView imageAuthor, String imageUrl) {
+    public  static void setImageAuthor(ImageView imageAuthor, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
-            Picasso.get().load(imageUrl).into(imageAuthor);
+            Glide.with(context).load(imageUrl).into(imageAuthor);
         }
     }
 
@@ -121,7 +122,7 @@ public class VideosViewModule<T> {
     @BindingAdapter({"imageView"})
     public static void setView(ImageView imageView, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
-            Picasso.get().load(imageUrl).into(imageView);
+            Glide.with(context).load(imageUrl).into(imageView);
         }
     }
 

@@ -42,8 +42,6 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
     public static final String TAG = "JZVD";
     public static final int THRESHOLD = 80;
     public static final int FULL_SCREEN_NORMAL_DELAY = 300;
-    public static boolean isLooper = false;
-    public static int position_play = -1;//播放的位置
     public static final int SCREEN_WINDOW_NORMAL = 0;
     public static final int SCREEN_WINDOW_LIST = 1;
     public static final int SCREEN_WINDOW_FULLSCREEN = 2;
@@ -437,7 +435,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
         if (i == R.id.start) {
             Log.i(TAG, "onClick start [" + this.hashCode() + "] ");
             if (jzDataSource == null || jzDataSource.urlsMap.isEmpty() || jzDataSource.getCurrentUrl() == null) {
-                Toast.makeText(getContext(), getResources().getString(R.string.no_url), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.nourl), Toast.LENGTH_SHORT).show();
                 return;
             }
             if (currentState == CURRENT_STATE_NORMAL) {
@@ -453,7 +451,6 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
                 onEvent(JZUserAction.ON_CLICK_PAUSE);
                 Log.e(TAG, "pauseVideo [" + this.hashCode() + "] ");
                 JZMediaManager.pause();
-                isLooper = false;
                 onStatePause();
             } else if (currentState == CURRENT_STATE_PAUSE) {
                 onEvent(JZUserAction.ON_CLICK_RESUME);
@@ -608,7 +605,6 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
         JZMediaManager.instance().positionInList = positionInList;
         onStatePreparing();
         JzvdMgr.setFirstFloor(this);
-        isLooper = true;
     }
 
     public void onPrepared() {

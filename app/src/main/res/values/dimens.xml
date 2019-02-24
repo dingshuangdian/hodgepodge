@@ -14,7 +14,7 @@
     <dimen name="edit_corner_radius">4dp</dimen>
     <dimen name="edit_stroke_width">1dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="jz_start_button_w_h_normal">45dp</dimen>
-    <dimen name="jz_start_button_w_h_fullscreen">62dp</dimen>
+    <dimen name="start_button_w_h_normal">45dp</dimen>
+    <dimen name="start_button_w_h_fullscreen">62dp</dimen>
 
 </resources>
