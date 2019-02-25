@@ -161,5 +161,21 @@
         <attr name="srlFixedHeaderViewId" format="reference"/>
         <attr name="srlFixedFooterViewId" format="reference"/>
     </declare-styleable>
+    <declare-styleable name="SlideMoreViewPager">
+        <attr name="page_margin" format="dimension" />
+        <attr name="page_padding" format="dimension" />
+        <attr name="page_width" format="integer" />
+        <attr name="page_height" format="integer" />
+        <attr name="page_more_background_color" format="color" />
+        <attr name="page_more_begin_drag_threshold" format="dimension" />
+        <attr name="page_more_end_drag_threshold" format="dimension" />
+        <attr name="page_more_loosen_threshold" format="dimension" />
+        <attr name="page_more_max_loosen_threshold" format="dimension" />
+        <attr name="page_more_radius" format="dimension" />
+        <attr name="page_more_text_size" format="dimension" />
+        <attr name="page_more_text_color" format="dimension" />
+        <attr name="page_more_drag_text" format="string" />
+        <attr name="page_more_loosen_text" format="string" />
+    </declare-styleable>
 
 </resources>

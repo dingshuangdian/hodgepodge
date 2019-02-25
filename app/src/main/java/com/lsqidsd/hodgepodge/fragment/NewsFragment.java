@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -35,7 +36,6 @@ public class NewsFragment extends Fragment implements InterfaceListenter.HasFini
         hasFinish = this;
         return fragmentBinding.getRoot();
     }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -46,6 +46,7 @@ public class NewsFragment extends Fragment implements InterfaceListenter.HasFini
         super.onActivityCreated(savedInstanceState);
         new Thread(() -> HttpModel.getHotKey(hasFinish, top)).start();
     }
+
     private void initFlexTitle() {
         fragmentBinding.tabTop.vt.initData(TabDb.getTopsTxt(), fragmentBinding.viewpager, 0);
         if (fragmentArrayList != null) {
@@ -57,7 +58,6 @@ public class NewsFragment extends Fragment implements InterfaceListenter.HasFini
         basePagerAdapter = new BaseFragmentAdapter(getChildFragmentManager(), fragmentArrayList);
         fragmentBinding.viewpager.setAdapter(basePagerAdapter);
     }
-
     @Override
     public void hasFinish(List<String> top) {
         fragmentBinding.searchview.setTopRoll(top);

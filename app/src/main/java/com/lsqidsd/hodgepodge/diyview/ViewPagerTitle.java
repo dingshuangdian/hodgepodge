@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -119,8 +120,6 @@ public class ViewPagerTitle extends HorizontalScrollView {
 
         array.recycle();
     }
-
-
     /**
      * 初始化时，调用这个方法。ViewPager需要设置Adapter，且titles的数据长度需要与Adapter中的数据长度一置。
      *
@@ -147,35 +146,24 @@ public class ViewPagerTitle extends HorizontalScrollView {
         float selectTextSize = getTextViewLength(textView);
         return (int) (selectTextSize - defaultTextSize) / 2;
     }
-
     public ArrayList<TextView> getTextView() {
         return textViews;
     }
-
-
     private void createDynamicLine() {
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
         dynamicLine = new DynamicLine(getContext(), shaderColorStart, shaderColorEnd, (int) lineHeight, (int) lineBottomMargins);
         dynamicLine.setLayoutParams(params);
     }
-
-
     private void createTextViews(String[] titles) {
         LinearLayout contentLl = new LinearLayout(getContext());
         contentLl.setBackgroundColor(backgroundColor);
         contentLl.setLayoutParams(contentParams);
         contentLl.setOrientation(LinearLayout.VERTICAL);
         addView(contentLl);
-
-
         LinearLayout textViewLl = new LinearLayout(getContext());
         textViewLl.setLayoutParams(contentParams);
         textViewLl.setOrientation(LinearLayout.HORIZONTAL);
-
         margin = getTextViewMargins(titles);
-
-
         for (int i = 0; i < titles.length; i++) {
             TextView textView = new TextView(getContext());
             textView.setText(titles[i]);

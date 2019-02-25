@@ -3,18 +3,11 @@ package com.lsqidsd.hodgepodge.http;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
-
-import com.lsqidsd.hodgepodge.bean.NewsItem;
-
-import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-
 import javax.net.ssl.SSLHandshakeException;
-
 import io.reactivex.observers.DisposableObserver;
-import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 
 /**

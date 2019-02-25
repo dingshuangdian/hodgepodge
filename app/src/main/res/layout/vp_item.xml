@@ -13,24 +13,25 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <android.support.v4.view.ViewPager
+        <com.lsqidsd.hodgepodge.diyview.SlideMoreViewPager
             android:id="@+id/vp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="40dp"
+            android:layout_height="wrap_content"
             android:clipChildren="false"
-            app:layout_constraintDimensionRatio="h,3:1.7"
+            app:page_padding="20dp"
+            app:page_margin="10dp"
+            app:page_width="640"
+            app:page_height="330"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-        </android.support.v4.view.ViewPager>
-
+        </com.lsqidsd.hodgepodge.diyview.SlideMoreViewPager>
         <View
             android:id="@+id/v"
             android:layout_width="match_parent"
             android:layout_height="6dp"
             android:layout_marginTop="5dp"
             android:background="@color/edit_hint_text"
-            app:layout_constraintTop_toBottomOf="@id/vp"></View>
+            app:layout_constraintTop_toBottomOf="@id/vp">
+        </View>
     </android.support.constraint.ConstraintLayout>
 </layout>

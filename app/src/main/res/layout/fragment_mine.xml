@@ -9,18 +9,16 @@
             type="com.lsqidsd.hodgepodge.viewmodel.MineViewModule"></variable>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <com.lsqidsd.hodgepodge.diyview.SlideMoreViewPager
+        android:id="@+id/vp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_mine"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        app:page_height="330"
+        app:page_margin="10dp"
+        app:page_padding="20dp"
+        app:page_width="640">
 
-    </android.support.constraint.ConstraintLayout>
+    </com.lsqidsd.hodgepodge.diyview.SlideMoreViewPager>
 
 </layout>

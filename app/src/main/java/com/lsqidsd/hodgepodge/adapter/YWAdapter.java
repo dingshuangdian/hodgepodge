@@ -1,5 +1,4 @@
 package com.lsqidsd.hodgepodge.adapter;
-
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableInt;
@@ -7,10 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.ViewHolder.LoadMoreHolder;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
@@ -26,8 +23,6 @@ import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.lsqidsd.hodgepodge.viewmodel.NewsItemModel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -84,7 +79,6 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
         return myViewHolder;
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (holder instanceof LoadMoreHolder) {
@@ -170,7 +164,6 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
             hotBinding = itemView;
             hotBinding.setNewsitem(new NewsItemModel(context, this));
         }
-
         @Override
         public void itemShow(ObservableInt... observableInt) {
             List<ObservableInt> observableInts = new ArrayList<>();

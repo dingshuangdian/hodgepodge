@@ -1,8 +1,6 @@
 package com.lsqidsd.hodgepodge.viewmodel;
 
 import android.util.Log;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
@@ -18,19 +16,22 @@ import com.lsqidsd.hodgepodge.http.RetrofitServiceManager;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.List;
-
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function3;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Call;
 
 public class HttpModel {
+    private static final String TAG = "HttpModel";
+
     /**
      * 获取视频列表
      *
@@ -59,36 +60,6 @@ public class HttpModel {
                 } else {
                     refreshLayout.finishLoadMoreWithNoMoreData();
                 }
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                if (page > 0) {
-                    refreshLayout.finishLoadMore();
-                } else {
-                    refreshLayout.finishRefresh();
-                    refreshLayout.resetNoMoreData();
-                }
-            }
-        }));
-    }
-
-    /**
-     * 获取热点新闻
-     *
-     * @param page
-     * @param listener
-     */
-    public static void getHotNews(int page, InterfaceListenter.MainNewsDataListener listener, NewsMain newsMain, RefreshLayout refreshLayout) {
-        Observable<NewsHot> observable = RetrofitServiceManager.getInstance().setUrl(BaseConstant.BASE_URL).getHotNews(page, 5);
-        RetrofitServiceManager.toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(Object o) {
-                NewsHot newsHot = (NewsHot) o;
-                for (NewsHot.DataBean hot : newsHot.getData()) {
-                    newsMain.getNewsHot().add(hot);
-                }
-                getNewsData(0, listener, newsMain, refreshLayout);
             }
 
             @Override
@@ -140,30 +111,7 @@ public class HttpModel {
     }
 
     /**
-     * 获取置顶新闻
-     *
-     * @param listener
-     */
-    public static void getTopNews(InterfaceListenter.MainNewsDataListener listener, NewsMain newsMain, RefreshLayout refreshLayout) {
-        Observable<NewsTop> observable = RetrofitServiceManager.getInstance().setUrl(BaseConstant.BASE_URL).getTopNews(0);
-        RetrofitServiceManager.toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(Object o) {
-                NewsTop newsTop = (NewsTop) o;
-                for (NewsTop.DataBean dataBean : newsTop.getData()) {
-                    newsMain.getNewsTops().add(dataBean);
-                }
-                getHotNews(0, listener, newsMain, refreshLayout);
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-            }
-        }));
-    }
-
-    /**
-     * 获取新闻数据
+     * 加载更多新闻数据
      *
      * @param page
      * @param listener
@@ -180,12 +128,8 @@ public class HttpModel {
                     }
                     if (listener != null) {
                         listener.mainDataChange(newsMain);
-                        if (page > 0) {
-                            refreshLayout.finishLoadMore();
-                        } else {
-                            refreshLayout.finishRefresh();
-                            refreshLayout.resetNoMoreData();
-                        }
+                        refreshLayout.finishLoadMore();
+
                     }
                 } else {
                     refreshLayout.finishLoadMoreWithNoMoreData();
@@ -194,12 +138,7 @@ public class HttpModel {
 
             @Override
             public void onFault(String errorMsg) {
-                if (page > 0) {
-                    refreshLayout.finishLoadMore();
-                } else {
-                    refreshLayout.finishRefresh();
-                    refreshLayout.resetNoMoreData();
-                }
+                refreshLayout.finishLoadMore();
             }
         }));
     }
@@ -222,6 +161,7 @@ public class HttpModel {
                     public void onError(Call call, Exception e, int id) {
                         refreshLayout.finishRefresh();
                     }
+
                     @Override
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
@@ -247,6 +187,47 @@ public class HttpModel {
                     }
                 });
     }
+    /**
+     * zip操作符结合多个接口的数据请求
+     */
+    public static void getMainNewData(InterfaceListenter.MainNewsDataListener listener, RefreshLayout refreshLayout) {
+        Observable<NewsTop> observable = RetrofitServiceManager.getInstance().setUrl(BaseConstant.BASE_URL).getTopNews(0);
+        Observable<NewsHot> observable1 = RetrofitServiceManager.getInstance().setUrl(BaseConstant.BASE_URL).getHotNews(0, 5);
+        Observable<NewsItem> observable2 = RetrofitServiceManager.getInstance().setUrl(BaseConstant.BASE_URL).getMainNews(0);
+        Observable.zip(observable, observable1, observable2, new Function3<NewsTop, NewsHot, NewsItem, NewsMain>() {
+            @Override
+            public NewsMain apply(NewsTop newsTop, NewsHot newsHot, NewsItem newsItem) throws Exception {
+                NewsMain newsMain = new NewsMain();
+                for (NewsTop.DataBean dataBean : newsTop.getData()) {
+                    newsMain.getNewsTops().add(dataBean);
+                }
+                for (NewsHot.DataBean hot : newsHot.getData()) {
+                    newsMain.getNewsHot().add(hot);
+                }
+                for (NewsItem.DataBean dataBeann : newsItem.getData()) {
+                    newsMain.getNewsItems().add(dataBeann);
+                }
+                return newsMain;
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<NewsMain>() {
+                    @Override
+                    public void accept(NewsMain newsMain) throws Exception {
+                        if (listener != null) {
+                            listener.mainDataChange(newsMain);
+                            refreshLayout.finishRefresh();
+                            refreshLayout.resetNoMoreData();
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e(TAG, "accept: 失败：" + throwable + "\n");
+                    }
+                });
+    }
+
 
     /**
      * 抓取头部热点滚动

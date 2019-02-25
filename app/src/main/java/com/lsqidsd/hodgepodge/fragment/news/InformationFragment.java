@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.VideoViewAdapter;
 import com.lsqidsd.hodgepodge.adapter.YWAdapter;
@@ -17,8 +18,10 @@ import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
+
 import java.util.ArrayList;
 import java.util.List;
+
 public class InformationFragment extends Fragment implements InterfaceListenter.MainNewsDataListener, InterfaceListenter.VideosDataListener {
     private InformationDataBinding fragmentBinding;
     private static InformationFragment informationFragment;
@@ -41,6 +44,7 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
         initRefresh();
         return fragmentBinding.getRoot();
     }
+
     private void initRefresh() {
         fragmentBinding.refreshLayout.setOnRefreshListener(a -> loadData());
         fragmentBinding.refreshLayout.autoRefresh();
@@ -60,32 +64,40 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
         Bundle bundle = getArguments();
         switch (bundle.getInt("flag")) {
             case 0:
-                HttpModel.getTopNews(this::mainDataChange, new NewsMain(), fragmentBinding.refreshLayout);
+                HttpModel.getMainNewData(this::mainDataChange, fragmentBinding.refreshLayout);
                 break;
             case 1:
                 List<NewsVideoItem.DataBean> videosList = new ArrayList<>();
                 HttpModel.getVideoList(0, this::videoDataChange, videosList, fragmentBinding.refreshLayout);
                 break;
             case 2:
+                HttpModel.getMainNewData(this::mainDataChange, fragmentBinding.refreshLayout);
                 break;
             case 3:
+                HttpModel.getMainNewData(this::mainDataChange, fragmentBinding.refreshLayout);
                 break;
             case 4:
+                HttpModel.getMainNewData(this::mainDataChange, fragmentBinding.refreshLayout);
                 break;
             case 5:
+                HttpModel.getMainNewData(this::mainDataChange, fragmentBinding.refreshLayout);
                 break;
             case 6:
+                HttpModel.getMainNewData(this::mainDataChange, fragmentBinding.refreshLayout);
                 break;
             case 7:
+                HttpModel.getMainNewData(this::mainDataChange, fragmentBinding.refreshLayout);
                 break;
         }
     }
+
     @Override
     public void mainDataChange(NewsMain dataBeans) {
         YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans, fragmentBinding.refreshLayout);
         fragmentBinding.recyview.setAdapter(ywAdapter);
         fragmentBinding.refreshLayout.finishRefresh();
     }
+
     @Override
     public void videoDataChange(List<NewsVideoItem.DataBean> dataBean) {
         VideoViewAdapter viewAdapter = new VideoViewAdapter(dataBean, getContext(), fragmentBinding.refreshLayout);

@@ -282,6 +282,5 @@ public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
         }
 
     }
-
 }
 
