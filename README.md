@@ -5,3 +5,12 @@ mvvm+databinding+rxjava2实现高仿腾讯新闻客户端
 
 
 
+热点精选
+
+<img src="https://raw.githubusercontent.com/dingshuangdian/hodgepodge/master/img/gif3.gif" width="200px" height="400px" alt="热点精选">
+
+视频
+
+<img src="https://raw.githubusercontent.com/dingshuangdian/hodgepodge/master/img/gif2.gif" width="200px" height="400px" alt="视频">
+
+
