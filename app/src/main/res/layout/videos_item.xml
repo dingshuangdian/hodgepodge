@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:imageView="@{videoitem.imageView}"
                 tools:visibility="@{videoitem.showPicture}" />
-            <com.lsqidsd.hodgepodge.diyview.videoview.JzvdStd
+            <com.lsqidsd.hodgepodge.diyview.videoview.MyJzvdStd
                 android:layout_width="match_parent"
                 android:id="@+id/video"
                 android:layout_height="match_parent"

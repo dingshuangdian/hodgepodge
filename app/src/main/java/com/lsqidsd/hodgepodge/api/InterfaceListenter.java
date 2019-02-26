@@ -1,5 +1,7 @@
 package com.lsqidsd.hodgepodge.api;
+
 import android.databinding.ObservableInt;
+
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
@@ -23,8 +25,9 @@ public class InterfaceListenter {
     public interface HotNewsDataListener {
         void hotDataChange(List<NewsHot.DataBean> dataBeans);
     }
+
     public interface VideosLoadFinish {
-        void videosLoadFinish(List<DailyVideos.IssueListBean.ItemListBean> beans,String url);
+        void videosLoadFinish(List<DailyVideos.IssueListBean.ItemListBean> beans, String url);
     }
 
     public interface HasFinish {
@@ -33,5 +36,10 @@ public class InterfaceListenter {
 
     public interface LoadFinish {
         void loadFinish();
+    }
+
+    public interface playerFinish {
+        void pFinish();
+
     }
 }

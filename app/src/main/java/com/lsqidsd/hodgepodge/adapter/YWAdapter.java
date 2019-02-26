@@ -41,7 +41,6 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     private final int NEWS_ITEM_TYPE_02 = 1;//热点精选
     private final int NEWS_ITEM_TYPE_03 = 2;//列表
     private RefreshLayout refreshLayout;
-
     public YWAdapter(Context context, NewsMain list, RefreshLayout refreshLayout) {
         this.context = context;
         this.dataBeanList = list.getNewsItems();

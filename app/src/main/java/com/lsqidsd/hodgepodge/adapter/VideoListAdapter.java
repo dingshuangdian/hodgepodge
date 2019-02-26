@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -30,6 +31,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int LOAD_MORE = -1;
     private final int NORMAL = 1;
     private String url;
+    private JzvdStd jzvdStd;
 
     public VideoListAdapter(List<DailyVideos.IssueListBean.ItemListBean> listBeans, Context context, RefreshLayout refreshLayout, String url) {
         this.listBeans = listBeans;
@@ -95,7 +97,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void initData(DailyVideos.IssueListBean.ItemListBean bean) {
-            JzvdStd jzvdStd = binding.video;
+            jzvdStd = binding.video;
             jzvdStd.setUp(bean.getData().getPlayUrl(), bean.getData().getTitle(), Jzvd.SCREEN_WINDOW_LIST);
             Glide.with(context).load(bean.getData().getCover().getFeed()).into(jzvdStd.thumbImageView);
             binding.setVideoitem(new VideosViewModule(bean, context));

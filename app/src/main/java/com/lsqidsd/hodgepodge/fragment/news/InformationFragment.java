@@ -95,13 +95,11 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
     public void mainDataChange(NewsMain dataBeans) {
         YWAdapter ywAdapter = new YWAdapter(getContext(), dataBeans, fragmentBinding.refreshLayout);
         fragmentBinding.recyview.setAdapter(ywAdapter);
-        fragmentBinding.refreshLayout.finishRefresh();
     }
 
     @Override
     public void videoDataChange(List<NewsVideoItem.DataBean> dataBean) {
         VideoViewAdapter viewAdapter = new VideoViewAdapter(dataBean, getContext(), fragmentBinding.refreshLayout);
         fragmentBinding.recyview.setAdapter(viewAdapter);
-        fragmentBinding.refreshLayout.finishRefresh();
     }
 }

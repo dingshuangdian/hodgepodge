@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.VideoListAdapter;
+import com.lsqidsd.hodgepodge.api.FeedScrollListener;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
@@ -20,11 +21,11 @@ import com.lsqidsd.hodgepodge.databinding.VideosFragmentBinding;
 import com.lsqidsd.hodgepodge.diyview.videoview.JZMediaManager;
 import com.lsqidsd.hodgepodge.diyview.videoview.Jzvd;
 import com.lsqidsd.hodgepodge.diyview.videoview.JzvdMgr;
+import com.lsqidsd.hodgepodge.diyview.videoview.MyJzvdStd;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class VideosFragment extends Fragment implements InterfaceListenter.VideosLoadFinish {
     private VideosFragmentBinding videosFragmentBinding;
@@ -38,18 +39,19 @@ public class VideosFragment extends Fragment implements InterfaceListenter.Video
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         videosFragmentBinding.recyview.setLayoutManager(linearLayoutManager);
         initRefresh();
+        videosFragmentBinding.recyview.addOnScrollListener(new FeedScrollListener());
         videosFragmentBinding.recyview.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(View view) {
                 //子view显示界面调用
             }
+
             @Override
             public void onChildViewDetachedFromWindow(View view) {
                 //子view离开界面调用
                 Jzvd jzvd = view.findViewById(R.id.video);
                 if (jzvd != null && jzvd.jzDataSource.containsTheUrl(JZMediaManager.getCurrentUrl())) {
                     Jzvd currentJzvd = JzvdMgr.getCurrentJzvd();
-
                     if (currentJzvd != null && currentJzvd.currentScreen != Jzvd.SCREEN_WINDOW_FULLSCREEN) {
                         Jzvd.releaseAllVideos();
                     }
@@ -76,14 +78,14 @@ public class VideosFragment extends Fragment implements InterfaceListenter.Video
     @Override
     public void videosLoadFinish(List<DailyVideos.IssueListBean.ItemListBean> beans, String url) {
         videosList = beans;
-        for (int i = 0; i < beans.size(); i++) {
-        }
         adapter = new VideoListAdapter(beans, getContext(), videosFragmentBinding.refreshLayout, url);
         videosFragmentBinding.recyview.setAdapter(adapter);
     }
+
     @Override
     public void onPause() {
         super.onPause();
         Jzvd.releaseAllVideos();
+        MyJzvdStd.AUTOPLAY = false;
     }
 }
