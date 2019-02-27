@@ -1,31 +1,22 @@
-package com.lsqidsd.hodgepodge.fragment.news;
+package com.lsqidsd.hodgepodge.fragment;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.VideoViewAdapter;
 import com.lsqidsd.hodgepodge.adapter.YWAdapter;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
+import com.lsqidsd.hodgepodge.base.BaseLazyFragment;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.databinding.InformationDataBinding;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
-
 import java.util.ArrayList;
 import java.util.List;
-
-public class InformationFragment extends Fragment implements InterfaceListenter.MainNewsDataListener, InterfaceListenter.VideosDataListener {
+public class InformationFragment extends BaseLazyFragment implements InterfaceListenter.MainNewsDataListener, InterfaceListenter.VideosDataListener {
     private InformationDataBinding fragmentBinding;
     private static InformationFragment informationFragment;
-
     public static InformationFragment getInstance(int i) {
         informationFragment = new InformationFragment();
         Bundle bundle = new Bundle();
@@ -33,33 +24,27 @@ public class InformationFragment extends Fragment implements InterfaceListenter.
         informationFragment.setArguments(bundle);
         return informationFragment;
     }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.information_fragment, container, false);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        //fragmentBinding.recyview.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
-        fragmentBinding.recyview.setLayoutManager(linearLayoutManager);
-        initRefresh();
-        return fragmentBinding.getRoot();
-    }
-
     private void initRefresh() {
         fragmentBinding.refreshLayout.setOnRefreshListener(a -> loadData());
         fragmentBinding.refreshLayout.autoRefresh();
     }
-
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
+    public void initFragment() {
+        fragmentBinding = (InformationDataBinding) setBinding(fragmentBinding);
     }
-
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void initData() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        fragmentBinding.recyview.setLayoutManager(linearLayoutManager);
     }
-
+    @Override
+    public int setContentView() {
+        return R.layout.information_fragment;
+    }
+    @Override
+    public void lazyLoad() {
+        initRefresh();
+    }
     private void loadData() {
         Bundle bundle = getArguments();
         switch (bundle.getInt("flag")) {

@@ -57,7 +57,7 @@ public class VideosViewModule<T> {
 
     public String getReplyCount() {
         if (thisVideo) {
-            return "回复";
+            return videos.getComment_num() + "";
         } else {
             return adVieos.getData().getConsumption().getReplyCount() + "";
         }
@@ -73,7 +73,7 @@ public class VideosViewModule<T> {
 
     public String getCollectionCount() {
         if (thisVideo) {
-            return "收藏";
+            return TimeUtil.formatNum(videos.getView_count(), false);
         } else {
             return adVieos.getData().getConsumption().getCollectionCount() + "";
         }
@@ -81,7 +81,7 @@ public class VideosViewModule<T> {
 
     public String getTime() {
         if (thisVideo) {
-            return TimeUtil.formatTime(videos.getPublish_time());
+            return TimeUtil.formatTime(videos.getPublish_time()) + "  |  " + TimeUtil.formatTime_(videos.getDuration());
         } else {
             return adVieos.getData().getCategory() + "  |  " + TimeUtil.formatTime_(adVieos.getData().getDuration());
         }
@@ -97,22 +97,14 @@ public class VideosViewModule<T> {
 
     public String getImageAuthor() {
         if (thisVideo) {
-            return "";
+            return videos.getMedia_icon();
         } else {
             return adVieos.getData().getAuthor().getIcon();
         }
     }
 
-    public String getViewCount() {
-        if (thisVideo) {
-            return videos.getView_count() + "";
-        } else {
-            return null;
-        }
-    }
-
     @BindingAdapter({"imageAuthor"})
-    public  static void setImageAuthor(ImageView imageAuthor, String imageUrl) {
+    public static void setImageAuthor(ImageView imageAuthor, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
             Glide.with(context).load(imageUrl).into(imageAuthor);
         }
@@ -129,9 +121,6 @@ public class VideosViewModule<T> {
     public void toPlay(View view) {
         if (thisVideo) {
             Jump.jumpToWebActivity(context, videos.getUrl());
-        } else {
-
         }
-
     }
 }

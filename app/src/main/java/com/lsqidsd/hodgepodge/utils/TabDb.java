@@ -21,6 +21,11 @@ public class TabDb {
         return tabs;
     }
 
+    public static String[] getTopsVideoTxt() {
+        String[] tabs = {"每日精选", "发现更多", "热门排行"};
+        return tabs;
+    }
+
     /**
      * 获得所有碎片
      */

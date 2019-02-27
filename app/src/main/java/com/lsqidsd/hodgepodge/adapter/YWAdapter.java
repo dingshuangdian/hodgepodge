@@ -25,10 +25,8 @@ import com.lsqidsd.hodgepodge.viewmodel.NewsItemModel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     private Context context;
     private int page = 1;
@@ -49,7 +47,6 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         this.newsMain = list;
         this.refreshLayout = refreshLayout;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -78,6 +75,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
         return myViewHolder;
     }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (holder instanceof LoadMoreHolder) {
@@ -163,6 +161,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
             hotBinding = itemView;
             hotBinding.setNewsitem(new NewsItemModel(context, this));
         }
+
         @Override
         public void itemShow(ObservableInt... observableInt) {
             List<ObservableInt> observableInts = new ArrayList<>();
