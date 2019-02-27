@@ -1,13 +1,11 @@
 package com.lsqidsd.hodgepodge.fragment;
 
 import android.support.v4.app.Fragment;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.BaseFragmentAdapter;
 import com.lsqidsd.hodgepodge.base.BaseLazyFragment;
 import com.lsqidsd.hodgepodge.databinding.VideosFragmentBinding;
 import com.lsqidsd.hodgepodge.utils.TabDb;
-
 import java.util.ArrayList;
 import java.util.List;
 
