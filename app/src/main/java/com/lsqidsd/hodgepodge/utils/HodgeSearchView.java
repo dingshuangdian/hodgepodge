@@ -45,6 +45,7 @@ public class HodgeSearchView extends ConstraintLayout {
     private OnEnterClickListener onEnterClickListener;
     private SearchViewBinding searchViewBinding;
     private Context context;
+
     public HodgeSearchView(Context context) {
         this(context, null);
     }
@@ -113,9 +114,7 @@ public class HodgeSearchView extends ConstraintLayout {
             }
         });
         //监听键盘搜索
-        searchViewBinding.editSearch.setOnEditorActionListener(new TextView.OnEditorActionListener()
-
-        {
+        searchViewBinding.editSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
 
@@ -228,28 +227,23 @@ public class HodgeSearchView extends ConstraintLayout {
     }
     public void setTopRoll(List<String> stringList) {
         Handler handler = new Handler(getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < stringList.size(); i++) {
-                    ConstraintLayout.LayoutParams constraintLayout = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    TextView textView = new TextView(context);
-                    textView.setLayoutParams(constraintLayout);
-                    textView.setTextColor(Color.parseColor("#2d3444"));
-                    textView.setTextSize(14);
-                    textView.setText(stringList.get(i));
-                    searchViewBinding.vf.addView(textView);
-                }
+        handler.post(() -> {
+            for (int i = 0; i < stringList.size(); i++) {
+                ConstraintLayout.LayoutParams constraintLayout = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                TextView textView = new TextView(context);
+                textView.setMaxLines(1);
+                textView.setLayoutParams(constraintLayout);
+                textView.setTextColor(Color.parseColor("#2d3444"));
+                textView.setTextSize(14);
+                textView.setText(stringList.get(i));
+                searchViewBinding.vf.addView(textView);
             }
         });
     }
-
-
     /*****************************设置监听器**********************/
     public void setOnEditChangeListener(OnEditChangeListener editChangeListener) {
         this.onEditChangeListener = editChangeListener;
     }
-
     public void setOnEnterClickListener(OnEnterClickListener enterClickListener) {
         this.onEnterClickListener = enterClickListener;
     }

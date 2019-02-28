@@ -10,54 +10,96 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.bean.Milite;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
+
 import org.json.JSONArray;
 
-public class HotViewModule {
+public class HotViewModule<T> {
     private static Context mContext;
     public ObservableInt imgfVisbility = new ObservableInt(View.VISIBLE);
     public ObservableInt gvVisbility = new ObservableInt(View.GONE);
     public ObservableInt commentVisibility = new ObservableInt(View.GONE);
     private JSONArray jsonArray;
     private NewsHot.DataBean dataBean;
+    private Milite.DataBean milites;
+    private boolean flag = true;
 
     public HotViewModule(Context mContext) {
         this.mContext = mContext;
     }
 
-    public HotViewModule(Context mContext, JSONArray jsonArray, NewsHot.DataBean dataBean) {
+    public HotViewModule(Context mContext, JSONArray jsonArray, T t) {
         this.mContext = mContext;
         this.jsonArray = jsonArray;
-        this.dataBean = dataBean;
+        if (t instanceof NewsHot.DataBean) {
+            this.dataBean = (NewsHot.DataBean) t;
+            flag = true;
+        }
+        if (t instanceof Milite.DataBean) {
+            this.milites = (Milite.DataBean) t;
+            flag = false;
+        }
+
     }
 
     public String getTitle() {
-        return dataBean.getTitle();
+        if (flag) {
+            return dataBean.getTitle();
+        } else {
+            return milites.getTitle();
+        }
+
     }
 
     public String getTime() {
-        return TimeUtil.formatTime(dataBean.getPublish_time());
+        if (flag) {
+            return TimeUtil.formatTime(dataBean.getPublish_time());
+        } else {
+            return TimeUtil.formatTime(milites.getPublish_time());
+        }
     }
 
     public String getAuthor() {
-        return dataBean.getSource();
+        if (flag) {
+            return dataBean.getSource();
+        } else {
+            return milites.getSource();
+        }
+
     }
 
     public String getUrl() {
-        return dataBean.getUrl();
+        if (flag) {
+            return dataBean.getUrl();
+        } else {
+            return milites.getUrl();
+        }
+
     }
 
 
     public String getComment() {
-        if (dataBean.getComment_num() == 0) {
-            commentVisibility.set(View.GONE);
+        if (flag) {
+            if (dataBean.getComment_num() == 0) {
+                commentVisibility.set(View.GONE);
+            } else {
+                commentVisibility.set(View.VISIBLE);
+            }
+            return dataBean.getComment_num() + "评";
         } else {
-            commentVisibility.set(View.VISIBLE);
+            if (milites.getComment_num() == 0) {
+                commentVisibility.set(View.GONE);
+            } else {
+                commentVisibility.set(View.VISIBLE);
+            }
+            return milites.getComment_num() + "评";
         }
-        return dataBean.getComment_num() + "评";
+
+
     }
 
     public String getImageeUrl() {
@@ -70,13 +112,20 @@ public class HotViewModule {
                 imgfVisbility.set(View.VISIBLE);
             }
         }
-        return JsonUtils.jsonKey(dataBean.getImgs(), 0);
+        if (flag) {
+            return JsonUtils.jsonKey(dataBean.getImgs(), 0);
+        } else {
+            return JsonUtils.jsonKey(milites.getImgs(), 0);
+        }
+
     }
 
     @BindingAdapter({"imageeUrl"})
     public static void setImageeUrl(ImageView imageView, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
             Glide.with(mContext).load(imageUrl).into(imageView);
+        } else {
+            Glide.with(mContext).load(R.mipmap.loadfail).into(imageView);
         }
     }
 

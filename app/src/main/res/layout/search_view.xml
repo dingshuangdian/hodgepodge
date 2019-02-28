@@ -9,9 +9,11 @@
             name="searchview"
             type="com.lsqidsd.hodgepodge.viewmodel.NewsViewModule"></variable>
     </data>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -66,6 +68,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+
                         android:id="@+id/edit_search"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -74,12 +77,12 @@
                         android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:maxLines="1"
-                       app:layout_constraintStart_toStartOf="parent"
                         android:textColor="@color/edit_text"
                         android:textColorHint="@color/edit_hint_text"
                         android:textCursorDrawable="@drawable/cursorcolor"
                         android:textSize="@dimen/edit_text_size"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton

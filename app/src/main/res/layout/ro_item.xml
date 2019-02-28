@@ -10,7 +10,6 @@
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/cl1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,6 +24,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <ViewFlipper
             android:id="@+id/vf"
             android:layout_width="0dp"
@@ -34,11 +34,13 @@
             android:autoStart="true"
             android:flipInterval="2500"
             android:inAnimation="@anim/anim_marquee_in"
+            android:onClick="@{roitem.click}"
             android:outAnimation="@anim/anim_marquee_out"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/view"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ViewFlipper>
+            app:layout_constraintTop_toTopOf="parent">
+        </ViewFlipper>
 
         <View
             android:id="@+id/view"

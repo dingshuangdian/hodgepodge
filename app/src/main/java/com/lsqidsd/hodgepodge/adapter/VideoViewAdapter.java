@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.ViewHolder.LoadMoreHolder;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
@@ -14,21 +15,29 @@ import com.lsqidsd.hodgepodge.databinding.VideosItemBinding;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.lsqidsd.hodgepodge.viewmodel.VideosViewModule;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+
 import java.util.List;
+
 public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<NewsVideoItem.DataBean> videos;
     private Context context;
     private LayoutInflater inflate;
     private final int NORMAL_ITEM = 0;
-    private int page = 1;
+    private int page;
     private final int LOAD_MORE = -1;//上拉加载
     private RefreshLayout refreshLayout;
-    public VideoViewAdapter(List<NewsVideoItem.DataBean> videos, Context context, RefreshLayout refreshLayout) {
-        this.videos = videos;
+
+    public VideoViewAdapter(Context context, RefreshLayout refreshLayout) {
         this.context = context;
         this.inflate = LayoutInflater.from(context);
         this.refreshLayout = refreshLayout;
     }
+
+    public void addVideos(List<NewsVideoItem.DataBean> videos) {
+        this.videos = videos;
+        this.page = 1;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,6 +56,7 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         return viewHolder;
     }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof VideoHolder) {
@@ -54,12 +64,10 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             videoHolder.bindData(videos.get(position));
         }
         if (holder instanceof LoadMoreHolder) {
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getVideoList(page, b -> {
-                page++;
-                videos = b;
-            }, videos, refreshLayout));
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getVideoList(page, b -> page++, videos, refreshLayout));
         }
     }
+
     @Override
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()) {

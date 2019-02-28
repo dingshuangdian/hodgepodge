@@ -1,10 +1,10 @@
 package com.lsqidsd.hodgepodge.viewmodel;
-
 import android.util.Log;
 import com.google.gson.Gson;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
+import com.lsqidsd.hodgepodge.bean.Milite;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
@@ -21,6 +21,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -44,6 +45,9 @@ public class HttpModel {
             @Override
             public void onSuccess(Object o) {
                 NewsVideoItem newsVideoItem = (NewsVideoItem) o;
+                if (page == 0) {
+                    videoBeans.clear();
+                }
                 if (newsVideoItem.getData().size() > 0) {
                     for (NewsVideoItem.DataBean video : newsVideoItem.getData()) {
                         videoBeans.add(video);
@@ -74,12 +78,53 @@ public class HttpModel {
         }));
     }
 
+    public static void getCategoriesNews(int page, HashMap<String, String> params, InterfaceListenter.LoadCategoriesNews listener, List<Milite.DataBean> milites, RefreshLayout refreshLayout, String... s) {
+        Observable<Milite> militeObservable = RetrofitServiceManager.getInstance().setUrl(BaseConstant.BASE_URL).getMilite(params, page);
+        RetrofitServiceManager.toSubscribe(militeObservable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(Object o) {
+                Milite milite = (Milite) o;
+                if (page == 0) {
+                    milites.clear();
+                }
+                if (milite.getData().size() > 0) {
+                    for (Milite.DataBean m : milite.getData()) {
+                        milites.add(m);
+                    }
+                    if (listener != null) {
+                        if (page > 0) {
+                            refreshLayout.finishLoadMore();
+                        } else {
+                            refreshLayout.finishRefresh();
+                            refreshLayout.resetNoMoreData();
+                        }
+                        listener.loadCategoriesNewsFinish(milites, s[0]);
+                    }
+                } else {
+                    refreshLayout.finishLoadMoreWithNoMoreData();
+                }
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                if (page > 0) {
+                    refreshLayout.finishLoadMore();
+                } else {
+                    refreshLayout.finishRefresh();
+                    refreshLayout.resetNoMoreData();
+                }
+            }
+        }));
+    }
     public static void getActivityHotNews(int page, InterfaceListenter.HotNewsDataListener listener, List<NewsHot.DataBean> hotBeans, RefreshLayout refreshLayout) {
         Observable<NewsHot> observable = RetrofitServiceManager.getInstance().setUrl(BaseConstant.BASE_URL).getHotNews(page, 15);
         RetrofitServiceManager.toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(Object o) {
                 NewsHot newsHot = (NewsHot) o;
+                if (page == 0) {
+                    hotBeans.clear();
+                }
                 if (newsHot.getData().size() > 0) {
                     for (NewsHot.DataBean hot : newsHot.getData()) {
                         hotBeans.add(hot);
@@ -109,7 +154,6 @@ public class HttpModel {
             }
         }));
     }
-
     /**
      * 加载更多新闻数据
      *
@@ -135,7 +179,6 @@ public class HttpModel {
                     refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
-
             @Override
             public void onFault(String errorMsg) {
                 refreshLayout.finishLoadMore();
@@ -187,6 +230,7 @@ public class HttpModel {
                     }
                 });
     }
+
     /**
      * zip操作符结合多个接口的数据请求
      */

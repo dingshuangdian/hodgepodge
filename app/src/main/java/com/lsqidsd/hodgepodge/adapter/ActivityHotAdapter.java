@@ -25,18 +25,22 @@ import java.util.List;
 
 public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private int page = 1;
+    private int page;
     private LayoutInflater layoutInflater;
     private List<NewsHot.DataBean> hotBeans;
     private final int TYPE_NORMAL = 1;
     private RefreshLayout refreshLayout;
     private final int LOAD_MORE = -1;//上拉加载
 
-    public ActivityHotAdapter(Context context, List<NewsHot.DataBean> hotBean, RefreshLayout refreshLayout) {
+    public ActivityHotAdapter(Context context, RefreshLayout refreshLayout) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
-        this.hotBeans = hotBean;
         this.refreshLayout = refreshLayout;
+    }
+
+    public void addHot(List<NewsHot.DataBean> hotBean) {
+        this.hotBeans = hotBean;
+        this.page = 1;
     }
 
     @NonNull
@@ -66,10 +70,7 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             hotViewHolder.loadData(hotBeans.get(position));
         }
         if (holder instanceof LoadMoreHolder) {
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getActivityHotNews(page, b -> {
-                page++;
-                hotBeans = b;
-            }, hotBeans, refreshLayout));
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getActivityHotNews(page, b -> page++, hotBeans, refreshLayout));
         }
     }
 
@@ -107,7 +108,6 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             }
             itemHotBinding.setNewsitem(new HotViewModule(context, jsonArray, bean));
-
         }
     }
 }

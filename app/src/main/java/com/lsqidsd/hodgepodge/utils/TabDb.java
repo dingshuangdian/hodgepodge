@@ -17,7 +17,7 @@ public class TabDb {
     }
 
     public static String[] getTopsTxt() {
-        String[] tabs = {"要闻", "视频", "推荐", "娱乐", "军事", "体育", "国际", "财经"};
+        String[] tabs = {"要闻", "视频", "推荐", "娱乐", "军事", "历史", "国际", "财经", "文化"};
         return tabs;
     }
 

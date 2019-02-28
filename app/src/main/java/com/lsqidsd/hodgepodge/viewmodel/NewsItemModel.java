@@ -15,6 +15,7 @@ import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
+import com.lsqidsd.hodgepodge.view.HotActivity;
 
 import org.json.JSONArray;
 
@@ -94,7 +95,9 @@ public class NewsItemModel<T> {
                 break;
             case R.id.view_03:
                 Jump.jumpToWebActivity(context, getUrl());
-
+                break;
+            case R.id.vf:
+                Jump.jumpToNormalActivity(context, HotActivity.class);
                 break;
         }
     }
@@ -119,6 +122,8 @@ public class NewsItemModel<T> {
     public static void setImageView(ImageView imageView, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
             Glide.with(context).load(imageUrl).into(imageView);
+        } else {
+            Glide.with(context).load(R.mipmap.loadfail).into(imageView);
         }
     }
 
@@ -126,6 +131,8 @@ public class NewsItemModel<T> {
     public static void setTopImageView(ImageView imageView, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
             Glide.with(context).load(imageUrl).into(imageView);
+        } else {
+            Glide.with(context).load(R.mipmap.loadfail).into(imageView);
         }
     }
 

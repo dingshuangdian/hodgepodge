@@ -33,13 +33,18 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private String url;
     private JzvdStd jzvdStd;
 
-    public VideoListAdapter(List<DailyVideos.IssueListBean.ItemListBean> listBeans, Context context, RefreshLayout refreshLayout, String url) {
-        this.listBeans = listBeans;
+    public VideoListAdapter(Context context, RefreshLayout refreshLayout) {
+
         this.context = context;
-        this.url = url;
+
         this.refreshLayout = refreshLayout;
         this.layoutInflater = LayoutInflater.from(context);
     }
+    public void addVideos(List<DailyVideos.IssueListBean.ItemListBean> listBeans,String url){
+        this.listBeans = listBeans;
+        this.url = url;
+    }
+
 
     @NonNull
     @Override

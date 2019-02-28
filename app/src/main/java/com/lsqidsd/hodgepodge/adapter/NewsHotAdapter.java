@@ -1,4 +1,5 @@
 package com.lsqidsd.hodgepodge.adapter;
+
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableInt;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
@@ -16,6 +18,8 @@ import com.lsqidsd.hodgepodge.databinding.RoItemBinding;
 import com.lsqidsd.hodgepodge.databinding.VpItemBinding;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.view.HotActivity;
+import com.lsqidsd.hodgepodge.viewmodel.NewsItemModel;
+
 import java.util.List;
 
 public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -63,6 +67,7 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public RolViewHolder(RoItemBinding itemView) {
             super(itemView.getRoot());
+            itemView.setRoitem(new NewsItemModel(context, null));
             loadData(itemView);
         }
 

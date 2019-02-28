@@ -3,6 +3,7 @@ package com.lsqidsd.hodgepodge.api;
 import android.databinding.ObservableInt;
 
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
+import com.lsqidsd.hodgepodge.bean.Milite;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
@@ -34,12 +35,7 @@ public class InterfaceListenter {
         void hasFinish(List<String> list);
     }
 
-    public interface LoadFinish {
-        void loadFinish();
-    }
-
-    public interface playerFinish {
-        void pFinish();
-
+    public interface LoadCategoriesNews {
+        void loadCategoriesNewsFinish(List<Milite.DataBean> dataBeans,String categorie);
     }
 }

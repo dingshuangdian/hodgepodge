@@ -1,4 +1,5 @@
 package com.lsqidsd.hodgepodge.view;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -19,7 +20,7 @@ public class HotActivity extends BaseActivity implements InterfaceListenter.HotN
     private ActivityHotBinding activityHotBinding;
     private InterfaceListenter.HotNewsDataListener hotNewsDataListener;
     private ActivityHotAdapter adapter;
-
+    List<NewsHot.DataBean> dataBeans = new ArrayList<>();
     @Override
     public int getLayout() {
         return R.layout.activity_hot;
@@ -31,26 +32,21 @@ public class HotActivity extends BaseActivity implements InterfaceListenter.HotN
         hotViewModule = new HotViewModule(this);
         activityHotBinding = getBinding(activityHotBinding);
         activityHotBinding.lv.tv.setText("热点精选");
-        activityHotBinding.lv.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        activityHotBinding.lv.toolbar.setNavigationOnClickListener(a -> finish());
+        activityHotBinding.rv.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ActivityHotAdapter(this, activityHotBinding.refreshLayout);
         activityHotBinding.setHotview(hotViewModule);
         activityHotBinding.refreshLayout.setOnRefreshListener(a -> refresh());
         activityHotBinding.refreshLayout.autoRefresh();
     }
 
     private void refresh() {
-        List<NewsHot.DataBean> dataBeans = new ArrayList<>();
         HttpModel.getActivityHotNews(0, hotNewsDataListener, dataBeans, activityHotBinding.refreshLayout);
     }
 
     @Override
     public void hotDataChange(List<NewsHot.DataBean> dataBeans) {
-        adapter = new ActivityHotAdapter(this, dataBeans, activityHotBinding.refreshLayout);
-        activityHotBinding.rv.setLayoutManager(new LinearLayoutManager(this));
+        adapter.addHot(dataBeans);
         activityHotBinding.rv.setAdapter(adapter);
     }
 }
