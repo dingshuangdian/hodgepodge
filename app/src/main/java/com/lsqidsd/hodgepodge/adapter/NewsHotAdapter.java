@@ -10,14 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.lsqidsd.hodgepodge.R;
-import com.lsqidsd.hodgepodge.api.InterfaceListenter;
-import com.lsqidsd.hodgepodge.api.ViewPagerOnPageChangeListener;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.databinding.RoItemBinding;
-import com.lsqidsd.hodgepodge.databinding.RvhMoreBinding;
 import com.lsqidsd.hodgepodge.databinding.VpItemBinding;
+import com.lsqidsd.hodgepodge.utils.Jump;
+import com.lsqidsd.hodgepodge.view.HotActivity;
+import com.lsqidsd.hodgepodge.viewmodel.NewsItemModel;
 
 import java.util.List;
 
@@ -45,7 +46,6 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder = new RolViewHolder(roItemBinding);
         }
         if (observableInt.get(1).get() == 0) {
-
             vpItemBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.vp_item, parent, false);
             viewHolder = new VpViewHolder(vpItemBinding);
         }
@@ -67,6 +67,7 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public RolViewHolder(RoItemBinding itemView) {
             super(itemView.getRoot());
+            itemView.setRoitem(new NewsItemModel(context, null));
             loadData(itemView);
         }
 
@@ -84,8 +85,7 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public class VpViewHolder extends RecyclerView.ViewHolder implements InterfaceListenter.ViewLoadFinish {
-        ViewPagerOnPageChangeListener viewPagerOnPageChangeListener;
+    public class VpViewHolder extends RecyclerView.ViewHolder {
         ViewPageAdapter viewPageAdapter;
         VpItemBinding vpItemBinding;
 
@@ -96,16 +96,11 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         public void loadData(VpItemBinding vpItemBinding) {
-            viewPageAdapter = new ViewPageAdapter(context, newsHotList, this);
+            viewPageAdapter = new ViewPageAdapter(context, newsHotList);
             vpItemBinding.vp.setAdapter(viewPageAdapter);
             vpItemBinding.vp.setPageMargin((int) (context.getResources().getDisplayMetrics().density * 10));
             vpItemBinding.vp.setOffscreenPageLimit(2);//预加载2个
-        }
-
-        @Override
-        public void viewLoadFinish(RvhMoreBinding moreBinding) {
-            viewPagerOnPageChangeListener = new ViewPagerOnPageChangeListener(newsHotList, context, moreBinding, vpItemBinding);
-            vpItemBinding.vp.addOnPageChangeListener(viewPagerOnPageChangeListener);
+            vpItemBinding.vp.setOnFindMoreListener(() -> Jump.jumpToNormalActivity(context, HotActivity.class));
         }
     }
 }

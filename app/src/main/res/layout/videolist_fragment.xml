@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class="VideosListFragmentBinding">
+
+        <variable
+            name="videosview"
+            type="com.lsqidsd.hodgepodge.viewmodel.VideosViewModule"></variable>
+    </data>
+
+
+        <com.lsqidsd.hodgepodge.diyview.refresh.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.lsqidsd.hodgepodge.diyview.refresh.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></com.lsqidsd.hodgepodge.diyview.refresh.ClassicsHeader>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            <com.lsqidsd.hodgepodge.diyview.refresh.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.lsqidsd.hodgepodge.diyview.refresh.ClassicsFooter>
+        </com.lsqidsd.hodgepodge.diyview.refresh.SmartRefreshLayout>
+
+</layout>

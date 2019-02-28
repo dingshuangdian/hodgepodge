@@ -2,16 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
-
         <variable
             name="newsitem"
             type="com.lsqidsd.hodgepodge.viewmodel.HotViewModule">
-
         </variable>
     </data>
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/view_03"
         android:layout_width="match_parent"
@@ -49,7 +45,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:riv_corner_radius="5dp"
-            tools:imageUrl="@{newsitem.imageUrl}" />
+            tools:imageeUrl="@{newsitem.imageeUrl}" />
 
         <GridView
             android:id="@+id/gv"

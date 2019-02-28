@@ -2,7 +2,6 @@ package com.lsqidsd.hodgepodge.http;
 
 import com.lsqidsd.hodgepodge.api.HttpApi;
 import com.lsqidsd.hodgepodge.base.BaseApplication;
-import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -22,7 +21,6 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitServiceManager {
     private static final int DEFAULT_TIME_OUT = 10;

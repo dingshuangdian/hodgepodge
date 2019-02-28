@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -97,6 +98,7 @@ public class ViewPagerTitle extends HorizontalScrollView {
         super(context, attrs, defStyleAttr);
         this.context = context;
         initAttributeSet(context, attrs);
+
     }
 
     private void initAttributeSet(Context context, AttributeSet attrs) {
@@ -116,28 +118,26 @@ public class ViewPagerTitle extends HorizontalScrollView {
         shaderColorEnd = array.getColor(R.styleable.FlexTitle_line_end_color, Color.BLUE);
         lineHeight = Tool.px2dip(context, array.getDimension(R.styleable.FlexTitle_line_height, 10));
         lineBottomMargins = Tool.px2dip(context, array.getDimension(R.styleable.FlexTitle_line_bottom_margins, 10));
-
         array.recycle();
     }
-
 
     /**
      * 初始化时，调用这个方法。ViewPager需要设置Adapter，且titles的数据长度需要与Adapter中的数据长度一置。
      *
      * @param
      * @param viewPager
-     * @param selectedIndex 默认选择的第几个页面
      */
-    public void initData(String[] t, ViewPager viewPager, int selectedIndex) {
+    public void initData(ViewPager viewPager) {
         this.viewPager = viewPager;
+        onPageChangeListener = new MyOnPageChangeListener(getContext(), viewPager, dynamicLine, this, margin, defaultTextSize, selectedTextSize, titleCenter, lineDrag, lineMargins);
+
+        viewPager.addOnPageChangeListener(onPageChangeListener);
+    }
+    public void initView(String[] t,int selectedIndex){
         createDynamicLine();
         createTextViews(t);
-        onPageChangeListener = new MyOnPageChangeListener(getContext(), viewPager, dynamicLine, this, margin, defaultTextSize, selectedTextSize, titleCenter, lineDrag, lineMargins);
         setSelectedIndex(selectedIndex);
-        viewPager.addOnPageChangeListener(onPageChangeListener);
-
     }
-
     private int getFixLeftDis(List<CategoriesBean> t) {
         TextView textView = new TextView(getContext());
         textView.setTextSize(defaultTextSize);
@@ -152,14 +152,11 @@ public class ViewPagerTitle extends HorizontalScrollView {
         return textViews;
     }
 
-
     private void createDynamicLine() {
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
         dynamicLine = new DynamicLine(getContext(), shaderColorStart, shaderColorEnd, (int) lineHeight, (int) lineBottomMargins);
         dynamicLine.setLayoutParams(params);
     }
-
 
     private void createTextViews(String[] titles) {
         LinearLayout contentLl = new LinearLayout(getContext());
@@ -167,15 +164,10 @@ public class ViewPagerTitle extends HorizontalScrollView {
         contentLl.setLayoutParams(contentParams);
         contentLl.setOrientation(LinearLayout.VERTICAL);
         addView(contentLl);
-
-
         LinearLayout textViewLl = new LinearLayout(getContext());
         textViewLl.setLayoutParams(contentParams);
         textViewLl.setOrientation(LinearLayout.HORIZONTAL);
-
         margin = getTextViewMargins(titles);
-
-
         for (int i = 0; i < titles.length; i++) {
             TextView textView = new TextView(getContext());
             textView.setText(titles[i]);
@@ -219,8 +211,8 @@ public class ViewPagerTitle extends HorizontalScrollView {
                 countLength = countLength + itemMargins + paint.measureText(titles[i] + itemMargins);
                 textLength = textLength + paint.measureText(titles[i]);
             }
-            countLength = countLength + 2 * itemMargins + paint2.measureText(titles[titles.length-1]);
-            textLength = textLength + paint.measureText(titles[titles.length-1]);
+            countLength = countLength + 2 * itemMargins + paint2.measureText(titles[titles.length - 1]);
+            textLength = textLength + paint.measureText(titles[titles.length - 1]);
             int screenWidth = getScreenWidth(getContext());
 
             if (countLength <= screenWidth) {

@@ -1,60 +1,53 @@
 package com.lsqidsd.hodgepodge.fragment;
-
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.BaseFragmentAdapter;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
-import com.lsqidsd.hodgepodge.fragment.news.InformationFragment;
+import com.lsqidsd.hodgepodge.base.BaseLazyFragment;
 import com.lsqidsd.hodgepodge.databinding.NewsFragmentBinding;
 import com.lsqidsd.hodgepodge.utils.TabDb;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
-
 import java.util.ArrayList;
 import java.util.List;
-
-public class NewsFragment extends Fragment implements InterfaceListenter.HasFinish {
+public class NewsFragment extends BaseLazyFragment implements InterfaceListenter.HasFinish {
     private NewsFragmentBinding fragmentBinding;
     private List<Fragment> fragmentArrayList = new ArrayList<>();
     private List<String> top = new ArrayList<>();
     private BaseFragmentAdapter basePagerAdapter;
     private InterfaceListenter.HasFinish hasFinish;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_news, container, false);
-        initFlexTitle();
-        hasFinish = this;
-        return fragmentBinding.getRoot();
+    public int setContentView() {
+        return R.layout.fragment_news;
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void lazyLoad() {
         new Thread(() -> HttpModel.getHotKey(hasFinish, top)).start();
     }
+
+    @Override
+    public void initFragment() {
+        fragmentBinding = (NewsFragmentBinding) setBinding(fragmentBinding);
+        fragmentBinding.tabTop.vt.initView(TabDb.getTopsTxt(), 0);
+    }
+
+    @Override
+    public void initData() {
+        hasFinish = this;
+        initFlexTitle();
+    }
+
     private void initFlexTitle() {
-        fragmentBinding.tabTop.vt.initData(TabDb.getTopsTxt(), fragmentBinding.viewpager, 0);
+        fragmentBinding.tabTop.vt.initData(fragmentBinding.viewpager);
         if (fragmentArrayList != null) {
             fragmentArrayList.clear();
         }
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 9; i++) {
             fragmentArrayList.add(InformationFragment.getInstance(i));
         }
         basePagerAdapter = new BaseFragmentAdapter(getChildFragmentManager(), fragmentArrayList);
+        fragmentBinding.viewpager.setOffscreenPageLimit(0);
         fragmentBinding.viewpager.setAdapter(basePagerAdapter);
     }
 

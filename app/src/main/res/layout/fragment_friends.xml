@@ -8,17 +8,13 @@
             name="friendview"
             type="com.lsqidsd.hodgepodge.viewmodel.FriendsViewModule"></variable>
     </data>
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <include layout="@layout/tab_top"></include>
         <android.support.v4.view.ViewPager
             android:id="@+id/news_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
         </android.support.v4.view.ViewPager>
 
     </android.support.constraint.ConstraintLayout>

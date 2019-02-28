@@ -2,11 +2,11 @@ package com.lsqidsd.hodgepodge.api;
 
 import android.databinding.ObservableInt;
 
-import com.lsqidsd.hodgepodge.bean.AdVideos;
+import com.lsqidsd.hodgepodge.bean.DailyVideos;
+import com.lsqidsd.hodgepodge.bean.Milite;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
-import com.lsqidsd.hodgepodge.databinding.RvhMoreBinding;
 
 import java.util.List;
 
@@ -27,20 +27,15 @@ public class InterfaceListenter {
         void hotDataChange(List<NewsHot.DataBean> dataBeans);
     }
 
-    public interface ViewLoadFinish {
-        void viewLoadFinish(RvhMoreBinding moreBinding);
-
-    }
-
     public interface VideosLoadFinish {
-        void videosLoadFinish(List<AdVideos> beans);
+        void videosLoadFinish(List<DailyVideos.IssueListBean.ItemListBean> beans, String url);
     }
 
     public interface HasFinish {
         void hasFinish(List<String> list);
     }
 
-    public interface LoadFinish {
-        void loadFinish();
+    public interface LoadCategoriesNews {
+        void loadCategoriesNewsFinish(List<Milite.DataBean> dataBeans,String categorie);
     }
 }

@@ -1,10 +1,13 @@
 package com.lsqidsd.hodgepodge.viewmodel;
+
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
@@ -12,13 +15,14 @@ import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
-import com.squareup.picasso.Picasso;
+import com.lsqidsd.hodgepodge.view.HotActivity;
+
 import org.json.JSONArray;
 
 import java.util.Random;
 
 public class NewsItemModel<T> {
-    private Context context;
+    private static Context context;
     public ObservableInt commentVisibility = new ObservableInt(View.GONE);
     public ObservableInt commentTopVisibility = new ObservableInt(View.GONE);
     public ObservableInt imgVisbility = new ObservableInt(View.VISIBLE);
@@ -91,7 +95,9 @@ public class NewsItemModel<T> {
                 break;
             case R.id.view_03:
                 Jump.jumpToWebActivity(context, getUrl());
-
+                break;
+            case R.id.vf:
+                Jump.jumpToNormalActivity(context, HotActivity.class);
                 break;
         }
     }
@@ -115,14 +121,18 @@ public class NewsItemModel<T> {
     @BindingAdapter({"imageUrl"})
     public static void setImageView(ImageView imageView, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
-            Picasso.get().load(imageUrl).into(imageView);
+            Glide.with(context).load(imageUrl).into(imageView);
+        } else {
+            Glide.with(context).load(R.mipmap.loadfail).into(imageView);
         }
     }
 
     @BindingAdapter({"topImageUrl"})
     public static void setTopImageView(ImageView imageView, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
-            Picasso.get().load(imageUrl).into(imageView);
+            Glide.with(context).load(imageUrl).into(imageView);
+        } else {
+            Glide.with(context).load(R.mipmap.loadfail).into(imageView);
         }
     }
 
