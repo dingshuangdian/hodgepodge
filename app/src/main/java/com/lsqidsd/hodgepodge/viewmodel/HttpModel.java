@@ -89,7 +89,7 @@ public class HttpModel {
             @Override
             public void onSuccess(Object o) {
                 Milite milite = (Milite) o;
-                if (page == 1) {
+                if (page == 0) {
                     milites.clear();
                 }
                 if (milite.getData().size() > 0) {
@@ -97,7 +97,7 @@ public class HttpModel {
                         milites.add(m);
                     }
                     if (listener != null) {
-                        if (page > 1) {
+                        if (page > 0) {
                             refreshLayout.finishLoadMore();
                         } else {
                             refreshLayout.finishRefresh();

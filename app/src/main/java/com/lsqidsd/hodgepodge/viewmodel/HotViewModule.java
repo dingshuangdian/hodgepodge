@@ -1,14 +1,17 @@
 package com.lsqidsd.hodgepodge.viewmodel;
+
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+
 import com.bumptech.glide.Glide;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.Milite;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
+import com.lsqidsd.hodgepodge.databinding.NewsItemHotBinding;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
 
@@ -28,7 +31,7 @@ public class HotViewModule<T> {
         this.mContext = mContext;
     }
 
-    public HotViewModule(Context mContext, List<String> imagsUrl, T t) {
+    public HotViewModule(Context mContext, List<String> imagsUrl, T t, NewsItemHotBinding hotBinding) {
         this.mContext = mContext;
         this.imagsUrl = imagsUrl;
         if (t instanceof NewsHot.DataBean) {
@@ -38,6 +41,13 @@ public class HotViewModule<T> {
         if (t instanceof Milite.DataBean) {
             this.milites = (Milite.DataBean) t;
             flag = false;
+        }
+        if (imagsUrl != null && imagsUrl.size() == 3) {
+            hotBinding.gv.setVisibility(View.VISIBLE);
+            hotBinding.ivImage.setVisibility(View.GONE);
+        } else {
+            hotBinding.gv.setVisibility(View.GONE);
+            hotBinding.ivImage.setVisibility(View.VISIBLE);
         }
     }
 
@@ -98,18 +108,11 @@ public class HotViewModule<T> {
 
     public String getImageeUrl() {
         if (imagsUrl != null) {
-            if (imagsUrl.size() == 3) {
-                gvVisbility.set(View.VISIBLE);
-                imgfVisbility.set(View.GONE);
-            } else {
-                gvVisbility.set(View.GONE);
-                imgfVisbility.set(View.VISIBLE);
-            }
             return imagsUrl.get(0);
         } else if (flag) {
-            return dataBean.getBimg();
+            return dataBean.getImg();
         } else {
-            return milites.getBimg();
+            return milites.getImg();
         }
     }
 

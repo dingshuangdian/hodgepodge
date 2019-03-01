@@ -18,6 +18,8 @@ import com.lsqidsd.hodgepodge.databinding.RoItemBinding;
 import com.lsqidsd.hodgepodge.databinding.VpItemBinding;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.view.HotActivity;
+import com.lsqidsd.hodgepodge.viewmodel.NewsItemModel;
+
 import java.util.List;
 
 public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -65,6 +67,7 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public RolViewHolder(RoItemBinding itemView) {
             super(itemView.getRoot());
+            itemView.setRoitem(new NewsItemModel(context));
             loadData(itemView);
         }
 

@@ -45,6 +45,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     public YWAdapter(Context context, RefreshLayout refreshLayout) {
         this.context = context;
         this.refreshLayout = refreshLayout;
+        gridViewImgAdapter = new GridViewImgAdapter(context);
 
     }
 
@@ -134,7 +135,6 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public void bindData(NewsItem.DataBean bean) {
             if (bean.getIrs_imgs().get_$227X148() != null && bean.getIrs_imgs().get_$227X148().size() == 3) {
-                gridViewImgAdapter = new GridViewImgAdapter(context);
                 gridViewImgAdapter.addImgs(bean.getIrs_imgs().get_$227X148(), bean.getUrl(), otherBinding);
                 otherBinding.gv.setAdapter(gridViewImgAdapter);
             }

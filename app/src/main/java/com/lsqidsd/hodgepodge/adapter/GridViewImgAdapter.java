@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.base.BaseApplication;
 import com.lsqidsd.hodgepodge.databinding.ImageBinding;
+import com.lsqidsd.hodgepodge.databinding.NewsItemHotBinding;
 import com.lsqidsd.hodgepodge.databinding.OtherBinding;
 import com.lsqidsd.hodgepodge.utils.Jump;
 
@@ -21,6 +22,7 @@ public class GridViewImgAdapter<T> extends BaseAdapter {
     private Context context;
     private String murl;
     private OtherBinding otherBinding;
+    private NewsItemHotBinding newsItemHotBinding;
     private List<String> stringList;
 
     public GridViewImgAdapter(Context mContext) {
@@ -35,6 +37,12 @@ public class GridViewImgAdapter<T> extends BaseAdapter {
             otherBinding = (OtherBinding) binding;
             otherBinding.gv.setVisibility(View.VISIBLE);
             otherBinding.ivImage.setVisibility(View.GONE);
+        }
+        if (binding instanceof NewsItemHotBinding) {
+            newsItemHotBinding = (NewsItemHotBinding) binding;
+            newsItemHotBinding.gv.setVisibility(View.VISIBLE);
+            newsItemHotBinding.ivImage.setVisibility(View.GONE);
+
         }
     }
 
@@ -56,11 +64,8 @@ public class GridViewImgAdapter<T> extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ImageBinding imageBinding = DataBindingUtil.inflate(layoutInflater, R.layout.image, viewGroup, false);
-        String url = stringList.get(0);
-        imageBinding.imgView.setTag(R.id.imageid, url);
-        if (imageBinding.imgView.getTag(R.id.imageid) != null && url == imageBinding.imgView.getTag(R.id.imageid)) {
-            Glide.with(BaseApplication.getmContext()).load(stringList.get(i)).into(imageBinding.ivImage);
-        }
+        Glide.with(BaseApplication.getmContext()).load(stringList.get(i)).into(imageBinding.ivImage);
+
         imageBinding.imgView.setOnClickListener(a -> Jump.jumpToWebActivity(context, murl));
         return imageBinding.getRoot();
     }

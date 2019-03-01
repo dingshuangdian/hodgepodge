@@ -126,7 +126,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 itemHotBinding.gv.setAdapter(gridViewImgAdapter);
             }
 
-            itemHotBinding.setNewsitem(new HotViewModule(context, bean.getIrs_imgs().get_$227X148(), bean));
+            itemHotBinding.setNewsitem(new HotViewModule(context, bean.getIrs_imgs().get_$227X148(), bean,itemHotBinding));
         }
     }
 }

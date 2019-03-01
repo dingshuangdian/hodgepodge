@@ -38,6 +38,10 @@ public class NewsItemModel<T> {
 
     }
 
+    public NewsItemModel(Context context) {
+        this.context = context;
+    }
+
     public NewsItemModel(Context context, NewsItem.DataBean dataBean, List<String> imgUrl, OtherBinding otherBinding) {
         this.context = context;
         this.imgUrl = imgUrl;
@@ -151,7 +155,7 @@ public class NewsItemModel<T> {
         if (imgUrl != null) {
             return imgUrl.get(0);
         } else {
-            return dataBean.getBimg();
+            return dataBean.getImg();
         }
     }
 
