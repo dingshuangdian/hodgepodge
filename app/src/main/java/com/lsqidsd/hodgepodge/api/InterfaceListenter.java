@@ -5,6 +5,7 @@ import android.databinding.ObservableInt;
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.bean.Milite;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
+import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 
@@ -17,6 +18,9 @@ public class InterfaceListenter {
 
     public interface VideosDataListener {
         void videoDataChange(List<NewsVideoItem.DataBean> dataBean);
+    }
+    public interface NewsItemListener {
+        void newsItemDataChange(List<NewsItem.DataBean> dataBean);
     }
 
     public interface ItemShowListener {

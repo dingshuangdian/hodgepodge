@@ -18,8 +18,6 @@ import com.lsqidsd.hodgepodge.databinding.RoItemBinding;
 import com.lsqidsd.hodgepodge.databinding.VpItemBinding;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.view.HotActivity;
-import com.lsqidsd.hodgepodge.viewmodel.NewsItemModel;
-
 import java.util.List;
 
 public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -67,7 +65,6 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public RolViewHolder(RoItemBinding itemView) {
             super(itemView.getRoot());
-            itemView.setRoitem(new NewsItemModel(context, null));
             loadData(itemView);
         }
 
@@ -92,11 +89,12 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public VpViewHolder(VpItemBinding itemView) {
             super(itemView.getRoot());
             vpItemBinding = itemView;
+            viewPageAdapter = new ViewPageAdapter(context);
             loadData(vpItemBinding);
         }
 
         public void loadData(VpItemBinding vpItemBinding) {
-            viewPageAdapter = new ViewPageAdapter(context, newsHotList);
+            viewPageAdapter.addNews(newsHotList);
             vpItemBinding.vp.setAdapter(viewPageAdapter);
             vpItemBinding.vp.setPageMargin((int) (context.getResources().getDisplayMetrics().density * 10));
             vpItemBinding.vp.setOffscreenPageLimit(2);//预加载2个

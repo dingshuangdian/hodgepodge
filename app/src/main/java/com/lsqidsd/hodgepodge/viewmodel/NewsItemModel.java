@@ -12,39 +12,45 @@ import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
-import com.lsqidsd.hodgepodge.utils.JsonUtils;
+import com.lsqidsd.hodgepodge.databinding.OtherBinding;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
 import com.lsqidsd.hodgepodge.view.HotActivity;
 
-import org.json.JSONArray;
-
+import java.util.List;
 import java.util.Random;
 
 public class NewsItemModel<T> {
-    private static Context context;
+    private Context context;
     public ObservableInt commentVisibility = new ObservableInt(View.GONE);
     public ObservableInt commentTopVisibility = new ObservableInt(View.GONE);
     public ObservableInt imgVisbility = new ObservableInt(View.VISIBLE);
-    public ObservableInt gvVisbility = new ObservableInt(View.GONE);
     public ObservableInt roundVisbility = new ObservableInt(View.GONE);
     public ObservableInt vpVisbility = new ObservableInt(View.GONE);
-    public ObservableInt imgfVisbility = new ObservableInt(View.VISIBLE);
     private NewsItem.DataBean dataBean;
     private NewsTop.DataBean newsTop;
-    private JSONArray jsonArray;
+    private List<String> imgUrl;
     private int[] radom = {0, 8};
 
-
-    public NewsItemModel(Context context, T t, JSONArray jsonArray) {
+    public NewsItemModel(Context context, NewsTop.DataBean newsTop) {
         this.context = context;
-        this.jsonArray = jsonArray;
-        if (t instanceof NewsTop.DataBean) {
-            this.newsTop = (NewsTop.DataBean) t;
+        this.newsTop = newsTop;
+
+    }
+
+    public NewsItemModel(Context context, NewsItem.DataBean dataBean, List<String> imgUrl, OtherBinding otherBinding) {
+        this.context = context;
+        this.imgUrl = imgUrl;
+        this.dataBean = dataBean;
+        if (imgUrl != null && imgUrl.size() == 3) {
+            otherBinding.gv.setVisibility(View.VISIBLE);
+            otherBinding.ivImage.setVisibility(View.GONE);
+        } else {
+            otherBinding.gv.setVisibility(View.GONE);
+            otherBinding.ivImage.setVisibility(View.VISIBLE);
         }
-        if (t instanceof NewsItem.DataBean) {
-            this.dataBean = (NewsItem.DataBean) t;
-        }
+
+
     }
 
     public NewsItemModel(Context context, InterfaceListenter.ItemShowListener itemShowListener) {
@@ -121,18 +127,14 @@ public class NewsItemModel<T> {
     @BindingAdapter({"imageUrl"})
     public static void setImageView(ImageView imageView, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
-            Glide.with(context).load(imageUrl).into(imageView);
-        } else {
-            Glide.with(context).load(R.mipmap.loadfail).into(imageView);
+            Glide.with(imageView.getContext()).load(imageUrl).into(imageView);
         }
     }
 
     @BindingAdapter({"topImageUrl"})
     public static void setTopImageView(ImageView imageView, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
-            Glide.with(context).load(imageUrl).into(imageView);
-        } else {
-            Glide.with(context).load(R.mipmap.loadfail).into(imageView);
+            Glide.with(imageView.getContext()).load(imageUrl).into(imageView);
         }
     }
 
@@ -146,16 +148,11 @@ public class NewsItemModel<T> {
     }
 
     public String getImageUrl() {
-        if (jsonArray != null) {
-            if (jsonArray.length() == 3) {
-                gvVisbility.set(View.VISIBLE);
-                imgfVisbility.set(View.GONE);
-            } else {
-                gvVisbility.set(View.GONE);
-                imgfVisbility.set(View.VISIBLE);
-            }
+        if (imgUrl != null) {
+            return imgUrl.get(0);
+        } else {
+            return dataBean.getBimg();
         }
-        return JsonUtils.jsonKey(dataBean.getImgs(), 0);
     }
 
     public String getTitle() {

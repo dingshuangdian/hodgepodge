@@ -41,7 +41,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
             app:riv_corner_radius="5dp"
-            android:visibility="@{newsitem.imgfVisbility}"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintDimensionRatio="h,5:4"
             app:layout_constraintLeft_toRightOf="@+id/title"
@@ -55,8 +55,7 @@
             android:layout_height="wrap_content"
             android:horizontalSpacing="5dp"
             android:numColumns="3"
-            android:visibility="@{newsitem.gvVisbility}"
-            app:layout_constraintBottom_toTopOf="@+id/author"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/title"></GridView>
 
         <TextView

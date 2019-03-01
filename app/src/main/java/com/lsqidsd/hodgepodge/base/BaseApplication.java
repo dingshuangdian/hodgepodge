@@ -14,7 +14,7 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 public class BaseApplication extends Application {
-    private static Context mContext;
+    private  static Context mContext;
 
     static {
         //启用矢量图兼容
@@ -46,7 +46,6 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
-        ;
     }
 
     public static Context getmContext() {

@@ -1,5 +1,7 @@
 package com.lsqidsd.hodgepodge.viewmodel;
+
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
@@ -16,13 +18,16 @@ import com.lsqidsd.hodgepodge.http.RetrofitServiceManager;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -84,7 +89,7 @@ public class HttpModel {
             @Override
             public void onSuccess(Object o) {
                 Milite milite = (Milite) o;
-                if (page == 0) {
+                if (page == 1) {
                     milites.clear();
                 }
                 if (milite.getData().size() > 0) {
@@ -92,7 +97,7 @@ public class HttpModel {
                         milites.add(m);
                     }
                     if (listener != null) {
-                        if (page > 0) {
+                        if (page > 1) {
                             refreshLayout.finishLoadMore();
                         } else {
                             refreshLayout.finishRefresh();
@@ -116,6 +121,7 @@ public class HttpModel {
             }
         }));
     }
+
     public static void getActivityHotNews(int page, InterfaceListenter.HotNewsDataListener listener, List<NewsHot.DataBean> hotBeans, RefreshLayout refreshLayout) {
         Observable<NewsHot> observable = RetrofitServiceManager.getInstance().setUrl(BaseConstant.BASE_URL).getHotNews(page, 15);
         RetrofitServiceManager.toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
@@ -154,13 +160,14 @@ public class HttpModel {
             }
         }));
     }
+
     /**
      * 加载更多新闻数据
      *
      * @param page
      * @param listener
      */
-    public static void getNewsData(int page, InterfaceListenter.MainNewsDataListener listener, NewsMain newsMain, RefreshLayout refreshLayout) {
+    public static void getNewsData(int page, InterfaceListenter.NewsItemListener listener, List<NewsItem.DataBean> dataBeanList, RefreshLayout refreshLayout) {
         Observable<NewsItem> observable = RetrofitServiceManager.getInstance().setUrl(BaseConstant.BASE_URL).getMainNews(page);
         RetrofitServiceManager.toSubscribe(observable, new OnSuccessAndFaultSub<>(new OnSuccessAndFaultListener() {
             @Override
@@ -168,10 +175,10 @@ public class HttpModel {
                 NewsItem newsItem = (NewsItem) result;
                 if (newsItem.getData().size() > 0) {
                     for (NewsItem.DataBean dataBeann : newsItem.getData()) {
-                        newsMain.getNewsItems().add(dataBeann);
+                        dataBeanList.add(dataBeann);
                     }
                     if (listener != null) {
-                        listener.mainDataChange(newsMain);
+                        listener.newsItemDataChange(dataBeanList);
                         refreshLayout.finishLoadMore();
 
                     }
@@ -179,6 +186,7 @@ public class HttpModel {
                     refreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
+
             @Override
             public void onFault(String errorMsg) {
                 refreshLayout.finishLoadMore();

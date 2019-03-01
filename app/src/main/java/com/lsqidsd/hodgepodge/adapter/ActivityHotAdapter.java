@@ -97,7 +97,7 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         private void loadData(NewsHot.DataBean bean) {
-            JSONObject jsonObject = JsonUtils.toJsonObject(bean.getIrs_imgs());
+        /*    JSONObject jsonObject = JsonUtils.toJsonObject(bean.getIrs_imgs());
             JSONArray jsonArray = null;
             if (jsonObject.has("227X148")) {
                 jsonArray = (JSONArray) jsonObject.opt("227X148");
@@ -107,7 +107,7 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     itemHotBinding.gv.setAdapter(gridViewImgAdapter);
                 }
             }
-            itemHotBinding.setNewsitem(new HotViewModule(context, jsonArray, bean));
+            itemHotBinding.setNewsitem(new HotViewModule(context, jsonArray, bean));*/
         }
     }
 }

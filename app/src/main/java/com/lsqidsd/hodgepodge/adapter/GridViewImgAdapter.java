@@ -9,27 +9,38 @@ import android.widget.BaseAdapter;
 
 import com.bumptech.glide.Glide;
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.base.BaseApplication;
 import com.lsqidsd.hodgepodge.databinding.ImageBinding;
+import com.lsqidsd.hodgepodge.databinding.OtherBinding;
 import com.lsqidsd.hodgepodge.utils.Jump;
-import org.json.JSONArray;
-import org.json.JSONException;
 
-public class GridViewImgAdapter extends BaseAdapter {
+import java.util.List;
+
+public class GridViewImgAdapter<T> extends BaseAdapter {
     private LayoutInflater layoutInflater;
-    private JSONArray imgpath;
     private Context context;
-    private String url;
+    private String murl;
+    private OtherBinding otherBinding;
+    private List<String> stringList;
 
-    public GridViewImgAdapter(JSONArray list, String mUrl, Context mContext) {
-        this.imgpath = list;
+    public GridViewImgAdapter(Context mContext) {
         context = mContext;
-        url = mUrl;
         layoutInflater = LayoutInflater.from(mContext);
+    }
+
+    public void addImgs(List<String> imageString, String url, T binding) {
+        this.stringList = imageString;
+        this.murl = url;
+        if (binding instanceof OtherBinding) {
+            otherBinding = (OtherBinding) binding;
+            otherBinding.gv.setVisibility(View.VISIBLE);
+            otherBinding.ivImage.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public int getCount() {
-        return imgpath.length();
+        return stringList.size();
     }
 
     @Override
@@ -45,12 +56,12 @@ public class GridViewImgAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ImageBinding imageBinding = DataBindingUtil.inflate(layoutInflater, R.layout.image, viewGroup, false);
-        try {
-            Glide.with(context).load(imgpath.get(i).toString()).into(imageBinding.ivImage);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        String url = stringList.get(0);
+        imageBinding.imgView.setTag(R.id.imageid, url);
+        if (imageBinding.imgView.getTag(R.id.imageid) != null && url == imageBinding.imgView.getTag(R.id.imageid)) {
+            Glide.with(BaseApplication.getmContext()).load(stringList.get(i)).into(imageBinding.ivImage);
         }
-        imageBinding.imgView.setOnClickListener(a -> Jump.jumpToWebActivity(context, url));
+        imageBinding.imgView.setOnClickListener(a -> Jump.jumpToWebActivity(context, murl));
         return imageBinding.getRoot();
     }
 

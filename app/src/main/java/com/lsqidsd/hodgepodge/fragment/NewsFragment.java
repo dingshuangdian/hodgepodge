@@ -44,7 +44,7 @@ public class NewsFragment extends BaseLazyFragment implements InterfaceListenter
             fragmentArrayList.clear();
         }
         for (int i = 0; i < 9; i++) {
-            fragmentArrayList.add(InformationFragment.getInstance(i));
+            fragmentArrayList.add(InformationFragment.newInstance(i));
         }
         basePagerAdapter = new BaseFragmentAdapter(getChildFragmentManager(), fragmentArrayList);
         fragmentBinding.viewpager.setOffscreenPageLimit(0);
