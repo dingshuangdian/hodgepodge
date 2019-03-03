@@ -37,7 +37,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.context = context;
         this.refreshLayout = refreshLayout;
         this.inflate = LayoutInflater.from(context);
-        gridViewImgAdapter = new GridViewImgAdapter(context);
+
     }
 
     public void addMilite(List<Milite.DataBean> milite, String s) {
@@ -122,11 +122,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         private void loadData(Milite.DataBean bean) {
             if (bean.getIrs_imgs().get_$227X148() != null && bean.getIrs_imgs().get_$227X148().size() == 3) {
+                gridViewImgAdapter = new GridViewImgAdapter(context);
                 gridViewImgAdapter.addImgs(bean.getIrs_imgs().get_$227X148(), bean.getUrl(), itemHotBinding);
                 itemHotBinding.gv.setAdapter(gridViewImgAdapter);
             }
 
-            itemHotBinding.setNewsitem(new HotViewModule(context, bean.getIrs_imgs().get_$227X148(), bean,itemHotBinding));
+            itemHotBinding.setNewsitem(new HotViewModule(context, bean.getIrs_imgs().get_$227X148(), bean, itemHotBinding));
         }
     }
 }

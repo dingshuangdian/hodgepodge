@@ -6,6 +6,7 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
+import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.databinding.MainActivityBinding;
 import com.lsqidsd.hodgepodge.databinding.TabFootBinding;
 import com.lsqidsd.hodgepodge.utils.TabDb;
@@ -60,4 +61,10 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BaseConstant.params.clear();
+        BaseConstant.params=null;
+    }
 }

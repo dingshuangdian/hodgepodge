@@ -1,7 +1,4 @@
 package com.lsqidsd.hodgepodge.viewmodel;
-
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
@@ -23,11 +20,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -36,7 +31,6 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.Call;
 
 public class HttpModel {
-    private static final String TAG = "HttpModel";
 
     /**
      * 获取视频列表
@@ -275,7 +269,6 @@ public class HttpModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "accept: 失败：" + throwable + "\n");
                     }
                 });
     }
