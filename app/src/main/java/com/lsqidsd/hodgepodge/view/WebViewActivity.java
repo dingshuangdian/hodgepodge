@@ -3,7 +3,9 @@ package com.lsqidsd.hodgepodge.view;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.support.constraint.ConstraintLayout;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,18 +26,27 @@ import com.lsqidsd.hodgepodge.http.NetUtil;
 public class WebViewActivity extends BaseActivity {
     private ActivityWebViewBinding webViewBinding;
     private WebView webView;
-    private String url;
     private ProgressBar progressBar;
 
     @Override
     public int getLayout() {
         return R.layout.activity_web_view;
     }
+
     @Override
     public void initView() {
-        Intent intent = getIntent();
-        url = intent.getStringExtra("url");
         webViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_web_view);
+        initWebView();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    private void initWebView() {
+        Intent intent = getIntent();
+        String url = intent.getStringExtra("url");
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         webView = new WebView(getApplicationContext());
         webView.setLayoutParams(params);
@@ -45,6 +56,15 @@ public class WebViewActivity extends BaseActivity {
         webView.setWebChromeClient(webChromeClient);
         webView.loadUrl(url);
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        initWebView();
+
+    }
+
     private void webviewSetting() {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);//支持js
@@ -79,6 +99,7 @@ public class WebViewActivity extends BaseActivity {
         webSettings.setAppCachePath(cacheDirPath);
         moreWin(webSettings);
     }
+
     WebViewClient webViewClient = new WebViewClient() {
         /**
          * 多页面在同一个WebView中打开，就是不新建activity或者调用系统浏览器打开
@@ -125,6 +146,7 @@ public class WebViewActivity extends BaseActivity {
             }
         }
     };
+
     /**
      * 多窗口问题
      */
@@ -134,6 +156,7 @@ public class WebViewActivity extends BaseActivity {
         webSettings.setSupportMultipleWindows(false);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
     }
+
     @Override
     protected void onPause() {
         super.onPause();

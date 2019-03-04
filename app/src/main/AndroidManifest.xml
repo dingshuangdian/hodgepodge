@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.lsqidsd.hodgepodge">
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -23,10 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.WebViewActivity">
-        </activity>
-        <activity android:name=".view.HotActivity">
-        </activity>
+        <activity
+            android:name=".view.WebViewActivity"
+            android:launchMode="singleTop"></activity>
+        <activity android:name=".view.HotActivity"></activity>
         <activity
             android:name=".view.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

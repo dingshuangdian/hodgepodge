@@ -1,13 +1,10 @@
 package com.lsqidsd.hodgepodge.adapter;
-
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.ViewHolder.LoadMoreHolder;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
@@ -17,7 +14,6 @@ import com.lsqidsd.hodgepodge.databinding.NewsItemHotBinding;
 import com.lsqidsd.hodgepodge.viewmodel.HotViewModule;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-
 import java.util.HashMap;
 import java.util.List;
 
