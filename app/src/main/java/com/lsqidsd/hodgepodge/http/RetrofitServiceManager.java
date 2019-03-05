@@ -2,7 +2,6 @@ package com.lsqidsd.hodgepodge.http;
 
 import com.lsqidsd.hodgepodge.api.HttpApi;
 import com.lsqidsd.hodgepodge.base.BaseApplication;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -96,7 +95,6 @@ public class RetrofitServiceManager {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                Logger.d(message);
 
             }
         });

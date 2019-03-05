@@ -167,58 +167,20 @@
 }
 
 # 保留实体类和成员不被混淆(根据具体情况修改entity的路径)
--keep class com.lsqidsd.hodgepodge.bean.bean.**{*;}
-#过滤okhttp
--dontwarn com.squareup.okhttp3.**
--keep class com.squareup.okhttp3.** { *;}
--dontwarn okio.**
-
-#okhttp
--dontwarn okhttp3.**
--keep class okhttp3.**{*;}
-
-
-#okio
--dontwarn okio.**
--keep class okio.**{*;}
--keep class com.orhanobut.logger.**{*;}
--keep class com.zhongshuku.classroom2.**{*;}
+-keep class com.lsqidsd.hodgepodge.bean.**{*;}
 #retrofit
--dontwarn okio.**
 -dontwarn javax.annotation.**
 #解决使用Retrofit+rxJava联网时，在6.0系统出现java.lang.InternalError奔溃的问题:http://blog.csdn.net/mp624183768/article/details/79242147
 -keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
     long producerIndex;
     long consumerIndex;
 }
-
+#glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
   **[] $VALUES;
   public *;
-}
-#retrofit2.x
--dontwarn retrofit2.**
--keep class retrofit2.** { *; }
--keepattributes Signature
--keepattributes Exceptions
-
-#Rxjava RxAndroid
--dontwarn rx.*
--dontwarn sun.misc.**
-
--keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
-   long producerIndex;
-   long consumerIndex;
-}
-
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
-    rx.internal.util.atomic.LinkedQueueNode producerNode;
-}
-
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
-    rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
 # support design
 #@link http://stackoverflow.com/a/31028536
@@ -226,7 +188,6 @@
 -keep class android.support.design.** { *; }
 -keep interface android.support.design.** { *; }
 -keep public class android.support.design.R$* { *; }
-
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
 # OkHttp3
@@ -254,7 +215,10 @@
 # Gson
 -keep class com.google.gson.stream.** { *; }
 -keepattributes EnclosingMethod
--keep class com.lsqidsd.hodgepodge.bean.bean.**{*;}
+-dontwarn com.squareup.okhttp.**
+-keep class com.squareup.okhttp.**{*;}
+
+
 
 
 
