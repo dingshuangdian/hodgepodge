@@ -1,8 +1,10 @@
 package com.lsqidsd.hodgepodge.utils;
 
 import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 
 import com.lsqidsd.hodgepodge.view.WebViewActivity;
 
@@ -21,4 +23,11 @@ public class Jump {
         }
         context.startActivity(intent);
     }
+
+    public static void jumpToService(Context context, Class<? extends Service> cls, ServiceConnection connection) {
+        Intent intent = new Intent(context, cls);
+        context.bindService(intent, connection, context.BIND_AUTO_CREATE);
+
+    }
+
 }
