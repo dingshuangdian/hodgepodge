@@ -90,7 +90,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (holder instanceof LoadMoreHolder) {
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getNewsData(page, b ->
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.loadNewsData(context, page, b ->
                             page++
                     , dataBeanList, refreshLayout));
         } else if (holder instanceof YWViwHolder) {

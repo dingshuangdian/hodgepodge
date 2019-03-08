@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         binding.mainTab.setOnTabChangedListener(MainActivity.this);
         binding.mainTab.onTabChanged(TabDb.getTabsTxt()[0]);
         initTab();
-        //checkDownLoad();
+        checkDownLoad();
 //        requestReadAndWriteSDPermission(new BaseActivity.PermissionHandler() {
 //            @Override
 //            public void onGranted() {

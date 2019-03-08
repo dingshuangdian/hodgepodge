@@ -52,8 +52,6 @@ public class InformationFragment extends BaseLazyFragment implements InterfaceLi
         fragmentBinding.recyview.setLayoutManager(linearLayoutManager);
 
 
-
-
     }
 
     @Override
@@ -69,33 +67,33 @@ public class InformationFragment extends BaseLazyFragment implements InterfaceLi
     private void loadData() {
         switch (getArguments().getInt("key")) {
             case 0:
-                HttpModel.getMainNewData(this::mainDataChange, fragmentBinding.refreshLayout);
+                HttpModel.getMainNewData(getContext(), this::mainDataChange, fragmentBinding.refreshLayout);
                 break;
             case 1:
                 videosList = new ArrayList<>();
-                HttpModel.getVideoList(0, this::videoDataChange, videosList, fragmentBinding.refreshLayout);
+                HttpModel.getVideoList(0, getContext(), this::videoDataChange, videosList, fragmentBinding.refreshLayout);
                 break;
             case 2:
-                HttpModel.getCategoriesNews(0, BaseConstant.getRecommend(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "rec");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getRecommend(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "rec");
                 break;
             case 3:
-                HttpModel.getCategoriesNews(0, BaseConstant.getEntParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "ent");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getEntParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "ent");
                 break;
             case 4:
-                HttpModel.getCategoriesNews(0, BaseConstant.getMiliteParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "milite");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getMiliteParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "milite");
                 break;
             case 5:
-                HttpModel.getCategoriesNews(0, BaseConstant.getHistory(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "history");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getHistory(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "history");
                 break;
             case 6:
-                HttpModel.getCategoriesNews(0, BaseConstant.getWorldParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "world");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getWorldParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "world");
                 break;
             case 7:
 
-                HttpModel.getCategoriesNews(0, BaseConstant.getFinanceParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "finance");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getFinanceParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "finance");
                 break;
             case 8:
-                HttpModel.getCategoriesNews(0, BaseConstant.getCul(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "cul");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getCul(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "cul");
                 break;
 
         }

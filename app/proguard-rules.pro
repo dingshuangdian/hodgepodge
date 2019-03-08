@@ -79,7 +79,6 @@
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.view.View
 -keep public class com.android.vending.licensing.ILicensingService
-
 # support-v4
 -dontwarn android.support.v4.**
 -keep class android.support.v4.** { *; }
@@ -90,6 +89,14 @@
 -keep class android.support.v7.** { *; }                                    #过滤android.support.v7
 -keep interface android.support.v7.app.** { *; }
 -keep public class * extends android.support.v7.**
+# support design
+#@link http://stackoverflow.com/a/31028536
+-dontwarn android.support.design.**
+-keep class android.support.design.** { *; }
+-keep interface android.support.design.** { *; }
+-keep public class android.support.design.R$* { *; }
+-dontwarn javax.annotation.**
+-dontwarn javax.inject.**
 
 #----------------保护指定的类和类的成员，但条件是所有指定的类和类成员是要存在------------------------------------
 -keepclasseswithmembernames class * {
@@ -182,14 +189,7 @@
   **[] $VALUES;
   public *;
 }
-# support design
-#@link http://stackoverflow.com/a/31028536
--dontwarn android.support.design.**
--keep class android.support.design.** { *; }
--keep interface android.support.design.** { *; }
--keep public class android.support.design.R$* { *; }
--dontwarn javax.annotation.**
--dontwarn javax.inject.**
+
 # OkHttp3
 -dontwarn okhttp3.logging.**
 -keep class okhttp3.internal.**{*;}

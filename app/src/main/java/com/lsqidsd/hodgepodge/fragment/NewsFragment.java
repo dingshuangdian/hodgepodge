@@ -23,7 +23,7 @@ public class NewsFragment extends BaseLazyFragment implements InterfaceListenter
 
     @Override
     public void lazyLoad() {
-        new Thread(() -> HttpModel.getHotKey(hasFinish, top)).start();
+       new Thread(() -> HttpModel.getHotKey(hasFinish, top)).start();
     }
 
     @Override

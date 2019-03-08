@@ -50,9 +50,7 @@ public class ViewPageAdapter extends PagerAdapter {
         binding.ivImage.setOnClickListener(a -> Jump.jumpToWebActivity(context, newsHotList.get(position).getUrl()));
         container.addView(binding.getRoot());
         return binding.getRoot();
-
     }
-
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);

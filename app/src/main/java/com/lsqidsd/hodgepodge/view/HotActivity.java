@@ -41,7 +41,7 @@ public class HotActivity extends BaseActivity implements InterfaceListenter.HotN
     }
 
     private void refresh() {
-        HttpModel.getActivityHotNews(0, hotNewsDataListener, dataBeans, activityHotBinding.refreshLayout);
+        HttpModel.getActivityHotNews(this,0, hotNewsDataListener, dataBeans, activityHotBinding.refreshLayout);
     }
 
     @Override

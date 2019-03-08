@@ -64,7 +64,7 @@ public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             videoHolder.bindData(videos.get(position));
         }
         if (holder instanceof LoadMoreHolder) {
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getVideoList(page, b -> page++, videos, refreshLayout));
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getVideoList(page, context, b -> page++, videos, refreshLayout));
         }
     }
 

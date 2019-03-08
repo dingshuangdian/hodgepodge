@@ -90,7 +90,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (categorie.equals("cul")) {
                 params = BaseConstant.getCul();
             }
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getCategoriesNews(page, params, (b, c) -> page++, milites, refreshLayout, ""));
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getCategoriesNews(page,context, params, (b, c) -> page++, milites, refreshLayout, ""));
         }
     }
 
