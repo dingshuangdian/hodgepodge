@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--外部存储路径-->
+    <external-path
+        name="files_root"
+        path="Android/data/com.lsqidsd.hodgepodge/" />
+    <!--内部存储路径-->
+    <files-path
+        name="Android/data/com.lsqidsd.hodgepodge/"
+        path="files_root"></files-path>
+</paths>

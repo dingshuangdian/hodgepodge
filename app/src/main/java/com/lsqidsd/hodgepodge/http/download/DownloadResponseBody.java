@@ -1,6 +1,7 @@
 package com.lsqidsd.hodgepodge.http.download;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -12,36 +13,34 @@ import okio.ForwardingSource;
 import okio.Okio;
 import okio.Source;
 
-/**
- * 覆盖ResponseBody类，写入进度监听回调
- */
-
 public class DownloadResponseBody extends ResponseBody {
-
     private ResponseBody responseBody;
-    private DownloadProgressListener downloadProgressListener;
+    private DownloadListener downloadListener;
+    // BufferedSource 是okio库中的输入流，这里就当作inputStream来使用。
     private BufferedSource bufferedSource;
 
-    public DownloadResponseBody(ResponseBody responseBody, DownloadProgressListener downloadProgressListener) {
+    public DownloadResponseBody(ResponseBody responseBody, DownloadListener downloadListener) {
         this.responseBody = responseBody;
-        this.downloadProgressListener = downloadProgressListener;
+        this.downloadListener = downloadListener;
+        downloadListener.onStartDownload(responseBody.contentLength());
+
     }
 
     @Nullable
     @Override
     public MediaType contentType() {
-        return null;
+        return responseBody.contentType();
     }
 
     @Override
     public long contentLength() {
-        return 0;
+        return responseBody.contentLength();
     }
 
     @Override
     public BufferedSource source() {
         if (bufferedSource == null) {
-            bufferedSource = Okio.buffer(source((responseBody.source())));
+            bufferedSource = Okio.buffer(source(responseBody.source()));
         }
         return bufferedSource;
     }
@@ -54,12 +53,14 @@ public class DownloadResponseBody extends ResponseBody {
             public long read(Buffer sink, long byteCount) throws IOException {
                 long bytesRead = super.read(sink, byteCount);
                 totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-                if (null != downloadProgressListener) {
-                    downloadProgressListener.updata(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
+                Log.e("download", "read: " + (int) (totalBytesRead * 100 / responseBody.contentLength()));
+                if (null != downloadListener) {
+                    if (bytesRead != -1) {
+                        downloadListener.onProgress((int) (totalBytesRead));
+                    }
                 }
                 return bytesRead;
             }
         };
-
     }
 }

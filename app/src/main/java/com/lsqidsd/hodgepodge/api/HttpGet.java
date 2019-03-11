@@ -6,12 +6,22 @@ import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.http.RxHttpManager;
+import com.lsqidsd.hodgepodge.http.State;
+import com.lsqidsd.hodgepodge.http.download.DownloadListener;
+import com.lsqidsd.hodgepodge.http.download.DownloadResponseBody;
+
+import java.io.InputStream;
 import java.util.HashMap;
+
 import io.reactivex.Observable;
-import io.reactivex.functions.Function3;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+
 public class HttpGet {
     private static RxHttpManager rxHttpManager = RxHttpManager.getInstance();
+
     /**
      * 获取视频列表
      */
@@ -43,22 +53,23 @@ public class HttpGet {
         Observable observable1 = rxHttpManager.create(HttpApi.class, BaseConstant.BASE_URL).getTopNews();
         Observable observable2 = rxHttpManager.create(HttpApi.class, BaseConstant.BASE_URL).getHotNews(0, 5);
         Observable observable3 = rxHttpManager.create(HttpApi.class, BaseConstant.BASE_URL).getMainNews(0);
-        Observable o = Observable.zip(observable1, observable2, observable3, new Function3<NewsTop, NewsHot, NewsItem, NewsMain>() {
-            @Override
-            public NewsMain apply(NewsTop newsTop, NewsHot newsHot, NewsItem newsItem) throws Exception {
-                NewsMain newsMain = new NewsMain();
-                for (NewsTop.DataBean dataBean : newsTop.getData()) {
-                    newsMain.getNewsTops().add(dataBean);
+        Observable o = Observable.zip(observable1, observable2, observable3, (a, b, c) -> {
+                    NewsMain newsMain = new NewsMain();
+                    NewsTop top = (NewsTop) a;
+                    NewsHot hot = (NewsHot) b;
+                    NewsItem item = (NewsItem) c;
+                    for (NewsTop.DataBean dataBean : top.getData()) {
+                        newsMain.getNewsTops().add(dataBean);
+                    }
+                    for (NewsHot.DataBean hotBean : hot.getData()) {
+                        newsMain.getNewsHot().add(hotBean);
+                    }
+                    for (NewsItem.DataBean itemBean : item.getData()) {
+                        newsMain.getNewsItems().add(itemBean);
+                    }
+                    return newsMain;
                 }
-                for (NewsHot.DataBean hot : newsHot.getData()) {
-                    newsMain.getNewsHot().add(hot);
-                }
-                for (NewsItem.DataBean dataBeann : newsItem.getData()) {
-                    newsMain.getNewsItems().add(dataBeann);
-                }
-                return newsMain;
-            }
-        });
+        );
         rxHttpManager.subscribe(o, subscriber);
     }
 
@@ -66,7 +77,31 @@ public class HttpGet {
      * 加载首页更多新闻
      */
     public static <T> void getloadNewsData(DisposableObserver<T> subscriber, int page) {
-        Observable observable = rxHttpManager.getInstance().create(HttpApi.class, BaseConstant.BASE_URL).getMainNews(page);
+        Observable observable = rxHttpManager.create(HttpApi.class, BaseConstant.BASE_URL).getMainNews(page);
+        rxHttpManager.subscribe(observable, subscriber);
+    }
+
+    /**
+     * app更新
+     */
+    public static <T> void downLoad(DisposableObserver<T> subscriber, DownloadListener listener) {
+        Observable observable = rxHttpManager.down(HttpApi.class, BaseConstant.DOWN_URL, listener, State.DOWM.getState()).download(BaseConstant.DOWN_URL);
+        observable.map(new Function<DownloadResponseBody, InputStream>() {
+
+            @Override
+            public InputStream apply(DownloadResponseBody response) throws Exception {
+                return response.byteStream();
+            }
+        })
+                .observeOn(Schedulers.computation())
+                .doOnNext(new Consumer<InputStream>() {
+                    @Override
+                    public void accept(InputStream o) throws Exception {
+
+                    }
+                })
+        ;
+
         rxHttpManager.subscribe(observable, subscriber);
     }
 }

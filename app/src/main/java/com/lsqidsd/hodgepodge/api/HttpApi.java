@@ -45,5 +45,5 @@ public interface HttpApi {
      */
     @Streaming //大文件需要加入这个判断，防止下载过程中写入到内存中
     @GET
-    Observable<DownloadResponseBody> download(@Header("RANGE") String start, @Url String url);
+    Observable<DownloadResponseBody> download(@Url String url);
 }

@@ -1,8 +1,12 @@
 package com.lsqidsd.hodgepodge.http;
+
 import com.lsqidsd.hodgepodge.base.BaseApplication;
+import com.lsqidsd.hodgepodge.http.download.DownloadInterceptor;
+import com.lsqidsd.hodgepodge.http.download.DownloadListener;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
@@ -21,6 +25,8 @@ public class RxHttpManager {
     private final int DEFAULT_TIME_OUT = 10;
     private final String CACHE_NAME = "cache_news";
     private volatile static RxHttpManager instance;
+    private DownloadListener listener;
+
     /**
      * 请求失败重连次数
      */
@@ -29,77 +35,81 @@ public class RxHttpManager {
     private RxHttpManager() {
     }
 
-    private OkHttpClient.Builder okhttpSetting() {
+    private OkHttpClient.Builder okhttpSetting(String... sf) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
         builder.writeTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
         builder.readTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
         builder.retryOnConnectionFailure(true);//错误重连
-        /**
-         * 设置缓存
-         */
-        File cacheFile = new File(BaseApplication.getmContext().getExternalCacheDir(), CACHE_NAME);
-        Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);
-        Interceptor interceptor = new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
-                if (!NetUtil.isNetworkConnected()) {
-                    request = request.newBuilder()
-                            .cacheControl(CacheControl.FORCE_CACHE)
-                            .build();
+        if (sf != null) {
+            for (String s : sf) {
+                if (s.equals(State.CACHE.getState())) {
+                    File cacheFile = new File(BaseApplication.getmContext().getExternalCacheDir(), CACHE_NAME);
+                    Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);
+                    Interceptor interceptor = a -> {
+                        Request request = a.request();
+                        if (!NetUtil.isNetworkConnected()) {
+                            request = request.newBuilder()
+                                    .cacheControl(CacheControl.FORCE_CACHE)
+                                    .build();
+                        }
+                        Response response = a.proceed(request);
+                        if (!NetUtil.isNetworkConnected()) {
+                            int maxAge = 0;
+                            //有网络时，设置缓存超时时间
+                            response.newBuilder()
+                                    .header("Cache-Control", "public, max-age=" + maxAge)
+                                    .removeHeader(CACHE_NAME)
+                                    .build();
+                        } else {
+                            //无网络
+                            int maxStatle = 60 * 60 * 24;
+                            response.newBuilder()
+                                    .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStatle)
+                                    .removeHeader(CACHE_NAME)
+                                    .build();
+                        }
+                        return response;
+                    };
+                    builder.cache(cache).addInterceptor(interceptor);
                 }
-                Response response = chain.proceed(request);
-                if (!NetUtil.isNetworkConnected()) {
-                    int maxAge = 0;
-                    //有网络时，设置缓存超时时间
-                    response.newBuilder()
-                            .header("Cache-Control", "public, max-age=" + maxAge)
-                            .removeHeader(CACHE_NAME)
-                            .build();
-                } else {
-                    //无网络
-                    int maxStatle = 60 * 60 * 24;
-                    response.newBuilder()
-                            .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStatle)
-                            .removeHeader(CACHE_NAME)
-                            .build();
-                }
-                return response;
-            }
 
-        };
-        builder.cache(cache).addInterceptor(interceptor);
-        /**
-         * 设置头信息
-         */
-       /* Interceptor headerInterceptor = new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request originalRequest = chain.request();
-                Request.Builder requestBuilder = originalRequest.newBuilder()
-                        .addHeader("Accept-Encoding", "gzip")
-                        .addHeader("Accept", "application/json")
-                        .addHeader("Content-Type", "application/json; charset=utf-8")
-                        .method(originalRequest.method(), originalRequest.body());
-                Request request = requestBuilder.build();
-                return chain.proceed(request);
+                if (s.equals(State.HEAD.getState())) {
+                    Interceptor headerInterceptor = a -> {
+                        Request originalRequest = a.request();
+                        Request.Builder requestBuilder = originalRequest.newBuilder()
+                                .addHeader("Accept-Encoding", "gzip")
+                                .addHeader("Accept", "application/json")
+                                .addHeader("Content-Type", "application/json; charset=utf-8")
+                                .method(originalRequest.method(), originalRequest.body());
+                        Request request = requestBuilder.build();
+                        return a.proceed(request);
+                    };
+                    builder.addInterceptor(headerInterceptor);
+                }
+                if (s.equals(State.PARAMS.getState())) {
+                    //添加公共参数
+                    HttpCommonInterceptor commonInterceptor = new HttpCommonInterceptor.Builder()
+                            .addHeaderParams("platform", "android")
+                            .addHeaderParams("userToken", "1234343434dfdfd3434")
+                            .addHeaderParams("userId", "123445")
+                            .build();
+                    builder.addInterceptor(commonInterceptor);
+                }
+                if (s.equals(State.DOWM.getState())) {
+                    if (listener != null) {
+                        DownloadInterceptor interceptor = new DownloadInterceptor(listener);
+                        builder.addInterceptor(interceptor);
+                    }
+                }
             }
-        };
-        builder.addInterceptor(headerInterceptor);*/
-        //添加公共参数
-        /*HttpCommonInterceptor commonInterceptor = new HttpCommonInterceptor.Builder()
-                .addHeaderParams("paltform", "android")
-                .addHeaderParams("userToken", "1234343434dfdfd3434")
-                .addHeaderParams("userId", "123445")
-                .build();
-        builder.addInterceptor(commonInterceptor);*/
+        }
         return builder;
     }
 
-    private Retrofit retrofitSetting(String url) {
+    private Retrofit retrofitSetting(String url, String... sf) {
         Retrofit retrofit = new Retrofit.Builder()
-                .client(okhttpSetting().build())
+                .client(okhttpSetting(sf).build())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(url)
@@ -112,8 +122,13 @@ public class RxHttpManager {
      *
      * @return
      */
-    public <T> T create(Class<T> tService, String url) {
-        return retrofitSetting(url).create(tService);
+    public <T> T create(Class<T> tService, String url, String... sf) {
+        return retrofitSetting(url, sf).create(tService);
+    }
+
+    public <T> T down(Class<T> tService, String url, DownloadListener listener, String... sf) {
+        this.listener = listener;
+        return retrofitSetting(url, sf).create(tService);
     }
 
     public static RxHttpManager getInstance() {

@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class BaseConstant {
     public static String BASE_URL = "https://pacaio.match.qq.com/";
     public static String VIDEO_URL = "http://baobab.kaiyanapp.com/api/v2/feed";
+    public static String DOWN_URL = "http://dm.chiefchain.com:80/apks/ChiefStore.apk";
     public static HashMap<String, String> params = new HashMap<>();
 
     //军事
@@ -56,7 +57,7 @@ public class BaseConstant {
     }
     //文化
 
-    public static HashMap<String,String>getCul(){
+    public static HashMap<String, String> getCul() {
         params.put("cid", "146");
         params.put("token", "49cbb2154853ef1a74ff4e53723372ce");
         params.put("ext", "cul");

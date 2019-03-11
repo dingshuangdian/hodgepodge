@@ -84,7 +84,6 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
                 myBinder.startDownload();
                 myBinder.getProgress();
                 bind = true;
-
             }
 
             @Override

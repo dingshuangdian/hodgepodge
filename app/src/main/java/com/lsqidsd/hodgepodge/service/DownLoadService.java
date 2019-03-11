@@ -45,7 +45,6 @@ public class DownLoadService extends Service {
 
     public class MyBinder extends Binder {
         public void startDownload() {
-
         }
 
         public int getProgress() {
