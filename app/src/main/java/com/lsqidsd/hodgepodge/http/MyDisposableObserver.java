@@ -1,19 +1,13 @@
 package com.lsqidsd.hodgepodge.http;
-
 import android.app.ProgressDialog;
 import android.content.Context;
-
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-
 import javax.net.ssl.SSLHandshakeException;
-
 import io.reactivex.observers.DisposableObserver;
 import retrofit2.HttpException;
-
 /**
  * 显示ProgressDialog的封装
  *
@@ -31,6 +25,11 @@ public class MyDisposableObserver<T> extends DisposableObserver<T> {
         this.refreshLayout = refreshLayout;
         showProgressDialog(showProgress);
     }
+
+    public MyDisposableObserver(HttpOnNextListener onNextListener) {
+        this.listener = onNextListener;
+    }
+
 
     private void showProgressDialog(boolean showProgress) {
         if (showProgress) {

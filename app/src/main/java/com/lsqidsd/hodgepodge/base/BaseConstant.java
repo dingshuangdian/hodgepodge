@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class BaseConstant {
     public static String BASE_URL = "https://pacaio.match.qq.com/";
     public static String VIDEO_URL = "http://baobab.kaiyanapp.com/api/v2/feed";
-    public static String DOWN_URL = "http://dm.chiefchain.com:80/apks/ChiefStore.apk";
+    public static String DOWN_URL = "https://imtt.dd.qq.com/16891/";
     public static HashMap<String, String> params = new HashMap<>();
 
     //军事

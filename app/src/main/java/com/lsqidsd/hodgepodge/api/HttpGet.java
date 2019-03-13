@@ -1,26 +1,16 @@
 package com.lsqidsd.hodgepodge.api;
-
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.http.RxHttpManager;
-import com.lsqidsd.hodgepodge.http.State;
-import com.lsqidsd.hodgepodge.http.download.DownloadListener;
-import com.lsqidsd.hodgepodge.http.download.DownloadResponseBody;
-
-import java.io.InputStream;
 import java.util.HashMap;
-
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
-
 public class HttpGet {
     private static RxHttpManager rxHttpManager = RxHttpManager.getInstance();
+
 
     /**
      * 获取视频列表
@@ -84,24 +74,8 @@ public class HttpGet {
     /**
      * app更新
      */
-    public static <T> void downLoad(DisposableObserver<T> subscriber, DownloadListener listener) {
-        Observable observable = rxHttpManager.down(HttpApi.class, BaseConstant.DOWN_URL, listener, State.DOWM.getState()).download(BaseConstant.DOWN_URL);
-        observable.map(new Function<DownloadResponseBody, InputStream>() {
-
-            @Override
-            public InputStream apply(DownloadResponseBody response) throws Exception {
-                return response.byteStream();
-            }
-        })
-                .observeOn(Schedulers.computation())
-                .doOnNext(new Consumer<InputStream>() {
-                    @Override
-                    public void accept(InputStream o) throws Exception {
-
-                    }
-                })
-        ;
-
-        rxHttpManager.subscribe(observable, subscriber);
+    public static <T> void downLoad(DisposableObserver<T> observer) {
+        Observable observable = rxHttpManager.down(HttpApi.class, BaseConstant.DOWN_URL).download();
+        rxHttpManager.subscribe(observable, observer);
     }
 }

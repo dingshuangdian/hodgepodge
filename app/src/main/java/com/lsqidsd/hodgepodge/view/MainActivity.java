@@ -9,6 +9,7 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.api.HttpGet;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.databinding.MainActivityBinding;
@@ -16,8 +17,9 @@ import com.lsqidsd.hodgepodge.databinding.TabFootBinding;
 import com.lsqidsd.hodgepodge.service.DownLoadService;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TabDb;
+import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 
-public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener {
+public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener, DownLoadService.DownloadFinish {
     private MainActivityBinding binding;
     private TabFootBinding footBinding;
     private DownLoadService.MyBinder myBinder;
@@ -40,12 +42,12 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         binding.mainTab.setOnTabChangedListener(MainActivity.this);
         binding.mainTab.onTabChanged(TabDb.getTabsTxt()[0]);
         initTab();
-        checkDownLoad();
-//        requestReadAndWriteSDPermission(new BaseActivity.PermissionHandler() {
-//            @Override
-//            public void onGranted() {
-//            }
-//        });
+        requestReadAndWriteSDPermission(new BaseActivity.PermissionHandler() {
+            @Override
+            public void onGranted() {
+                checkDownLoad();
+            }
+        });
     }
 
     public void initTab() {
@@ -75,14 +77,14 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         }
     }
 
+
     private void checkDownLoad() {
         connection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                 myBinder = (DownLoadService.MyBinder) iBinder;
                 //在Activity中调用Service里面的方法。
-                myBinder.startDownload();
-                myBinder.getProgress();
+                myBinder.startDownload(MainActivity.this, MainActivity.this::downfinish);
                 bind = true;
             }
 
@@ -90,11 +92,9 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
             public void onServiceDisconnected(ComponentName componentName) {
                 //服务异常终止调用
                 bind = false;
-
             }
         };
-        Jump.jumpToService(this, DownLoadService.class, connection);
-
+        Jump.bindService(MainActivity.this, DownLoadService.class, connection);
     }
 
     @Override
@@ -107,5 +107,13 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
             bind = false;
         }
 
+    }
+
+    @Override
+    public void downfinish() {
+        if (bind) {
+            this.unbindService(connection);
+            bind = false;
+        }
     }
 }

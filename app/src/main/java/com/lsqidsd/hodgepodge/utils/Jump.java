@@ -24,10 +24,23 @@ public class Jump {
         context.startActivity(intent);
     }
 
-    public static void jumpToService(Context context, Class<? extends Service> cls, ServiceConnection connection) {
+    /**
+     * onBind启动服务
+     *
+     * @param context
+     * @param cls
+     * @param connection
+     */
+
+    public static void bindService(Context context, Class<? extends Service> cls, ServiceConnection connection) {
         Intent intent = new Intent(context, cls);
         context.bindService(intent, connection, context.BIND_AUTO_CREATE);
 
+    }
+
+    public static void startService(Context context, Class<? extends Service> cls) {
+        Intent intent = new Intent(context, cls);
+        context.startService(intent);
     }
 
 }

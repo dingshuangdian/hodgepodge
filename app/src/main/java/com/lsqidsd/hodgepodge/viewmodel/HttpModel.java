@@ -1,6 +1,10 @@
 package com.lsqidsd.hodgepodge.viewmodel;
 
 import android.content.Context;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -15,6 +19,8 @@ import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.http.HttpOnNextListener;
 import com.lsqidsd.hodgepodge.http.MyDisposableObserver;
+
+import com.lsqidsd.hodgepodge.http.download.FileCallBack;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -24,14 +30,19 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.Call;
+import okhttp3.ResponseBody;
 
 
 public class HttpModel {
+    public static final String STORGE_PATH = Environment.getExternalStorageDirectory() + "/hodgepodge/apk/";//存储路径
+    public static final String APK_NAME = "news.apk";
+    private static Handler handler = new Handler(Looper.getMainLooper());
 
     /**
      * 获取视频列表
@@ -40,7 +51,7 @@ public class HttpModel {
      * @param dataListener
      */
     public static void getVideoList(int page, Context context, InterfaceListenter.VideosDataListener dataListener, List<NewsVideoItem.DataBean> videoBeans, RefreshLayout refreshLayout) {
-        MyDisposableObserver observer = new MyDisposableObserver(refreshLayout,context, false, new HttpOnNextListener() {
+        MyDisposableObserver observer = new MyDisposableObserver(refreshLayout, context, false, new HttpOnNextListener() {
             @Override
             public void onSuccess(Object o) {
                 NewsVideoItem newsVideoItem = (NewsVideoItem) o;
@@ -78,7 +89,7 @@ public class HttpModel {
     }
 
     public static void getCategoriesNews(int page, Context context, HashMap<String, String> params, InterfaceListenter.LoadCategoriesNews listener, List<Milite.DataBean> milites, RefreshLayout refreshLayout, String... s) {
-        MyDisposableObserver observer = new MyDisposableObserver(refreshLayout,context, false, new HttpOnNextListener() {
+        MyDisposableObserver observer = new MyDisposableObserver(refreshLayout, context, false, new HttpOnNextListener() {
             @Override
             public void onSuccess(Object o) {
                 Milite milite = (Milite) o;
@@ -113,7 +124,7 @@ public class HttpModel {
 
 
     public static void getActivityHotNews(Context context, int page, InterfaceListenter.HotNewsDataListener listener, List<NewsHot.DataBean> hotBeans, RefreshLayout refreshLayout) {
-        MyDisposableObserver observer = new MyDisposableObserver(refreshLayout,context, false, new HttpOnNextListener() {
+        MyDisposableObserver observer = new MyDisposableObserver(refreshLayout, context, false, new HttpOnNextListener() {
             @Override
             public void onSuccess(Object o) {
                 NewsHot newsHot = (NewsHot) o;
@@ -211,9 +222,8 @@ public class HttpModel {
                 });
     }
 
-
     public static void getMainNewData(Context context, InterfaceListenter.MainNewsDataListener listener, RefreshLayout refreshLayout) {
-        MyDisposableObserver observer = new MyDisposableObserver(refreshLayout,context, false, new HttpOnNextListener() {
+        MyDisposableObserver observer = new MyDisposableObserver(refreshLayout, context, false, new HttpOnNextListener() {
             @Override
             public void onSuccess(Object o) {
                 if (listener != null) {
@@ -222,7 +232,6 @@ public class HttpModel {
                     refreshLayout.resetNoMoreData();
                 }
             }
-
             @Override
             public void onFail(String e) {
                 Toast.makeText(context, e, Toast.LENGTH_SHORT).show();
@@ -233,7 +242,6 @@ public class HttpModel {
 
 
     }
-
 
     public static void getHotKey(InterfaceListenter.HasFinish finish, List<String> top) {
         try {
