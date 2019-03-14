@@ -4,8 +4,10 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Binder;
@@ -16,6 +18,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.lsqidsd.hodgepodge.BuildConfig;
@@ -23,6 +26,7 @@ import com.lsqidsd.hodgepodge.api.HttpGet;
 import com.lsqidsd.hodgepodge.http.HttpOnNextListener;
 import com.lsqidsd.hodgepodge.http.MyDisposableObserver;
 import com.lsqidsd.hodgepodge.http.download.FileCallBack;
+import com.lsqidsd.hodgepodge.http.download.InstalledReceiver;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,15 +40,22 @@ public class DownLoadService extends Service {
     private DownloadFinish downloadFinish;
     private int oldProgress = 0;
     private MyBinder myBinder;
+    private BroadcastReceiver receiver;
+    private InstalledReceiver installedReceiver;
     private final String STORGE_PATH = Environment.getExternalStorageDirectory() + "/Download";//存储路径
     private final String APK_NAME = "com.tencent.news_5.7.60_5760.apk";
-
 
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return myBinder;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 
     private Handler handler = new Handler() {
@@ -91,6 +102,25 @@ public class DownLoadService extends Service {
         super.onCreate();
         manager = (NotificationManager) getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
         myBinder = new MyBinder();
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.e("myLoger", "Component: " + intent.getComponent());
+
+                Log.e("myLoger", "Aciton: " +  intent.getAction());
+                Log.e("myLoger", "Categories: " +  intent.getCategories());
+
+                Log.e("myLoger", "Data: " + intent.getData());
+                Log.e("myLoger", "DataType: " + intent.getType());
+                Log.e("myLoger", "DataSchema: " + intent.getScheme());
+
+                Log.e("myLoger"," Receive SDCard Mount/UnMount!");
+            }
+        };
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.intent.action.PACKAGE_ADDED");
+        filter.addDataScheme("package");
+        registerReceiver(receiver, filter);
     }
 
 
@@ -151,7 +181,8 @@ public class DownLoadService extends Service {
                 .setSmallIcon(this.getResources().getIdentifier("flogo", "mipmap", this.getPackageName()));
         //适配8.0以上通知栏
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //第三个参数设置通知的优先级别
+            //通知渠道（Notification Channels）
+            //创建NotificationChannel对象，指定Channel的id、name和通知的重要程度
             NotificationChannel channel = new NotificationChannel("channel_id", "app_msg", NotificationManager.IMPORTANCE_DEFAULT);
             channel.canBypassDnd();//是否可以绕过请勿打扰模式
             channel.canShowBadge();//是否可以显示icon角标

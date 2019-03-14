@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class InstalledReceiver extends BroadcastReceiver {
     private Handler mHandler;
@@ -31,6 +32,7 @@ public class InstalledReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         // 接收卸载广播
         if (BROADCAST_RECEIVER_ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
             // String packageName = intent.getDataString();// 卸载程序的包名
@@ -38,7 +40,7 @@ public class InstalledReceiver extends BroadcastReceiver {
             // Toast.LENGTH_LONG).show();
         }
 
-        // 接收安装广播
+   /*     // 接收安装广播
         if (BROADCAST_RECEIVER_ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
             // 安装程序的包名
             String installPackageName = intent.getDataString();
@@ -47,7 +49,7 @@ public class InstalledReceiver extends BroadcastReceiver {
             if (!TextUtils.isEmpty(installPackageName) && installPackageName.equals(packageName)) {
                 mHandler.obtainMessage(InstalledReceiver.INSTALL_SUCCESS).sendToTarget();
             }
-        }
+        }*/
 
     }
 
