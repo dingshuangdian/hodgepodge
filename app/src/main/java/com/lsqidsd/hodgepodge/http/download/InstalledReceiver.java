@@ -12,16 +12,6 @@ import android.util.Log;
 public class InstalledReceiver extends BroadcastReceiver {
     private Handler mHandler;
     /**
-     * 卸载App的广播
-     */
-    public final static String BROADCAST_RECEIVER_ACTION_PACKAGE_REMOVED = "android.intent.action.PACKAGE_REMOVED";
-
-    /**
-     * 安装App的广播
-     */
-    public final static String BROADCAST_RECEIVER_ACTION_PACKAGE_ADDED = "android.intent.action.PACKAGE_ADDED";
-
-    /**
      * 安装完成
      */
     public final static int INSTALL_SUCCESS = 200;
@@ -33,23 +23,6 @@ public class InstalledReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        // 接收卸载广播
-        if (BROADCAST_RECEIVER_ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
-            // String packageName = intent.getDataString();// 卸载程序的包名
-            // Toast.makeText(context, packageName + "卸载成功",
-            // Toast.LENGTH_LONG).show();
-        }
-
-   /*     // 接收安装广播
-        if (BROADCAST_RECEIVER_ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
-            // 安装程序的包名
-            String installPackageName = intent.getDataString();
-            PackageInfo packageInfo = getPackageInfo(context);
-            String packageName = "package:" + packageInfo.packageName;
-            if (!TextUtils.isEmpty(installPackageName) && installPackageName.equals(packageName)) {
-                mHandler.obtainMessage(InstalledReceiver.INSTALL_SUCCESS).sendToTarget();
-            }
-        }*/
 
     }
 

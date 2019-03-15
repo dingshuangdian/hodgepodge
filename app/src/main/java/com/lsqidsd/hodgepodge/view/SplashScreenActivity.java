@@ -9,13 +9,10 @@ import com.lsqidsd.hodgepodge.utils.Jump;
 
 public class SplashScreenActivity extends BaseActivity {
     private ActivitySplashBinding binding;
-
-
     @Override
     public int getLayout() {
         return R.layout.activity_splash;
     }
-
     @Override
     public void initView() {
         binding = getBinding(binding);

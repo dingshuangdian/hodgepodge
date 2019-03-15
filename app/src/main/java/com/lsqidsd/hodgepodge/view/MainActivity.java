@@ -1,5 +1,4 @@
 package com.lsqidsd.hodgepodge.view;
-
 import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
@@ -7,9 +6,7 @@ import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.widget.TabHost;
 import android.widget.TabWidget;
-
 import com.lsqidsd.hodgepodge.R;
-import com.lsqidsd.hodgepodge.api.HttpGet;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.databinding.MainActivityBinding;
@@ -17,16 +14,12 @@ import com.lsqidsd.hodgepodge.databinding.TabFootBinding;
 import com.lsqidsd.hodgepodge.service.DownLoadService;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TabDb;
-import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
-
 public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener, DownLoadService.DownloadFinish {
     private MainActivityBinding binding;
     private TabFootBinding footBinding;
     private DownLoadService.MyBinder myBinder;
     private ServiceConnection connection;
     private boolean bind = false;
-
-
     @Override
     public int getLayout() {
         return R.layout.activity_main;
@@ -34,6 +27,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
 
     @Override
     public void initView() {
+
         binding = getBinding(binding);
         //设置view
         binding.mainTab.setup(MainActivity.this, getSupportFragmentManager(), binding.mainView.getId());
@@ -45,7 +39,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         requestReadAndWriteSDPermission(new BaseActivity.PermissionHandler() {
             @Override
             public void onGranted() {
-                checkDownLoad();
+                //checkDownLoad();
             }
         });
     }
@@ -87,7 +81,6 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
                 myBinder.startDownload(MainActivity.this, MainActivity.this::downfinish);
                 bind = true;
             }
-
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
                 //服务异常终止调用
@@ -100,8 +93,6 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        BaseConstant.params.clear();
-        BaseConstant.params = null;
         if (bind) {
             this.unbindService(connection);
             bind = false;
@@ -112,8 +103,9 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
     @Override
     public void downfinish() {
         if (bind) {
-            this.unbindService(connection);
+            //this.unbindService(connection);
             bind = false;
         }
     }
+
 }

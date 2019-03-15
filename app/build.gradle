@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -73,4 +74,5 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-20'
     implementation 'com.zhy:okhttputils:2.6.2'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'org.greenrobot:greendao:3.2.2'
 }

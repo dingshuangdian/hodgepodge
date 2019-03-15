@@ -42,5 +42,4 @@ public class Jump {
         Intent intent = new Intent(context, cls);
         context.startService(intent);
     }
-
 }

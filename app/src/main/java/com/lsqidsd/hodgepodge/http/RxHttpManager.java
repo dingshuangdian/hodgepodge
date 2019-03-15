@@ -1,9 +1,21 @@
 package com.lsqidsd.hodgepodge.http;
+
 import com.lsqidsd.hodgepodge.base.BaseApplication;
+import com.lsqidsd.hodgepodge.http.download.DaoUtil;
+import com.lsqidsd.hodgepodge.http.download.Info;
 import com.lsqidsd.hodgepodge.http.download.Platform;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
@@ -14,14 +26,19 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 public class RxHttpManager {
     private final int DEFAULT_TIME_OUT = 10;
     private final String CACHE_NAME = "cache_news";
     private volatile static RxHttpManager instance;
     private Platform mPlatform;
+    //下载数据
+    private Set<Info> downStateSet;
+    private DaoUtil daoUtil;
 
     /**
      * 请求失败重连次数
@@ -30,6 +47,8 @@ public class RxHttpManager {
 
     private RxHttpManager() {
         mPlatform = Platform.get();
+        downStateSet = new HashSet<>();
+        daoUtil = DaoUtil.getInstance();
     }
 
     private OkHttpClient.Builder okhttpSetting(String... sf) {
@@ -116,9 +135,12 @@ public class RxHttpManager {
     public <T> T create(Class<T> tService, String url, String... sf) {
         return retrofitSetting(url, sf).create(tService);
     }
-    public <T> T down(Class<T> tService, String url, String... sf) {
-        return retrofitSetting(url, sf).create(tService);
+
+    public <T> T down(Class<T> tService, Info info, String... sf) {
+
+        return retrofitSetting(info.getUrl(), sf).create(tService);
     }
+
     public static RxHttpManager getInstance() {
         if (instance == null) {
             synchronized (RxHttpManager.class) {
@@ -140,5 +162,50 @@ public class RxHttpManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry(RETRY_COUNT)
                 .subscribe(s);
+    }
+
+    /**
+     * 写入文件
+     *
+     * @param file
+     * @param info
+     * @throws IOException
+     */
+    public void writeCaches(ResponseBody responseBody, File file, Info info) {
+        try {
+            RandomAccessFile randomAccessFile = null;
+            FileChannel channelOut = null;
+            InputStream inputStream = null;
+            try {
+                if (!file.getParentFile().exists())
+                    file.getParentFile().mkdirs();
+                long allLength = 0 == info.getCountLength() ? responseBody.contentLength() : info.getReadLength() + responseBody
+                        .contentLength();
+
+                inputStream = responseBody.byteStream();
+                randomAccessFile = new RandomAccessFile(file, "rwd");
+                channelOut = randomAccessFile.getChannel();
+                MappedByteBuffer mappedBuffer = channelOut.map(FileChannel.MapMode.READ_WRITE,
+                        info.getReadLength(), allLength - info.getReadLength());
+                byte[] buffer = new byte[1024 * 4];
+                int len;
+                while ((len = inputStream.read(buffer)) != -1) {
+                    mappedBuffer.put(buffer, 0, len);
+                }
+            } catch (IOException e) {
+
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (channelOut != null) {
+                    channelOut.close();
+                }
+                if (randomAccessFile != null) {
+                    randomAccessFile.close();
+                }
+            }
+        } catch (IOException e) {
+        }
     }
 }

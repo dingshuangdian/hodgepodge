@@ -1,13 +1,22 @@
 package com.lsqidsd.hodgepodge.api;
+
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.http.RxHttpManager;
+import com.lsqidsd.hodgepodge.http.download.DownService;
+import com.lsqidsd.hodgepodge.http.download.Info;
+
+import java.io.File;
 import java.util.HashMap;
+
 import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
+import okhttp3.ResponseBody;
+
 public class HttpGet {
     private static RxHttpManager rxHttpManager = RxHttpManager.getInstance();
 
@@ -74,8 +83,15 @@ public class HttpGet {
     /**
      * app更新
      */
-    public static <T> void downLoad(DisposableObserver<T> observer) {
-        Observable observable = rxHttpManager.down(HttpApi.class, BaseConstant.DOWN_URL).download();
+    public static <T> void downLoad(DisposableObserver<T> observer, Info info) {
+        Observable observable = rxHttpManager.down(DownService.class, info).download("bytes=" + info.getReadLength() + "-");
+        observable.map(new Function<ResponseBody, Info>() {
+            @Override
+            public Info apply(ResponseBody responseBody) throws Exception {
+                rxHttpManager.writeCaches(responseBody, new File(info.getSavePath()), info);
+                return info;
+            }
+        });
         rxHttpManager.subscribe(observable, observer);
     }
 }

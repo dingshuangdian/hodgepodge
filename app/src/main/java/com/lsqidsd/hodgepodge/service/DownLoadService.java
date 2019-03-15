@@ -23,9 +23,12 @@ import android.widget.Toast;
 
 import com.lsqidsd.hodgepodge.BuildConfig;
 import com.lsqidsd.hodgepodge.api.HttpGet;
+import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.http.HttpOnNextListener;
 import com.lsqidsd.hodgepodge.http.MyDisposableObserver;
+import com.lsqidsd.hodgepodge.http.download.DaoUtil;
 import com.lsqidsd.hodgepodge.http.download.FileCallBack;
+import com.lsqidsd.hodgepodge.http.download.Info;
 import com.lsqidsd.hodgepodge.http.download.InstalledReceiver;
 
 import java.io.File;
@@ -40,11 +43,11 @@ public class DownLoadService extends Service {
     private DownloadFinish downloadFinish;
     private int oldProgress = 0;
     private MyBinder myBinder;
-    private BroadcastReceiver receiver;
-    private InstalledReceiver installedReceiver;
+    private DaoUtil daoUtil;
+    private Info info;
+    private InstalledReceiver receiver;
     private final String STORGE_PATH = Environment.getExternalStorageDirectory() + "/Download";//存储路径
-    private final String APK_NAME = "com.tencent.news_5.7.60_5760.apk";
-
+    private final String APK_NAME = "app-release.apk";
 
     @Nullable
     @Override
@@ -102,21 +105,8 @@ public class DownLoadService extends Service {
         super.onCreate();
         manager = (NotificationManager) getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
         myBinder = new MyBinder();
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.e("myLoger", "Component: " + intent.getComponent());
-
-                Log.e("myLoger", "Aciton: " +  intent.getAction());
-                Log.e("myLoger", "Categories: " +  intent.getCategories());
-
-                Log.e("myLoger", "Data: " + intent.getData());
-                Log.e("myLoger", "DataType: " + intent.getType());
-                Log.e("myLoger", "DataSchema: " + intent.getScheme());
-
-                Log.e("myLoger"," Receive SDCard Mount/UnMount!");
-            }
-        };
+        loadLocalData();
+        receiver = new InstalledReceiver(handler);
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.PACKAGE_ADDED");
         filter.addDataScheme("package");
@@ -129,6 +119,18 @@ public class DownLoadService extends Service {
             context = mContext;
             downloadFinish = finish;
             download();
+        }
+    }
+
+    private void loadLocalData() {
+        daoUtil = DaoUtil.getInstance();
+        info = daoUtil.queryDownBy(1);
+        if (info == null) {
+            File outputFile = new File(STORGE_PATH, APK_NAME);
+            Info info = new Info(BaseConstant.UPDATA_URL);
+            info.setId(1);
+            info.setSavePath(outputFile.getAbsolutePath());
+            daoUtil.save(info);
         }
     }
 
@@ -151,7 +153,7 @@ public class DownLoadService extends Service {
                 Toast.makeText(context, e, Toast.LENGTH_SHORT).show();
             }
         });
-        HttpGet.downLoad(observer);
+        HttpGet.downLoad(observer, info);
     }
 
     private void showNotificationProgress(int currentProgress) {
