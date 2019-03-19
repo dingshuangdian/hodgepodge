@@ -1,7 +1,9 @@
 package com.lsqidsd.hodgepodge.http.download;
+
 import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
+
 public abstract class Callback<T> {
     /**
      * UI Thread
@@ -10,6 +12,7 @@ public abstract class Callback<T> {
      */
     public void onBefore(Request request, int id) {
     }
+
     /**
      * UI Thread
      *
@@ -26,8 +29,10 @@ public abstract class Callback<T> {
     public void inProgress(float progress, long total) {
 
     }
+
     /**
      * if you parse reponse code in parseNetworkResponse, you should make this method return true.
+     *
      * @param response
      * @return
      */
@@ -41,8 +46,11 @@ public abstract class Callback<T> {
      * @param response
      */
     public abstract T parseNetworkResponse(Response response, int id) throws Exception;
+
     public abstract void onError(Call call, Exception e, int id);
+
     public abstract void onResponse(T response, int id);
+
     public static Callback CALLBACK_DEFAULT = new Callback() {
 
         @Override

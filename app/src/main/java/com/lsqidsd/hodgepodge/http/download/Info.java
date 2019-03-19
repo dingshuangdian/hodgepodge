@@ -14,11 +14,36 @@ public class Info {
     private String url;
     @Transient
     private DownService service;
+
+    public DownService getService() {
+        return service;
+    }
+
+    public void setService(DownService service) {
+        this.service = service;
+    }
+
+    @Transient
+    private HttpDownOnNextListener listener;
+
+    public HttpDownOnNextListener getListener() {
+        return listener;
+    }
+
+    public void setListener(HttpDownOnNextListener listener) {
+        this.listener = listener;
+    }
+
+
+    public void setState(State state) {
+        setStateInte(state.getState());
+    }
+
     private int stateInte;
 
     @Generated(hash = 786316455)
     public Info(long id, String savePath, long countLength, long readLength,
-            String url, int stateInte) {
+                String url, int stateInte) {
         this.id = id;
         this.savePath = savePath;
         this.countLength = countLength;
@@ -77,7 +102,7 @@ public class Info {
     }
 
     public int getStateInte() {
-        return this.stateInte;
+        return stateInte;
     }
 
     public void setStateInte(int stateInte) {

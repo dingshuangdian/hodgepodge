@@ -36,7 +36,7 @@ import permissions.dispatcher.RuntimePermissions;
 public abstract class BaseActivity extends FragmentActivity implements NetworkStateReceiver.NetChangeListener {
     private PermissionHandler mHandler;
     private NetworkStateReceiver receiver;
-    public static NetworkStateReceiver.NetChangeListener listener; //双击退出
+    public static NetworkStateReceiver.NetChangeListener listener;
     private long mLastBackTime = 0;
     private long TIME_DIFF = 2 * 1000;
 

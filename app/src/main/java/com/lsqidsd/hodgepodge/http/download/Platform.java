@@ -1,12 +1,9 @@
 package com.lsqidsd.hodgepodge.http.download;
-
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
 public class Platform {
     private static final Platform PLATFORM = findPlatform();
 

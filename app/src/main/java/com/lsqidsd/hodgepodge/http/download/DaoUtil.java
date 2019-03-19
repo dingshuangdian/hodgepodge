@@ -2,14 +2,9 @@ package com.lsqidsd.hodgepodge.http.download;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.lsqidsd.hodgepodge.base.BaseApplication;
-
 import org.greenrobot.greendao.query.QueryBuilder;
-
 import java.util.List;
-
-
 public class DaoUtil {
     private static DaoUtil daoUtil;
     private final static String dbName = "dao_db";

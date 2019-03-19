@@ -1,13 +1,17 @@
 package com.lsqidsd.hodgepodge.api;
 
+import android.util.Log;
+
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.http.RxHttpManager;
+import com.lsqidsd.hodgepodge.http.download.Callback;
 import com.lsqidsd.hodgepodge.http.download.DownService;
 import com.lsqidsd.hodgepodge.http.download.Info;
+import com.lsqidsd.hodgepodge.service.DownLoadService;
 
 import java.io.File;
 import java.util.HashMap;
@@ -83,15 +87,8 @@ public class HttpGet {
     /**
      * app更新
      */
-    public static <T> void downLoad(DisposableObserver<T> observer, Info info) {
-        Observable observable = rxHttpManager.down(DownService.class, info).download("bytes=" + info.getReadLength() + "-");
-        observable.map(new Function<ResponseBody, Info>() {
-            @Override
-            public Info apply(ResponseBody responseBody) throws Exception {
-                rxHttpManager.writeCaches(responseBody, new File(info.getSavePath()), info);
-                return info;
-            }
-        });
-        rxHttpManager.subscribe(observable, observer);
+    public static void downLoad(DisposableObserver observer) {
+        Observable observable = rxHttpManager.create(HttpApi.class, BaseConstant.UPDATA_URL).download();
+        rxHttpManager.subscribe(observable,observer);
     }
 }

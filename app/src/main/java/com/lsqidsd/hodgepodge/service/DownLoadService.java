@@ -1,11 +1,9 @@
 package com.lsqidsd.hodgepodge.service;
-
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -18,49 +16,40 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
+import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.lsqidsd.hodgepodge.BuildConfig;
+import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.api.HttpGet;
-import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.http.HttpOnNextListener;
 import com.lsqidsd.hodgepodge.http.MyDisposableObserver;
-import com.lsqidsd.hodgepodge.http.download.DaoUtil;
 import com.lsqidsd.hodgepodge.http.download.FileCallBack;
-import com.lsqidsd.hodgepodge.http.download.Info;
 import com.lsqidsd.hodgepodge.http.download.InstalledReceiver;
-
 import java.io.File;
 import java.io.IOException;
-
 import okhttp3.Call;
 import okhttp3.ResponseBody;
-
 public class DownLoadService extends Service {
     private NotificationManager manager;
-    private Context context;
+    private Activity context;
     private DownloadFinish downloadFinish;
     private int oldProgress = 0;
     private MyBinder myBinder;
-    private DaoUtil daoUtil;
-    private Info info;
     private InstalledReceiver receiver;
     private final String STORGE_PATH = Environment.getExternalStorageDirectory() + "/Download";//存储路径
     private final String APK_NAME = "app-release.apk";
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return myBinder;
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
     }
-
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -84,14 +73,14 @@ public class DownLoadService extends Service {
         @Override
         public void inProgress(float progress, long total) {
             super.inProgress(progress, total);
-            int currentProgress = (int) (100 * progress);
-            if (currentProgress != oldProgress) {
+            int cProgress = (int) (progress * 100);
+            if (cProgress != oldProgress) {
                 Message message = new Message();
                 message.what = 1;
-                message.arg1 = currentProgress;
+                message.arg1 = cProgress;
                 handler.sendMessage(message);
             }
-            oldProgress = currentProgress;
+            oldProgress = cProgress;
         }
     };
 
@@ -105,7 +94,6 @@ public class DownLoadService extends Service {
         super.onCreate();
         manager = (NotificationManager) getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
         myBinder = new MyBinder();
-        loadLocalData();
         receiver = new InstalledReceiver(handler);
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.PACKAGE_ADDED");
@@ -113,24 +101,11 @@ public class DownLoadService extends Service {
         registerReceiver(receiver, filter);
     }
 
-
     public class MyBinder extends Binder {
-        public void startDownload(Context mContext, DownloadFinish finish) {
+        public void startDownload(Activity mContext, DownloadFinish finish) {
             context = mContext;
             downloadFinish = finish;
             download();
-        }
-    }
-
-    private void loadLocalData() {
-        daoUtil = DaoUtil.getInstance();
-        info = daoUtil.queryDownBy(1);
-        if (info == null) {
-            File outputFile = new File(STORGE_PATH, APK_NAME);
-            Info info = new Info(BaseConstant.UPDATA_URL);
-            info.setId(1);
-            info.setSavePath(outputFile.getAbsolutePath());
-            daoUtil.save(info);
         }
     }
 
@@ -138,22 +113,20 @@ public class DownLoadService extends Service {
         MyDisposableObserver observer = new MyDisposableObserver(new HttpOnNextListener() {
             @Override
             public void onSuccess(Object o) {
-                ResponseBody responseBody = (ResponseBody) o;
                 new Thread(() -> {
                     try {
-                        callBack.saveFile(responseBody);
+                        callBack.saveFile((ResponseBody) o);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }).start();
             }
-
             @Override
             public void onFail(String e) {
                 Toast.makeText(context, e, Toast.LENGTH_SHORT).show();
             }
         });
-        HttpGet.downLoad(observer, info);
+        HttpGet.downLoad(observer);
     }
 
     private void showNotificationProgress(int currentProgress) {
@@ -169,8 +142,23 @@ public class DownLoadService extends Service {
                 downloadFinish.downfinish();
             }
             //下载完成后自动安装apk
-            startActivity(getInstallIntent());
+            showDialog();
         }
+    }
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
+        DisplayMetrics metrics = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        double width = metrics.widthPixels * 0.9;
+        AlertDialog alertDialog = builder
+                .setCancelable(false)
+                .setMessage("下载完成，是否安装？")
+                .setPositiveButton("确定", (a, b) -> startActivity(getInstallIntent()))
+                .setNegativeButton("取消", (a, b) ->
+                        builder.create().dismiss())
+                .create();
+        alertDialog.show();
+        alertDialog.getWindow().setLayout((int) width, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     private Notification.Builder creatNotification(String title, String msg) {
@@ -200,7 +188,6 @@ public class DownLoadService extends Service {
         }
         return builder;
     }
-
     /**
      * 启动安装界面
      *
@@ -238,4 +225,5 @@ public class DownLoadService extends Service {
     public interface DownloadFinish {
         void downfinish();
     }
+
 }

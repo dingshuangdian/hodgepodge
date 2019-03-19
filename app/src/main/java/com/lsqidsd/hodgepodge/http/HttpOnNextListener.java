@@ -6,7 +6,6 @@ public interface HttpOnNextListener<T> {
      * @param t
      */
     void onSuccess(T t);
-
     void onFail(String e);
 
 }

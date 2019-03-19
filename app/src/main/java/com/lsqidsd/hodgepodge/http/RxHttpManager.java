@@ -1,9 +1,16 @@
 package com.lsqidsd.hodgepodge.http;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.lsqidsd.hodgepodge.base.BaseApplication;
 import com.lsqidsd.hodgepodge.http.download.DaoUtil;
+import com.lsqidsd.hodgepodge.http.download.DownService;
+import com.lsqidsd.hodgepodge.http.download.DownSubscriber;
+import com.lsqidsd.hodgepodge.http.download.DownloadInterceptor;
 import com.lsqidsd.hodgepodge.http.download.Info;
 import com.lsqidsd.hodgepodge.http.download.Platform;
+import com.lsqidsd.hodgepodge.service.DownLoadService;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,13 +18,16 @@ import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
@@ -36,9 +46,11 @@ public class RxHttpManager {
     private final String CACHE_NAME = "cache_news";
     private volatile static RxHttpManager instance;
     private Platform mPlatform;
+    private Handler handler;
     //下载数据
     private Set<Info> downStateSet;
     private DaoUtil daoUtil;
+    private HashMap<String, DownSubscriber> subscriberHashMap;
 
     /**
      * 请求失败重连次数
@@ -49,6 +61,8 @@ public class RxHttpManager {
         mPlatform = Platform.get();
         downStateSet = new HashSet<>();
         daoUtil = DaoUtil.getInstance();
+        subscriberHashMap = new HashMap<>();
+        handler = new Handler(Looper.getMainLooper());
     }
 
     private OkHttpClient.Builder okhttpSetting(String... sf) {
@@ -136,9 +150,46 @@ public class RxHttpManager {
         return retrofitSetting(url, sf).create(tService);
     }
 
-    public <T> T down(Class<T> tService, Info info, String... sf) {
+    public void down(Info info) {
+        if (info == null || subscriberHashMap.get(info.getUrl()) != null) {
+            subscriberHashMap.get(info.getUrl()).setInfo(info);
+            return;
+        }
+        DownSubscriber subscriber = new DownSubscriber(info, handler);
+        DownService downService;
+        if (downStateSet.contains(info)) {
+            downService = info.getService();
+        } else {
 
-        return retrofitSetting(info.getUrl(), sf).create(tService);
+            subscriberHashMap.put(info.getUrl(), subscriber);
+            DownloadInterceptor interceptor = new DownloadInterceptor(subscriber);
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.connectTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
+            builder.writeTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
+            builder.readTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
+            builder.retryOnConnectionFailure(true);//错误重连
+            builder.addInterceptor(interceptor);
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(builder.build())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .baseUrl(info.getUrl())
+                    .build();
+            downService = retrofit.create(DownService.class);
+            info.setService(downService);
+            downStateSet.add(info);
+        }
+        downService.download("bytes=" + info.getReadLength() + "-")
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .map(a -> {
+                    writeCaches(a, new File(info.getSavePath()), info);
+                    return info;
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+
+
     }
 
     public static RxHttpManager getInstance() {
@@ -193,7 +244,6 @@ public class RxHttpManager {
                     mappedBuffer.put(buffer, 0, len);
                 }
             } catch (IOException e) {
-
             } finally {
                 if (inputStream != null) {
                     inputStream.close();
@@ -208,4 +258,43 @@ public class RxHttpManager {
         } catch (IOException e) {
         }
     }
+
+    /**
+     * 移除下载数据
+     */
+    public void remove(Info info) {
+        subscriberHashMap.remove(info.getUrl());
+        downStateSet.remove(info);
+
+    }
+
+    /**
+     * 返回全部正在下载的数据
+     */
+    public Set<Info> getDownStateSet() {
+        return downStateSet;
+    }
+
+    /**
+     * 暂停全部下载
+     */
+    public void pauseAll() {
+        for (Info info : downStateSet) {
+            pause(info);
+
+        }
+        subscriberHashMap.clear();
+        downStateSet.clear();
+    }
+
+    /**
+     * 暂停下载
+     */
+    public void pause(Info info) {
+        if (info == null) return;
+        info.setState(com.lsqidsd.hodgepodge.http.download.State.PAUSE);
+        info.getListener().onPause();
+        daoUtil.updata(info);
+    }
+
 }
