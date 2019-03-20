@@ -1,18 +1,15 @@
 package com.lsqidsd.hodgepodge.view;
 
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
 import android.os.IBinder;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
 import com.lsqidsd.hodgepodge.databinding.MainActivityBinding;
@@ -20,7 +17,6 @@ import com.lsqidsd.hodgepodge.databinding.TabFootBinding;
 import com.lsqidsd.hodgepodge.service.DownLoadService;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TabDb;
-
 public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener, DownLoadService.DownloadFinish {
     private MainActivityBinding binding;
     private TabFootBinding footBinding;

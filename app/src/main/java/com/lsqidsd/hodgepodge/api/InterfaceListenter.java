@@ -1,7 +1,5 @@
 package com.lsqidsd.hodgepodge.api;
-
 import android.databinding.ObservableInt;
-
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.bean.Milite;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
@@ -9,9 +7,7 @@ import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.http.download.Info;
-
 import java.util.List;
-
 import okhttp3.ResponseBody;
 
 public class InterfaceListenter {

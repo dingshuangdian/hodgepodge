@@ -75,4 +75,5 @@ dependencies {
     implementation 'com.zhy:okhttputils:2.6.2'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.daimajia.numberprogressbar:library:1.2@aar'
 }

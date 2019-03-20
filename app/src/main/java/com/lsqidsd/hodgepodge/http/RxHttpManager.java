@@ -1,8 +1,6 @@
 package com.lsqidsd.hodgepodge.http;
-
 import android.os.Handler;
 import android.os.Looper;
-
 import com.lsqidsd.hodgepodge.base.BaseApplication;
 import com.lsqidsd.hodgepodge.http.download.DaoUtil;
 import com.lsqidsd.hodgepodge.http.download.DownService;
@@ -10,8 +8,6 @@ import com.lsqidsd.hodgepodge.http.download.DownSubscriber;
 import com.lsqidsd.hodgepodge.http.download.DownloadInterceptor;
 import com.lsqidsd.hodgepodge.http.download.Info;
 import com.lsqidsd.hodgepodge.http.download.Platform;
-import com.lsqidsd.hodgepodge.service.DownLoadService;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,11 +19,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
-
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;

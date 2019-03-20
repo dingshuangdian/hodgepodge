@@ -1,26 +1,13 @@
 package com.lsqidsd.hodgepodge.api;
-
-import android.util.Log;
-
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.http.RxHttpManager;
-import com.lsqidsd.hodgepodge.http.download.Callback;
-import com.lsqidsd.hodgepodge.http.download.DownService;
-import com.lsqidsd.hodgepodge.http.download.Info;
-import com.lsqidsd.hodgepodge.service.DownLoadService;
-
-import java.io.File;
 import java.util.HashMap;
-
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
-import okhttp3.ResponseBody;
-
 public class HttpGet {
     private static RxHttpManager rxHttpManager = RxHttpManager.getInstance();
 

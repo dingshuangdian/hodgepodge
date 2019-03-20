@@ -1,12 +1,8 @@
 package com.lsqidsd.hodgepodge.base;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
@@ -16,16 +12,13 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.broadcast.NetworkStateReceiver;
-import com.lsqidsd.hodgepodge.utils.NetUtil;
 import com.lsqidsd.hodgepodge.utils.StatusBarUtil;
-
 import java.util.Date;
-import java.util.List;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -141,7 +134,7 @@ public abstract class BaseActivity extends FragmentActivity implements NetworkSt
     }
 
     public void showDialog(String permission) {
-        new AlertDialog.Builder(this).setTitle("权限申请").setMessage("在设置-应用-腾讯新闻权限中开启" + permission + "权限，以正常使用相关功能").setPositiveButton("去开启", (a, b) -> {
+        new AlertDialog.Builder(this, R.style.AlertDialog).setTitle("权限申请").setMessage("在设置-应用-腾讯新闻权限中开启" + permission + "权限，以正常使用相关功能").setPositiveButton("去开启", (a, b) -> {
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             Uri uri = Uri.fromParts("package", getPackageName(), null);
             intent.setData(uri);
