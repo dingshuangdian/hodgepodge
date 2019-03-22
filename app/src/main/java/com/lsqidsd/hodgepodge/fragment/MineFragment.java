@@ -1,8 +1,11 @@
 package com.lsqidsd.hodgepodge.fragment;
 
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
@@ -18,40 +21,34 @@ import java.util.List;
 
 public class MineFragment extends BaseLazyFragment {
     private MineFragmentBinding fragmentBinding;
-    private Info info;
+    private List<Info> infos;
     private DaoUtil daoUtil;
-    private MineViewModule module;
-    private RxHttpManager rxHttpManager;
-
     @Override
     public void initFragment() {
         fragmentBinding = (MineFragmentBinding) setBinding(fragmentBinding);
 
     }
-
     @Override
     public void initData() {
         daoUtil = DaoUtil.getInstance();
-        rxHttpManager = RxHttpManager.getInstance();
-        fragmentBinding.setMineview(module);
-
     }
-
     @Override
     public int setContentView() {
         return R.layout.fragment_mine;
     }
-
     @RequiresApi(api = Build.VERSION_CODES.FROYO)
     @Override
     public void lazyLoad() {
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "01.mp4");
-        info = new Info(BaseConstant.UPDATA_URL);
-        info.setId(1);
-        info.setSavePath(file.getAbsolutePath());
-        daoUtil.save(info);
-        module = new MineViewModule(info, getContext());
-        rxHttpManager.down(info);
+        infos = daoUtil.queryDownAll();
+        if (infos.isEmpty()) {
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "01.mp4");
+            Info info = new Info(BaseConstant.UPDATA_URL);
+            info.setId(1);
+            info.setSavePath(file.getAbsolutePath());
+            daoUtil.save(info);
+            infos = daoUtil.queryDownAll();
+        }
+        fragmentBinding.setMineview(new MineViewModule(infos.get(0), getContext(), fragmentBinding));
     }
 
     @Override
@@ -60,5 +57,15 @@ public class MineFragment extends BaseLazyFragment {
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 }

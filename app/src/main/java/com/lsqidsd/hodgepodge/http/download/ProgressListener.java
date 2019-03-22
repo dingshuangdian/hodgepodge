@@ -4,5 +4,5 @@ public interface ProgressListener {
     /**
      * 下载进度
      */
-    void updata(long read, long count);
+    void updata(long read, long count,boolean done);
 }

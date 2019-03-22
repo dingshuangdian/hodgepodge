@@ -49,7 +49,7 @@ public class DownloadResponseBody extends ResponseBody {
                 long bytesRead = super.read(sink, byteCount);
                 totalBytesRead += bytesRead != -1 ? bytesRead : 0;
                 if (null != listener) {
-                    listener.updata(totalBytesRead, responseBody.contentLength());
+                    listener.updata(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
                 }
                 return bytesRead;
             }

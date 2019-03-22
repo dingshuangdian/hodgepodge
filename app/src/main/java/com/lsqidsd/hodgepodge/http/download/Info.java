@@ -1,12 +1,14 @@
 package com.lsqidsd.hodgepodge.http.download;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.Transient;
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class Info {
+    @Id
     private long id;
     private String savePath;
     private long countLength;
@@ -41,9 +43,14 @@ public class Info {
 
     private int stateInte;
 
+    @Keep
+    public Info(String url) {
+        setUrl(url);
+    }
+
     @Generated(hash = 786316455)
     public Info(long id, String savePath, long countLength, long readLength,
-                String url, int stateInte) {
+            String url, int stateInte) {
         this.id = id;
         this.savePath = savePath;
         this.countLength = countLength;
@@ -52,15 +59,9 @@ public class Info {
         this.stateInte = stateInte;
     }
 
-    @Keep
-    public Info(String url) {
-        setUrl(url);
-    }
-
     @Generated(hash = 614508582)
     public Info() {
     }
-
     public String getUrl() {
         return url;
     }
@@ -127,6 +128,5 @@ public class Info {
                 return State.END;
         }
     }
-
 
 }

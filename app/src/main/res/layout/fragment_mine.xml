@@ -60,8 +60,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             custom:layout_constraintTop_toBottomOf="@+id/item"
-            custom:max="@{mineview.max}"
-            custom:progress="@{mineview.progress}"
             custom:progress_text_size="20sp" />
 
     </android.support.constraint.ConstraintLayout>

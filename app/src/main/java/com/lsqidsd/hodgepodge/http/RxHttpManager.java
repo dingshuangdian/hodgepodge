@@ -1,6 +1,8 @@
 package com.lsqidsd.hodgepodge.http;
+
 import android.os.Handler;
 import android.os.Looper;
+
 import com.lsqidsd.hodgepodge.base.BaseApplication;
 import com.lsqidsd.hodgepodge.http.download.DaoUtil;
 import com.lsqidsd.hodgepodge.http.download.DownService;
@@ -8,6 +10,7 @@ import com.lsqidsd.hodgepodge.http.download.DownSubscriber;
 import com.lsqidsd.hodgepodge.http.download.DownloadInterceptor;
 import com.lsqidsd.hodgepodge.http.download.Info;
 import com.lsqidsd.hodgepodge.http.download.Platform;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
@@ -149,12 +153,11 @@ public class RxHttpManager {
             return;
         }
         DownSubscriber subscriber = new DownSubscriber(info, handler);
+        subscriberHashMap.put(info.getUrl(), subscriber);
         DownService downService;
         if (downStateSet.contains(info)) {
             downService = info.getService();
         } else {
-
-            subscriberHashMap.put(info.getUrl(), subscriber);
             DownloadInterceptor interceptor = new DownloadInterceptor(subscriber);
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.connectTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
@@ -274,7 +277,6 @@ public class RxHttpManager {
     public void pauseAll() {
         for (Info info : downStateSet) {
             pause(info);
-
         }
         subscriberHashMap.clear();
         downStateSet.clear();
@@ -286,7 +288,6 @@ public class RxHttpManager {
     public void pause(Info info) {
         if (info == null) return;
         info.setState(com.lsqidsd.hodgepodge.http.download.State.PAUSE);
-        info.getListener().onPause();
         daoUtil.updata(info);
     }
 

@@ -1,8 +1,13 @@
 package com.lsqidsd.hodgepodge.http.download;
+
 import android.os.Handler;
+
 import com.lsqidsd.hodgepodge.http.RxHttpManager;
+
 import java.lang.ref.WeakReference;
+
 import io.reactivex.observers.DisposableObserver;
+
 public class DownSubscriber<T> extends DisposableObserver<T> implements ProgressListener {
     private WeakReference<HttpDownOnNextListener> listener;
     private Info info;
@@ -29,7 +34,7 @@ public class DownSubscriber<T> extends DisposableObserver<T> implements Progress
     }
 
     @Override
-    public void updata(long read, long count) {
+    public void updata(long read, long count, boolean down) {
         if (info.getCountLength() > count) {
             read = info.getCountLength() - count + read;
         } else {

@@ -16,9 +16,6 @@ public class DaoUtil {
         this.openHelper = new DaoMaster.DevOpenHelper(context, dbName, null);
     }
 
-    /**
-     * 单列
-     */
     public static DaoUtil getInstance() {
         if (daoUtil == null) {
             synchronized (DaoUtil.class) {
