@@ -10,9 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 
 public class JsonUtils {
-    static Gson gson = new Gson();
 
     public static <T> String jsonKey(T t, int i) {
+        Gson gson = new Gson();
         String url = null;
         JSONObject jsonObject = null;
         List<String> list = new ArrayList<>();
@@ -38,6 +38,7 @@ public class JsonUtils {
     }
 
     public static <T> JSONObject toJsonObject(T t) {
+        Gson gson = new Gson();
         JSONObject jsonObject = null;
         String obj = gson.toJson(t);
         try {

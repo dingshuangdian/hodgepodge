@@ -21,13 +21,9 @@ import com.lsqidsd.hodgepodge.databinding.HotBinding;
 import com.lsqidsd.hodgepodge.databinding.Loadbinding;
 import com.lsqidsd.hodgepodge.databinding.TopBinding;
 import com.lsqidsd.hodgepodge.databinding.OtherBinding;
-import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.lsqidsd.hodgepodge.viewmodel.NewsItemModel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +31,7 @@ import java.util.List;
 public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     private Context context;
     private int page;
+    private GridViewImgAdapter gridViewImgAdapter;
     private List<NewsItem.DataBean> dataBeanList;
     private List<NewsTop.DataBean> newsTopList;
     private List<NewsHot.DataBean> newsHotList;
@@ -48,6 +45,8 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     public YWAdapter(Context context, RefreshLayout refreshLayout) {
         this.context = context;
         this.refreshLayout = refreshLayout;
+
+
     }
 
     public void addDatas(NewsMain t) {
@@ -91,13 +90,12 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (holder instanceof LoadMoreHolder) {
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getNewsData(page, b -> {
-                page++;
-            }, newsMain, refreshLayout));
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.loadNewsData(context, page, b ->
+                            page++
+                    , dataBeanList, refreshLayout));
         } else if (holder instanceof YWViwHolder) {
             YWViwHolder ywViwHolder = (YWViwHolder) holder;
-            NewsItem.DataBean dataBean = dataBeanList.get(position - 3);
-            ywViwHolder.bindData(dataBean);
+            ywViwHolder.bindData(dataBeanList.get(position - 3));
         } else if (holder instanceof TopHolder) {
             TopHolder topHolder = (TopHolder) holder;
             if (!newsTopList.isEmpty()) {
@@ -136,22 +134,17 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
 
         public void bindData(NewsItem.DataBean bean) {
-            JSONObject jsonObject = JsonUtils.toJsonObject(bean.getIrs_imgs());
-            JSONArray jsonArray = null;
-            if (jsonObject.has("227X148")) {
-                jsonArray = (JSONArray) jsonObject.opt("227X148");
-                if (jsonArray.length() == 3) {
-                    GridViewImgAdapter gridViewImgAdapter = new GridViewImgAdapter(jsonArray, bean.getUrl(), context);
-                    otherBinding.gv.setAdapter(gridViewImgAdapter);
-                }
+            if (bean.getIrs_imgs().get_$227X148() != null && bean.getIrs_imgs().get_$227X148().size() == 3) {
+                gridViewImgAdapter = new GridViewImgAdapter(context);
+                gridViewImgAdapter.addImgs(bean.getIrs_imgs().get_$227X148(), bean.getUrl(), otherBinding);
+                otherBinding.gv.setAdapter(gridViewImgAdapter);
             }
-            otherBinding.setNewsitem(new NewsItemModel(context, bean, jsonArray));
+            otherBinding.setNewsitem(new NewsItemModel(context, bean, bean.getIrs_imgs().get_$227X148(), otherBinding));
         }
     }
 
     public class TopHolder extends ViewHolder {
         TopBinding topBinding;
-        JSONArray jsonArray = null;
 
         public TopHolder(TopBinding itemView) {
             super(itemView.getRoot());
@@ -159,7 +152,7 @@ public class YWAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
 
         public void bindData(NewsTop.DataBean top) {
-            topBinding.setNewsitem(new NewsItemModel(context, top, jsonArray));
+            topBinding.setNewsitem(new NewsItemModel(context, top));
         }
     }
 

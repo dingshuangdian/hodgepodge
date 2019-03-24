@@ -1,17 +1,12 @@
 package com.lsqidsd.hodgepodge.http;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import com.lsqidsd.hodgepodge.base.BaseApplication;
-
-
-
 /**
  * 网络请求工具类
  */
 public class NetUtil {
-
     /**
      * 判断是否有网络连接
      *
@@ -26,10 +21,8 @@ public class NetUtil {
         if (mNetworkInfo != null) {
             return mNetworkInfo.isAvailable();
         }
-
         return false;
     }
-
     /**
      * 判断WIFI网络是否可用
      *

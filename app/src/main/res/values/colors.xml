@@ -9,8 +9,10 @@
     <color name="edit_text">#212121</color>
     <color name="edit_hint_text">#e9efef</color>
     <color name="btn_cancel_text">#fff</color>
+    <color name="white">#fff</color>
     <color name="transparent">#00000000</color>
     <color name="background">#f2f6f9</color>
+    <color name="black">#000</color>
 
     <color name="edit_background">#f2f6f9</color>
     <color name="edit_stroke">#fff</color>

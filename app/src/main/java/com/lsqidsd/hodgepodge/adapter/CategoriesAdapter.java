@@ -1,26 +1,19 @@
 package com.lsqidsd.hodgepodge.adapter;
-
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.ViewHolder.LoadMoreHolder;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.bean.Milite;
 import com.lsqidsd.hodgepodge.databinding.Loadbinding;
 import com.lsqidsd.hodgepodge.databinding.NewsItemHotBinding;
-import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.viewmodel.HotViewModule;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,6 +21,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<Milite.DataBean> milites;
     private Context context;
     private int page;
+    private GridViewImgAdapter gridViewImgAdapter;
     private LayoutInflater inflate;
     private final int LOAD_MORE = -1;//上拉加载
     private final int NEWS_ITEM_TYPE = 1;//列表
@@ -39,12 +33,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.context = context;
         this.refreshLayout = refreshLayout;
         this.inflate = LayoutInflater.from(context);
+
     }
 
-    public void addMilite(List<Milite.DataBean> milites, String s) {
-        this.milites = milites;
+    public void addMilite(List<Milite.DataBean> milite, String s) {
+        this.milites = milite;
         this.categorie = s;
-        this.page = 1;
+        this.page = 2;
     }
 
     @NonNull
@@ -95,9 +90,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (categorie.equals("cul")) {
                 params = BaseConstant.getCul();
             }
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getCategoriesNews(page, params, (b, c) ->
-                            page++
-                    , milites, refreshLayout, ""));
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getCategoriesNews(page,context, params, (b, c) -> page++, milites, refreshLayout, ""));
         }
     }
 
@@ -124,17 +117,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         private void loadData(Milite.DataBean bean) {
-            JSONObject jsonObject = JsonUtils.toJsonObject(bean.getIrs_imgs());
-            JSONArray jsonArray = null;
-            if (jsonObject.has("227X148")) {
-                jsonArray = (JSONArray) jsonObject.opt("227X148");
-                if (jsonArray.length() == 3) {
-                    GridViewImgAdapter gridViewImgAdapter;
-                    gridViewImgAdapter = new GridViewImgAdapter(jsonArray, bean.getUrl(), context);
-                    itemHotBinding.gv.setAdapter(gridViewImgAdapter);
-                }
+            if (bean.getIrs_imgs().get_$227X148() != null && bean.getIrs_imgs().get_$227X148().size() == 3) {
+                gridViewImgAdapter = new GridViewImgAdapter(context);
+                gridViewImgAdapter.addImgs(bean.getIrs_imgs().get_$227X148(), bean.getUrl(), itemHotBinding);
+                itemHotBinding.gv.setAdapter(gridViewImgAdapter);
             }
-            itemHotBinding.setNewsitem(new HotViewModule(context, jsonArray, bean));
+
+            itemHotBinding.setNewsitem(new HotViewModule(context, bean.getIrs_imgs().get_$227X148(), bean, itemHotBinding));
         }
     }
 }

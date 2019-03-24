@@ -1,7 +1,6 @@
 package com.lsqidsd.hodgepodge.viewmodel;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
 import android.text.TextUtils;
@@ -12,18 +11,18 @@ import com.bumptech.glide.Glide;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.Milite;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
-import com.lsqidsd.hodgepodge.utils.JsonUtils;
+import com.lsqidsd.hodgepodge.databinding.NewsItemHotBinding;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
 
-import org.json.JSONArray;
+import java.util.List;
 
 public class HotViewModule<T> {
-    private static Context mContext;
+    private Context mContext;
     public ObservableInt imgfVisbility = new ObservableInt(View.VISIBLE);
     public ObservableInt gvVisbility = new ObservableInt(View.GONE);
     public ObservableInt commentVisibility = new ObservableInt(View.GONE);
-    private JSONArray jsonArray;
+    private List<String> imagsUrl;
     private NewsHot.DataBean dataBean;
     private Milite.DataBean milites;
     private boolean flag = true;
@@ -32,9 +31,9 @@ public class HotViewModule<T> {
         this.mContext = mContext;
     }
 
-    public HotViewModule(Context mContext, JSONArray jsonArray, T t) {
+    public HotViewModule(Context mContext, List<String> imagsUrl, T t, NewsItemHotBinding hotBinding) {
         this.mContext = mContext;
-        this.jsonArray = jsonArray;
+        this.imagsUrl = imagsUrl;
         if (t instanceof NewsHot.DataBean) {
             this.dataBean = (NewsHot.DataBean) t;
             flag = true;
@@ -43,7 +42,13 @@ public class HotViewModule<T> {
             this.milites = (Milite.DataBean) t;
             flag = false;
         }
-
+        if (imagsUrl != null && imagsUrl.size() == 3) {
+            hotBinding.gv.setVisibility(View.VISIBLE);
+            hotBinding.ivImage.setVisibility(View.GONE);
+        } else {
+            hotBinding.gv.setVisibility(View.GONE);
+            hotBinding.ivImage.setVisibility(View.VISIBLE);
+        }
     }
 
     public String getTitle() {
@@ -52,7 +57,6 @@ public class HotViewModule<T> {
         } else {
             return milites.getTitle();
         }
-
     }
 
     public String getTime() {
@@ -103,29 +107,19 @@ public class HotViewModule<T> {
     }
 
     public String getImageeUrl() {
-        if (jsonArray != null) {
-            if (jsonArray.length() == 3) {
-                gvVisbility.set(View.VISIBLE);
-                imgfVisbility.set(View.GONE);
-            } else {
-                gvVisbility.set(View.GONE);
-                imgfVisbility.set(View.VISIBLE);
-            }
-        }
-        if (flag) {
-            return JsonUtils.jsonKey(dataBean.getImgs(), 0);
+        if (imagsUrl != null) {
+            return imagsUrl.get(0);
+        } else if (flag) {
+            return dataBean.getImg();
         } else {
-            return JsonUtils.jsonKey(milites.getImgs(), 0);
+            return milites.getImg();
         }
-
     }
 
     @BindingAdapter({"imageeUrl"})
     public static void setImageeUrl(ImageView imageView, String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl)) {
-            Glide.with(mContext).load(imageUrl).into(imageView);
-        } else {
-            Glide.with(mContext).load(R.mipmap.loadfail).into(imageView);
+            Glide.with(imageView.getContext()).load(imageUrl).into(imageView);
         }
     }
 

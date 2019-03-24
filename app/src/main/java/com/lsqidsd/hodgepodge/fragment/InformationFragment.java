@@ -21,20 +21,19 @@ import java.util.List;
 
 public class InformationFragment extends BaseLazyFragment implements InterfaceListenter.MainNewsDataListener, InterfaceListenter.VideosDataListener, InterfaceListenter.LoadCategoriesNews {
     private InformationDataBinding fragmentBinding;
-    private static InformationFragment informationFragment;
     private YWAdapter ywAdapter;
     private CategoriesAdapter categoriesAdapter;
     private VideoViewAdapter viewAdapter;
-    List<Milite.DataBean> beans = new ArrayList<>();
-    List<NewsVideoItem.DataBean> videosList = new ArrayList<>();
+    private List<Milite.DataBean> beans = new ArrayList<>();
+    private List<NewsVideoItem.DataBean> videosList;
 
-
-    public static InformationFragment getInstance(int i) {
-        informationFragment = new InformationFragment();
+    public static InformationFragment newInstance(int i) {
+        InformationFragment newFragment = new InformationFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("flag", i);
-        informationFragment.setArguments(bundle);
-        return informationFragment;
+        bundle.putInt("key", i);
+        newFragment.setArguments(bundle);
+        return newFragment;
+
     }
 
     private void initRefresh() {
@@ -51,9 +50,7 @@ public class InformationFragment extends BaseLazyFragment implements InterfaceLi
     public void initData() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         fragmentBinding.recyview.setLayoutManager(linearLayoutManager);
-        categoriesAdapter = new CategoriesAdapter(getContext(), fragmentBinding.refreshLayout);
-        viewAdapter = new VideoViewAdapter(getContext(), fragmentBinding.refreshLayout);
-        ywAdapter = new YWAdapter(getContext(), fragmentBinding.refreshLayout);
+
 
     }
 
@@ -68,35 +65,35 @@ public class InformationFragment extends BaseLazyFragment implements InterfaceLi
     }
 
     private void loadData() {
-        Bundle bundle = getArguments();
-        switch (bundle.getInt("flag")) {
+        switch (getArguments().getInt("key")) {
             case 0:
-                HttpModel.getMainNewData(this::mainDataChange, fragmentBinding.refreshLayout);
+                HttpModel.getMainNewData(getContext(), this::mainDataChange, fragmentBinding.refreshLayout);
                 break;
             case 1:
-                HttpModel.getVideoList(0, this::videoDataChange, videosList, fragmentBinding.refreshLayout);
+                videosList = new ArrayList<>();
+                HttpModel.getVideoList(0, getContext(), this::videoDataChange, videosList, fragmentBinding.refreshLayout);
                 break;
             case 2:
-                HttpModel.getCategoriesNews(0, BaseConstant.getRecommend(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "rec");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getRecommend(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "rec");
                 break;
             case 3:
-                HttpModel.getCategoriesNews(0, BaseConstant.getEntParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "ent");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getEntParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "ent");
                 break;
             case 4:
-                HttpModel.getCategoriesNews(0, BaseConstant.getMiliteParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "milite");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getMiliteParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "milite");
                 break;
             case 5:
-                HttpModel.getCategoriesNews(0, BaseConstant.getHistory(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "history");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getHistory(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "history");
                 break;
             case 6:
-                HttpModel.getCategoriesNews(0, BaseConstant.getWorldParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "world");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getWorldParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "world");
                 break;
             case 7:
 
-                HttpModel.getCategoriesNews(0, BaseConstant.getFinanceParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "finance");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getFinanceParams(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "finance");
                 break;
             case 8:
-                HttpModel.getCategoriesNews(0, BaseConstant.getCul(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "cul");
+                HttpModel.getCategoriesNews(0, getContext(), BaseConstant.getCul(), this::loadCategoriesNewsFinish, beans, fragmentBinding.refreshLayout, "cul");
                 break;
 
         }
@@ -104,19 +101,27 @@ public class InformationFragment extends BaseLazyFragment implements InterfaceLi
 
     @Override
     public void mainDataChange(NewsMain dataBeans) {
+        ywAdapter = new YWAdapter(getContext(), fragmentBinding.refreshLayout);
         ywAdapter.addDatas(dataBeans);
         fragmentBinding.recyview.setAdapter(ywAdapter);
     }
 
     @Override
     public void videoDataChange(List<NewsVideoItem.DataBean> dataBean) {
+        viewAdapter = new VideoViewAdapter(getContext(), fragmentBinding.refreshLayout);
         viewAdapter.addVideos(dataBean);
         fragmentBinding.recyview.setAdapter(viewAdapter);
     }
 
     @Override
     public void loadCategoriesNewsFinish(List<Milite.DataBean> dataBeans, String s) {
+        categoriesAdapter = new CategoriesAdapter(getContext(), fragmentBinding.refreshLayout);
         categoriesAdapter.addMilite(dataBeans, s);
         fragmentBinding.recyview.setAdapter(categoriesAdapter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

@@ -1,14 +1,14 @@
 package com.lsqidsd.hodgepodge.api;
-
 import android.databinding.ObservableInt;
-
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.bean.Milite;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
+import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
-
+import com.lsqidsd.hodgepodge.http.download.Info;
 import java.util.List;
+import okhttp3.ResponseBody;
 
 public class InterfaceListenter {
     public interface MainNewsDataListener {
@@ -17,6 +17,9 @@ public class InterfaceListenter {
 
     public interface VideosDataListener {
         void videoDataChange(List<NewsVideoItem.DataBean> dataBean);
+    }
+    public interface NewsItemListener {
+        void newsItemDataChange(List<NewsItem.DataBean> dataBean);
     }
 
     public interface ItemShowListener {
@@ -37,5 +40,8 @@ public class InterfaceListenter {
 
     public interface LoadCategoriesNews {
         void loadCategoriesNewsFinish(List<Milite.DataBean> dataBeans,String categorie);
+    }
+    public interface DownCallBack {
+        void callBack(ResponseBody r, Info info);
     }
 }

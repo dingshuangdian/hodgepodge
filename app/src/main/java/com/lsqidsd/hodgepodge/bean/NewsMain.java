@@ -1,10 +1,7 @@
 package com.lsqidsd.hodgepodge.bean;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-public class NewsMain implements Serializable {
+public class NewsMain {
 
     private List<NewsTop.DataBean> newsTops;
     private List<NewsItem.DataBean> newsItems;

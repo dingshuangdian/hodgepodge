@@ -67,7 +67,7 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public RolViewHolder(RoItemBinding itemView) {
             super(itemView.getRoot());
-            itemView.setRoitem(new NewsItemModel(context, null));
+            itemView.setRoitem(new NewsItemModel(context));
             loadData(itemView);
         }
 
@@ -92,11 +92,12 @@ public class NewsHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public VpViewHolder(VpItemBinding itemView) {
             super(itemView.getRoot());
             vpItemBinding = itemView;
+            viewPageAdapter = new ViewPageAdapter(context);
             loadData(vpItemBinding);
         }
 
         public void loadData(VpItemBinding vpItemBinding) {
-            viewPageAdapter = new ViewPageAdapter(context, newsHotList);
+            viewPageAdapter.addNews(newsHotList);
             vpItemBinding.vp.setAdapter(viewPageAdapter);
             vpItemBinding.vp.setPageMargin((int) (context.getResources().getDisplayMetrics().density * 10));
             vpItemBinding.vp.setOffscreenPageLimit(2);//预加载2个

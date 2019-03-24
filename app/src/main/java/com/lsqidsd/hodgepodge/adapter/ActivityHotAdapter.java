@@ -9,17 +9,13 @@ import android.view.ViewGroup;
 
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.ViewHolder.LoadMoreHolder;
-import com.lsqidsd.hodgepodge.api.InterfaceListenter;
+
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.databinding.Loadbinding;
 import com.lsqidsd.hodgepodge.databinding.NewsItemHotBinding;
-import com.lsqidsd.hodgepodge.utils.JsonUtils;
 import com.lsqidsd.hodgepodge.viewmodel.HotViewModule;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -30,12 +26,15 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private List<NewsHot.DataBean> hotBeans;
     private final int TYPE_NORMAL = 1;
     private RefreshLayout refreshLayout;
+    private GridViewImgAdapter gridViewImgAdapter;
+    ;
     private final int LOAD_MORE = -1;//上拉加载
 
     public ActivityHotAdapter(Context context, RefreshLayout refreshLayout) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.refreshLayout = refreshLayout;
+        gridViewImgAdapter = new GridViewImgAdapter(context);
     }
 
     public void addHot(List<NewsHot.DataBean> hotBean) {
@@ -70,7 +69,7 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             hotViewHolder.loadData(hotBeans.get(position));
         }
         if (holder instanceof LoadMoreHolder) {
-            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getActivityHotNews(page, b -> page++, hotBeans, refreshLayout));
+            refreshLayout.setOnLoadMoreListener(a -> HttpModel.getActivityHotNews(context,page, b -> page++, hotBeans, refreshLayout));
         }
     }
 
@@ -97,17 +96,12 @@ public class ActivityHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         private void loadData(NewsHot.DataBean bean) {
-            JSONObject jsonObject = JsonUtils.toJsonObject(bean.getIrs_imgs());
-            JSONArray jsonArray = null;
-            if (jsonObject.has("227X148")) {
-                jsonArray = (JSONArray) jsonObject.opt("227X148");
-                if (jsonArray.length() == 3) {
-                    GridViewImgAdapter gridViewImgAdapter;
-                    gridViewImgAdapter = new GridViewImgAdapter(jsonArray, bean.getUrl(), context);
-                    itemHotBinding.gv.setAdapter(gridViewImgAdapter);
-                }
+            if (bean.getIrs_imgs().get_$227X148() != null && bean.getIrs_imgs().get_$227X148().size() == 3) {
+                gridViewImgAdapter.addImgs(bean.getIrs_imgs().get_$227X148(), bean.getUrl(), itemHotBinding);
+                itemHotBinding.gv.setAdapter(gridViewImgAdapter);
             }
-            itemHotBinding.setNewsitem(new HotViewModule(context, jsonArray, bean));
+            itemHotBinding.setNewsitem(new HotViewModule(context, bean.getIrs_imgs().get_$227X148(), bean, itemHotBinding));
         }
+
     }
 }
