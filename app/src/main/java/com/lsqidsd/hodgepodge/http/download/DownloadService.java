@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,16 +38,14 @@ public class DownloadService extends Service {
                 ArrayList<RequestInfo> requestInfos = (ArrayList<RequestInfo>) intent.getSerializableExtra(InnerConstant.Inner.SERVICE_INTENT_EXTRA);
                 if (null != requestInfos && requestInfos.size() > 0) {
                     for (RequestInfo requestInfo : requestInfos) {
-
+                        executeDownload(requestInfo);
                     }
                 }
             }
             canRequest = true;
-
         }
         return super.onStartCommand(intent, flags, startId);
     }
-
     private synchronized void executeDownload(RequestInfo requestInfo) {
         DownloadInfo downloadInfo = requestInfo.getDownloadInfo();
         DownloadTask task = taskHashMap.get(downloadInfo.getUniqueId());

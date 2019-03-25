@@ -8,6 +8,8 @@ import com.lsqidsd.hodgepodge.http.download.DaoUtil;
 import com.lsqidsd.hodgepodge.http.download.DownService;
 import com.lsqidsd.hodgepodge.http.download.DownSubscriber;
 import com.lsqidsd.hodgepodge.http.download.DownloadInterceptor;
+import com.lsqidsd.hodgepodge.http.download.DownloadService;
+import com.lsqidsd.hodgepodge.http.download.FileInfo;
 import com.lsqidsd.hodgepodge.http.download.Info;
 import com.lsqidsd.hodgepodge.http.download.Platform;
 
@@ -147,45 +149,39 @@ public class RxHttpManager {
         return retrofitSetting(url, sf).create(tService);
     }
 
-    public void down(Info info) {
-        if (info == null || subscriberHashMap.get(info.getUrl()) != null) {
-            subscriberHashMap.get(info.getUrl()).setInfo(info);
-            return;
-        }
-        DownSubscriber subscriber = new DownSubscriber(info, handler);
-        subscriberHashMap.put(info.getUrl(), subscriber);
-        DownService downService;
-        if (downStateSet.contains(info)) {
-            downService = info.getService();
-        } else {
-            DownloadInterceptor interceptor = new DownloadInterceptor(subscriber);
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.connectTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
-            builder.writeTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
-            builder.readTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
-            builder.retryOnConnectionFailure(true);//错误重连
-            builder.addInterceptor(interceptor);
-            Retrofit retrofit = new Retrofit.Builder()
-                    .client(builder.build())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .baseUrl(info.getUrl())
-                    .build();
-            downService = retrofit.create(DownService.class);
-            info.setService(downService);
-            downStateSet.add(info);
-        }
-        downService.download("bytes=" + info.getReadLength() + "-")
+    public void down(FileInfo info) {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
+        builder.writeTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
+        builder.readTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
+        builder.retryOnConnectionFailure(true);//错误重连
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(builder.build())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(info.getDownloadUrl())
+                .build();
+        DownService downService = retrofit.create(DownService.class);
+        downService.download("bytes=" + info.getDownloadLocation() + "-")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
-                .map(a -> {
-                    writeCaches(a, new File(info.getSavePath()), info);
-                    return info;
-                })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(new DisposableObserver<ResponseBody>() {
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
 
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     public static RxHttpManager getInstance() {

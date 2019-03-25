@@ -22,8 +22,6 @@ public class MineViewModule {
         fragmentBinding.numberProgressBar.setMax((int) info.getCountLength());
         fragmentBinding.numberProgressBar.setProgress((int) info.getReadLength());
         info.setListener(listener);
-        rxHttpManager.down(info);
-
     }
 
     HttpDownOnNextListener<Info> listener = new HttpDownOnNextListener<Info>() {
