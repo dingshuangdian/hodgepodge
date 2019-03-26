@@ -126,7 +126,7 @@ public class DownLoadService extends Service {
                 Toast.makeText(context, e, Toast.LENGTH_SHORT).show();
             }
         });
-        HttpGet.downLoad(observer);
+        HttpGet.updata(observer);
     }
 
     private void showNotificationProgress(int currentProgress) {

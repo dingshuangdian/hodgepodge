@@ -6,9 +6,7 @@ import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
-import com.lsqidsd.hodgepodge.http.download.Info;
 import java.util.List;
-import okhttp3.ResponseBody;
 
 public class InterfaceListenter {
     public interface MainNewsDataListener {
@@ -40,8 +38,5 @@ public class InterfaceListenter {
 
     public interface LoadCategoriesNews {
         void loadCategoriesNewsFinish(List<Milite.DataBean> dataBeans,String categorie);
-    }
-    public interface DownCallBack {
-        void callBack(ResponseBody r, Info info);
     }
 }

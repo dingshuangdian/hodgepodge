@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
+import com.lsqidsd.hodgepodge.view.DownloadActivity;
 
 public class VideosViewModule<T> {
     private NewsVideoItem.DataBean videos;
@@ -119,8 +121,17 @@ public class VideosViewModule<T> {
     }
 
     public void toPlay(View view) {
-        if (thisVideo) {
-            Jump.jumpToWebActivity(context, videos.getUrl());
+        switch (view.getId()) {
+            case R.id.video_play:
+                if (thisVideo) {
+                    Jump.jumpToWebActivity(context, videos.getUrl());
+                }
+                break;
+            case R.id.download:
+                Jump.jumpToNormalActivity(context, DownloadActivity.class, adVieos.getData().getPlayUrl());
+                break;
         }
+
     }
+
 }

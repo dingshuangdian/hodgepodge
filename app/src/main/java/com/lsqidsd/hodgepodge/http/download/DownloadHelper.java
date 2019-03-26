@@ -3,8 +3,6 @@ package com.lsqidsd.hodgepodge.http.download;
 import android.content.Context;
 import android.content.Intent;
 
-import com.lsqidsd.hodgepodge.service.DownLoadService;
-
 import java.io.File;
 import java.util.ArrayList;
 

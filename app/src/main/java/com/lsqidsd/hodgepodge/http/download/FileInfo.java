@@ -8,6 +8,16 @@ public class FileInfo implements Serializable {
 
     private String id;
     private String downloadUrl;
+    private String baseurl;
+
+    public String getBaseurl() {
+        return baseurl;
+    }
+
+    public void setBaseurl(String baseurl) {
+        this.baseurl = baseurl;
+    }
+
     private String filePath;
     private long size;
     private long downloadLocation;

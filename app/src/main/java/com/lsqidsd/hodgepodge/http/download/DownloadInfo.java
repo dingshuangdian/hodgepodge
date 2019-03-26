@@ -6,6 +6,7 @@ import java.io.Serializable;
 public class DownloadInfo implements Serializable {
     private String url;
     private File file;
+
     private String action;//广播接收者的各种行为
 
 

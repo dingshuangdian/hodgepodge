@@ -1,29 +1,16 @@
 package com.lsqidsd.hodgepodge.http.download;
-
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.annotation.IntRange;
 import android.util.Log;
-
+import com.lsqidsd.hodgepodge.api.HttpGet;
+import com.lsqidsd.hodgepodge.http.HttpOnNextListener;
+import com.lsqidsd.hodgepodge.http.MyDisposableObserver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class DownloadTask implements Runnable {
     public static final String TAG = "DownloadTask";
     private Context context;
@@ -31,8 +18,6 @@ public class DownloadTask implements Runnable {
     private FileInfo fileInfo;
     private DbHolder holder;
     private boolean isPause;
-    private final int DEFAULT_TIME_OUT = 10;
-
 
     public DownloadTask(Context context, DownloadInfo info, DbHolder holder) {
         this.context = context;
@@ -88,16 +73,13 @@ public class DownloadTask implements Runnable {
         return DownloadStatus.FAIL;
     }
 
-
     public void setFileStatus(@IntRange(from = DownloadStatus.WAIT, to = DownloadStatus.FAIL) int status) {
         fileInfo.setDownloadStatus(status);
 
     }
-
     public void sendBroadcast(Intent intent) {
         context.sendBroadcast(intent);
     }
-
     public DownloadInfo getDownLoadInfo() {
         return info;
     }
@@ -105,70 +87,88 @@ public class DownloadTask implements Runnable {
     public FileInfo getFileInfo() {
         return fileInfo;
     }
-
     private void download() {
         fileInfo.setDownloadStatus(DownloadStatus.PREPARE);
-        Log.e("准备下载", "准备下载");
         Intent intent = new Intent();
         intent.setAction(info.getAction());
         intent.putExtra(DownloadConstant.EXTRA_INTENT_DOWNLOAD, fileInfo);
         context.sendBroadcast(intent);
-        RandomAccessFile randomAccessFile = null;
-        FileChannel channelOut = null;
-        InputStream inputStream = null;
-
-        URL sizeUrl = null;
-        HttpURLConnection sizeHttp = null;
         try {
-            sizeUrl = new URL(info.getUrl());
-            sizeHttp = (HttpURLConnection) sizeUrl.openConnection();
-            sizeHttp.setRequestMethod("GET");
-            sizeHttp.connect();
-            long totalSize = sizeHttp.getContentLength();
-            sizeHttp.disconnect();
-            if (totalSize <= 0) {
-                if (info.getFile().exists()) {
-                    info.getFile().delete();
+            RandomAccessFile randomAccessFile = new RandomAccessFile(info.getFile(), "rwd");
+            MyDisposableObserver observer = new MyDisposableObserver(new HttpOnNextListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    if (((ResponseBody) o).contentLength() <= 0) {
+                        if (info.getFile().exists()) {
+                            info.getFile().delete();
+                        }
+                        holder.deleteFileInfo(info.getUniqueId());
+                        Log.e(TAG, "文件大小 = " + ((ResponseBody) o).contentLength() + "\t, 终止下载过程");
+                        return;
+                    }
+                    if (fileInfo.getSize() <= 0) {
+                        fileInfo.setSize(((ResponseBody) o).contentLength());
+                    }
+                    new Thread(() -> {
+                        InputStream inputStream = ((ResponseBody) o).byteStream();
+                        byte[] buffer = new byte[1024 * 8];
+                        int offset;
+                        try {
+                            randomAccessFile.seek(fileInfo.getDownloadLocation());
+                            long millis = SystemClock.uptimeMillis();
+                            while ((offset = inputStream.read(buffer)) != -1) {
+                                if (isPause) {
+                                    Log.i(TAG, "下载过程 设置了 暂停");
+                                    fileInfo.setDownloadStatus(DownloadStatus.PAUSE);
+                                    isPause = false;
+                                    holder.saveFile(fileInfo);
+                                    context.sendBroadcast(intent);
+                                    randomAccessFile.close();
+                                    inputStream.close();
+                                    return;
+                                }
+                                randomAccessFile.write(buffer, 0, offset);
+                                fileInfo.setDownloadStatus(DownloadStatus.LOADING);
+                                fileInfo.setDownloadLocation(fileInfo.getDownloadLocation() + offset);
+                                if (SystemClock.uptimeMillis() - millis >= 1000) {
+                                    millis = SystemClock.uptimeMillis();
+                                    holder.saveFile(fileInfo);
+                                    context.sendBroadcast(intent);
+                                }
+                            }
+                            fileInfo.setDownloadStatus(DownloadStatus.COMPLETE);
+                            holder.saveFile(fileInfo);
+                            context.sendBroadcast(intent);
+                        } catch (IOException e) {
+                            Log.e(TAG, "下载过程发生失败");
+                            holder.saveFile(fileInfo);
+                            context.sendBroadcast(intent);
+                            e.printStackTrace();
+                        } finally {
+                            try {
+                                if (randomAccessFile != null) {
+                                    randomAccessFile.close();
+                                }
+                                if (inputStream != null) {
+                                    inputStream.close();
+                                }
+
+                            } catch (IOException e) {
+                                Log.e(TAG, "finally 块  关闭文件过程中 发生异常");
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
                 }
-                holder.deleteFileInfo(info.getUniqueId());
-                return;
-            }
-            fileInfo.setSize(totalSize);
-            randomAccessFile = new RandomAccessFile(info.getFile(), "rwd");
 
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.connectTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
-            builder.writeTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
-            builder.readTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS);
-            builder.retryOnConnectionFailure(true);//错误重连
-            Retrofit retrofit = new Retrofit.Builder()
-                    .client(builder.build())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .baseUrl(fileInfo.getDownloadUrl())
-                    .build();
-            DownService downService = retrofit.create(DownService.class);
-            downService.download("bytes=" + fileInfo.getDownloadLocation() + "-")
-                    .subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new DisposableObserver<ResponseBody>() {
-                        @Override
-                        public void onNext(ResponseBody responseBody) {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-
+                @Override
+                public void onFail(String e) {
+                    Log.e(TAG, e);
+                    holder.saveFile(fileInfo);
+                    context.sendBroadcast(intent);
+                }
+            });
+            HttpGet.download(observer, fileInfo);
         } catch (Exception e) {
             e.printStackTrace();
         }

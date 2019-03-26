@@ -19,23 +19,26 @@
         android:roundIcon="@mipmap/flogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.DownloadActivity"></activity>
         <activity android:name=".view.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".view.WebViewActivity"
-            android:launchMode="singleTop"></activity>
-        <activity android:name=".view.HotActivity"></activity>
+            android:launchMode="singleTop" />
+        <activity android:name=".view.HotActivity" />
         <activity
             android:name=".view.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
-        <service android:name=".service.DownLoadService"></service>
+        <service android:name=".service.DownLoadService" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
@@ -45,6 +48,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <receiver
             android:name=".broadcast.NetworkStateReceiver"
             android:exported="false">
@@ -52,6 +56,8 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <service android:name=".http.download.DownloadService"></service>
+
+        <service android:name=".http.download.DownloadService" />
     </application>
+
 </manifest>
