@@ -68,6 +68,7 @@ public class DownloadTask implements Runnable {
     @IntRange(from = DownloadStatus.WAIT, to = DownloadStatus.FAIL)
     public int getStatus() {
         if (null != fileInfo) {
+            Log.e("status+++",fileInfo.getDownloadStatus()+"");
             return fileInfo.getDownloadStatus();
         }
         return DownloadStatus.FAIL;

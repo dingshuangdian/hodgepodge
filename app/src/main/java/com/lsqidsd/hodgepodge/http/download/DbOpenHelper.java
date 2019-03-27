@@ -37,7 +37,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
                 InnerConstant.Db.downloadLocation + " integer," +
                 InnerConstant.Db.downloadStatus + " integer)";
 
-        Log.i(TAG, "onCreate() -> info=" + info);
+        Log.e(TAG, "onCreate() -> info=" + info);
         sqLiteDatabase.execSQL(info);
 
     }

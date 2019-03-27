@@ -2,14 +2,12 @@ package com.lsqidsd.hodgepodge.http.download;
 
 import android.content.Context;
 import android.content.Intent;
-
 import java.io.File;
-import java.util.ArrayList;
 
 public class DownloadHelper {
     public static final String TAG = "DownloadHelper";
     private volatile static DownloadHelper SINGLETANCE;
-    private static ArrayList<RequestInfo> requestInfos = new ArrayList<>();
+    private RequestInfo requestInfo;
 
     private DownloadHelper() {
     }
@@ -27,25 +25,20 @@ public class DownloadHelper {
     }
 
     public synchronized void submit(Context context) {
-        if (requestInfos.isEmpty()) {
-            return;
-        }
         Intent intent = new Intent(context, DownloadService.class);
-        intent.putExtra(InnerConstant.Inner.SERVICE_INTENT_EXTRA, requestInfos);
+        intent.putExtra(InnerConstant.Inner.SERVICE_INTENT_EXTRA, requestInfo);
         context.startService(intent);
-        requestInfos.clear();
     }
 
 
     public DownloadHelper addTask(String url, File file, String action) {
-        RequestInfo requestInfo = createRequest(url, file, action, InnerConstant.Request.loading);
-        requestInfos.add(requestInfo);
+        requestInfo = createRequest(url, file, action, InnerConstant.Request.loading);
+
         return this;
     }
 
     public DownloadHelper pauseTask(String url, File file, String action) {
-        RequestInfo requestInfo = createRequest(url, file, action, InnerConstant.Request.pause);
-        requestInfos.add(requestInfo);
+        requestInfo = createRequest(url, file, action, InnerConstant.Request.pause);
         return this;
     }
 
