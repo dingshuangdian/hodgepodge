@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
 import com.lsqidsd.hodgepodge.databinding.MainActivityBinding;
@@ -17,7 +18,8 @@ import com.lsqidsd.hodgepodge.databinding.TabFootBinding;
 import com.lsqidsd.hodgepodge.service.DownLoadService;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TabDb;
-public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener, DownLoadService.DownloadFinish {
+
+public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener {
     private MainActivityBinding binding;
     private TabFootBinding footBinding;
     private DownLoadService.MyBinder myBinder;
@@ -77,7 +79,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                 myBinder = (DownLoadService.MyBinder) iBinder;
                 //在Activity中调用Service里面的方法。
-                myBinder.startDownload(MainActivity.this, MainActivity.this::downfinish);
+                myBinder.startDownload(MainActivity.this);
                 bind = true;
             }
 
@@ -100,13 +102,6 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
 
     }
 
-    @Override
-    public void downfinish() {
-        if (bind) {
-            //this.unbindService(connection);
-            bind = false;
-        }
-    }
 
     private void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialog);

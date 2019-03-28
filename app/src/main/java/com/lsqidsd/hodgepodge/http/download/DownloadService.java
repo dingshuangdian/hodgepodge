@@ -2,10 +2,17 @@ package com.lsqidsd.hodgepodge.http.download;
 
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -14,6 +21,7 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.utils.NotificationUtil;
 
 import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -22,10 +30,8 @@ import java.util.concurrent.TimeUnit;
 public class DownloadService extends Service {
     public static final String TAG = "DownloadService";
     private Context context;
-    private RemoteViews remoteViews;
-    private int notificationid = 10;
-    private boolean isForeground;
-    private NotificationManager mNotificationManager;
+    private static final String FIRST_ACTION = "ACTION";
+    private NotificationUtil notificationUtil;
     //关于线程池的一些配置
     private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
     private static final int CORE_POOL_SIZE = Math.max(3, CPU_COUNT / 2);
@@ -44,7 +50,10 @@ public class DownloadService extends Service {
     public void onCreate() {
         super.onCreate();
         context = this;
-        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationUtil = new NotificationUtil(this);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(FIRST_ACTION);
+        registerReceiver(receiver, filter);
     }
 
     @Override
@@ -52,7 +61,7 @@ public class DownloadService extends Service {
         if (intent != null) {
             RequestInfo requestInfo = (RequestInfo) intent.getSerializableExtra(InnerConstant.Inner.SERVICE_INTENT_EXTRA);
             executeDownload(requestInfo);
-            upDateNotification();
+            showNotification(false);
             Toast.makeText(context, "已添加到下载队列", Toast.LENGTH_SHORT).show();
         }
         return super.onStartCommand(intent, flags, startId);
@@ -110,8 +119,18 @@ public class DownloadService extends Service {
         }
     }
 
-    private Notification getNotification(boolean complete) {
-        remoteViews = new RemoteViews(this.getPackageName(), R.layout.down_notification);
+    private void showNotification(boolean complete) {
+        RemoteViews remoteViews = complete ? getRemoteViews(true) : getRemoteViews(false);
+        notificationUtil.getBuilder(R.mipmap.down).setContent(remoteViews);
+        notificationUtil.sendNotification();
+    }
+
+    private RemoteViews getRemoteViews(boolean complete) {
+        RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.down_notification);
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setComponent(new ComponentName(context.getPackageName(), "com.lsqidsd.hodgepodge.view.DownloadActivity"));
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (complete) {
             remoteViews.setTextViewText(R.id.msg, "一个视频下载完毕,点击查看");
             remoteViews.setImageViewResource(R.id.iv_image, R.mipmap.complete);
@@ -119,18 +138,27 @@ public class DownloadService extends Service {
             remoteViews.setTextViewText(R.id.msg, "一个视频正在下载,点击查看");
             remoteViews.setImageViewResource(R.id.iv_image, R.mipmap.down);
         }
-        Notification.Builder builder = new Notification.Builder(this).setContent(remoteViews)
-
-                .setSmallIcon(R.mipmap.down);
-        return builder.build();
+        remoteViews.setOnClickPendingIntent(R.id.intent, pendingIntent);
+        return remoteViews;
     }
 
-    private void upDateNotification() {
-        if (!isForeground) {
-            startForeground(notificationid, getNotification(false));
-            isForeground = true;
-        } else {
-            mNotificationManager.notify(notificationid, getNotification(false));
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (null != intent) {
+                switch (intent.getAction()) {
+                    case FIRST_ACTION:
+                        FileInfo fileInfo = (FileInfo) intent.getSerializableExtra(DownloadConstant.EXTRA_INTENT_DOWNLOAD);
+                        float pro = (float) (fileInfo.getDownloadLocation() * 1.0 / fileInfo.getSize());
+                        int progress = (int) (pro * 100);
+                        float downSize = fileInfo.getDownloadLocation() / 1024.0f / 1024;
+                        float totalSize = fileInfo.getSize() / 1024.0f / 1024;
+                        Log.e("progress", progress + "");
+                        Log.e("downSize", downSize + "");
+                        Log.e("totalSize", totalSize + "");
+                        break;
+                }
+            }
         }
-    }
+    };
 }

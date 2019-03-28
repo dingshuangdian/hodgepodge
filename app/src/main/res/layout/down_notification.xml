@@ -1,35 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:id="@+id/intent"
+    android:layout_height="50dp">
 
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:src="@mipmap/down"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="10dp"
+        android:src="@mipmap/down" />
 
     <TextView
         android:id="@+id/title"
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_image"
         android:text="腾讯新闻"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/msg"
-        app:layout_constraintLeft_toRightOf="@id/iv_image"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="#000"
+        android:textSize="15sp" />
     <TextView
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/colorNormal"
         android:id="@+id/msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="一个视频正在下载，点击查看"
-        app:layout_constraintLeft_toRightOf="@id/iv_image"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/iv_image"
+        android:layout_marginBottom="5dp"
+        android:text="一个视频正在下载，点击查看" />
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

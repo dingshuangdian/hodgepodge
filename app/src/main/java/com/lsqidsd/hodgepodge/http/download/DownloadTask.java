@@ -73,10 +73,8 @@ public class DownloadTask implements Runnable {
         }
         return DownloadStatus.FAIL;
     }
-
     public void setFileStatus(@IntRange(from = DownloadStatus.WAIT, to = DownloadStatus.FAIL) int status) {
         fileInfo.setDownloadStatus(status);
-
     }
     public void sendBroadcast(Intent intent) {
         context.sendBroadcast(intent);
@@ -84,7 +82,6 @@ public class DownloadTask implements Runnable {
     public DownloadInfo getDownLoadInfo() {
         return info;
     }
-
     public FileInfo getFileInfo() {
         return fileInfo;
     }
