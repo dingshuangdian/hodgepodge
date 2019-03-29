@@ -86,10 +86,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/video_item">
-
             <com.lsqidsd.hodgepodge.diyview.imageview.RoundImageView
                 android:id="@+id/img"
                 android:layout_width="25dp"
@@ -120,7 +117,8 @@
                 android:src="@mipmap/download"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/zz"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="@{videoitem.showVideo}" />
 
             <ImageView
                 android:id="@+id/zz"

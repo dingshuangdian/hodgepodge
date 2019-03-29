@@ -6,8 +6,6 @@ import android.databinding.ObservableInt;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
@@ -15,8 +13,6 @@ import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.http.download.DownloadHelper;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
-import com.lsqidsd.hodgepodge.view.DownloadActivity;
-
 import java.io.File;
 
 public class VideosViewModule<T> {

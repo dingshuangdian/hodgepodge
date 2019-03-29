@@ -1,8 +1,11 @@
 package com.lsqidsd.hodgepodge.fragment;
+
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.adapter.VideoListAdapter;
 import com.lsqidsd.hodgepodge.api.FeedScrollListener;
@@ -10,20 +13,23 @@ import com.lsqidsd.hodgepodge.api.InterfaceListenter;
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.base.BaseLazyFragment;
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
+import com.lsqidsd.hodgepodge.broadcast.DownBroadcastReceiver;
 import com.lsqidsd.hodgepodge.databinding.VideosListFragmentBinding;
 import com.lsqidsd.hodgepodge.diyview.videoview.JZMediaManager;
 import com.lsqidsd.hodgepodge.diyview.videoview.Jzvd;
 import com.lsqidsd.hodgepodge.diyview.videoview.JzvdMgr;
 import com.lsqidsd.hodgepodge.diyview.videoview.MyJzvdStd;
 import com.lsqidsd.hodgepodge.viewmodel.HttpModel;
+
 import java.util.ArrayList;
 import java.util.List;
+
 public class VideolistFragment extends BaseLazyFragment implements InterfaceListenter.VideosLoadFinish {
     private VideosListFragmentBinding videosFragmentBinding;
     private VideoListAdapter adapter;
     private List<DailyVideos.IssueListBean.ItemListBean> videosList = new ArrayList<>();
     private static VideolistFragment videolistFragment;
-
+    private static final String DOWN_ACTION = "download";
     public static VideolistFragment getInstance(int i) {
         videolistFragment = new VideolistFragment();
         Bundle bundle = new Bundle();
@@ -61,7 +67,6 @@ public class VideolistFragment extends BaseLazyFragment implements InterfaceList
                 }
             }
         });
-
     }
 
     @Override
@@ -70,9 +75,16 @@ public class VideolistFragment extends BaseLazyFragment implements InterfaceList
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(DOWN_ACTION);
+        getContext().registerReceiver(new DownBroadcastReceiver(), filter);
+    }
+
+    @Override
     public void lazyLoad() {
         initRefresh();
-
     }
 
     private void loadData() {
@@ -89,6 +101,7 @@ public class VideolistFragment extends BaseLazyFragment implements InterfaceList
                 break;
         }
     }
+
     @Override
     public void videosLoadFinish(List<DailyVideos.IssueListBean.ItemListBean> beans, String url) {
         videosList = beans;
@@ -100,6 +113,7 @@ public class VideolistFragment extends BaseLazyFragment implements InterfaceList
         videosFragmentBinding.refreshLayout.setOnRefreshListener(a -> loadData());
         videosFragmentBinding.refreshLayout.autoRefresh();
     }
+
     @Override
     public void onPause() {
         super.onPause();
