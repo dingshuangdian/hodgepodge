@@ -18,6 +18,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.List;
 
+
+
 public class VideoViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<NewsVideoItem.DataBean> videos;
     private Context context;
