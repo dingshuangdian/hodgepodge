@@ -1,6 +1,7 @@
 package com.lsqidsd.hodgepodge.http.download;
 
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;

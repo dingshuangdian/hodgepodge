@@ -6,6 +6,7 @@ public class BaseConstant {
     public static String BASE_URL = "https://pacaio.match.qq.com/";
     public static String VIDEO_URL = "http://baobab.kaiyanapp.com/api/v2/feed";
     public static String UPDATA_URL = "https://imtt.dd.qq.com/";
+    public static String DOWNLOAD_URL = " http://baobab.kaiyanapp.com/";
     public static HashMap<String, String> params = new HashMap<>();
 
     //军事
@@ -63,6 +64,7 @@ public class BaseConstant {
         params.put("ext", "cul");
         return params;
     }
+
     /**
      * Jsoup
      */

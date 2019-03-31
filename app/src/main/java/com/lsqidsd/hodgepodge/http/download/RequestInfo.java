@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class RequestInfo implements Serializable {
 
-    private int dictate;
+    private int dictate;//下载状态标记
     private DownloadInfo downloadInfo;
 
     public int getDictate() {

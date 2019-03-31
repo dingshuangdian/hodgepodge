@@ -6,12 +6,14 @@ import android.databinding.ObservableInt;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
+import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
+import com.lsqidsd.hodgepodge.http.download.DownloadHelper;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
+import java.io.File;
 
 public class VideosViewModule<T> {
     private NewsVideoItem.DataBean videos;
@@ -20,6 +22,9 @@ public class VideosViewModule<T> {
     public ObservableInt showVideo = new ObservableInt(View.GONE);
     public ObservableInt showPicture = new ObservableInt(View.GONE);
     private DailyVideos.IssueListBean.ItemListBean adVieos;
+    private File dir;
+    private static final String DOWN_ACTION = "download";
+    private DownloadHelper downloadHelper;
 
     public VideosViewModule(T videos, Context context) {
         if (videos instanceof NewsVideoItem.DataBean) {
@@ -32,6 +37,7 @@ public class VideosViewModule<T> {
             thisVideo = false;
             showVideo.set(View.VISIBLE);
             showPicture.set(View.GONE);
+            downloadHelper = DownloadHelper.getInstance();
         }
         this.context = context;
     }
@@ -119,8 +125,27 @@ public class VideosViewModule<T> {
     }
 
     public void toPlay(View view) {
-        if (thisVideo) {
-            Jump.jumpToWebActivity(context, videos.getUrl());
+        switch (view.getId()) {
+            case R.id.video_play:
+                if (thisVideo) {
+                    Jump.jumpToWebActivity(context, videos.getUrl());
+                }
+                break;
+            case R.id.download:
+                downloadHelper.addTask(adVieos.getData().getPlayUrl(), new File(getDir(), adVieos.getData().getTitle() + ".mp4"), DOWN_ACTION).submit(context);
+                break;
         }
     }
+
+    private File getDir() {
+        if (dir != null && dir.exists()) {
+            return dir;
+        }
+        dir = new File(context.getExternalCacheDir(), "download");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        return dir;
+    }
+
 }
