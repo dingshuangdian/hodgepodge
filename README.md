@@ -20,8 +20,6 @@ mvvm+databinding+rxjava2实现高仿腾讯新闻客户端
 <img src="https://raw.githubusercontent.com/dingshuangdian/hodgepodge/master/img/预览01.gif" width="200px" height="400px" alt="首页">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://raw.githubusercontent.com/dingshuangdian/hodgepodge/master/img/预览02.gif" width="200px" height="400px" alt="热点精选">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://raw.githubusercontent.com/dingshuangdian/hodgepodge/master/img/预览03.gif" width="200px" height="400px" alt="视频">
 
 
-
-
 <h4>*懒加载封装基类*</h4>
 
     @Nullable
