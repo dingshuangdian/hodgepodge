@@ -22,17 +22,7 @@ mvvm+databinding+rxjava2实现高仿腾讯新闻客户端
 
 
 
-<h5>*懒加载封装基类*</h5>
-
-public abstract class BaseLazyFragment<T extends ViewDataBinding> extends Fragment {
-    /**
-     * @param isVisibleToUser
-     */
-    public boolean inInit = false;
-    public boolean isLoad = false;
-    private LayoutInflater mInflater;
-    private ViewGroup mContainer;
-    private T t;
+<h4>*懒加载封装基类*</h4>
 
     @Nullable
     @Override
@@ -99,8 +89,9 @@ public abstract class BaseLazyFragment<T extends ViewDataBinding> extends Fragme
     }
 
 
-<h5>*带全局网络监听，权限控制，沉浸式状态栏等的activity基类*</h5>
-@Override
+<h4>*带全局网络监听，权限控制，沉浸式状态栏等的activity基类*</h4>
+    
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
@@ -122,9 +113,10 @@ public abstract class BaseLazyFragment<T extends ViewDataBinding> extends Fragme
         }
     }
 
-<h5>混淆打包(已经适配大多数框架，拿来直接用)</h5>
+<h4>混淆打包(已经适配大多数框架，拿来直接用)</h4>
 
- buildTypes {
+ 
+    buildTypes {
         release {
             //开启代码混淆
             minifyEnabled true
@@ -136,38 +128,39 @@ public abstract class BaseLazyFragment<T extends ViewDataBinding> extends Fragme
         }
 
     }
- <p>部分代码</p>
- -optimizationpasses 5
- # 混淆时不使用大小写混合，混淆后的类名为小写
- -dontusemixedcaseclassnames
- 
- # 指定不去忽略非公共的库的类
- -dontskipnonpubliclibraryclasses
- 
- # 指定不去忽略非公共的库的类的成员
- -dontskipnonpubliclibraryclassmembers
- 
- # 不做预校验，可加快混淆速度
- # preverify是proguard的4个步骤之一
- # Android不需要preverify，去掉这一步可以加快混淆速度
- -dontpreverify
- 
- # 不优化输入的类文件
- -dontoptimize
- 
- # 混淆时生成日志文件，即映射文件
- -verbose
- 
- # 指定映射文件的名称
- -printmapping proguardMapping.txt
- 
- #混淆时所采用的算法
- -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
- 
- # 保护代码中的Annotation不被混淆
- -keepattributes *Annotation*
+<p>部分代码</p>
 
+     -optimizationpasses 5
+     # 混淆时不使用大小写混合，混淆后的类名为小写
+     -dontusemixedcaseclassnames
+     
+     # 指定不去忽略非公共的库的类
+     -dontskipnonpubliclibraryclasses
+     
+     # 指定不去忽略非公共的库的类的成员
+     -dontskipnonpubliclibraryclassmembers
+     
+     # 不做预校验，可加快混淆速度
+     # preverify是proguard的4个步骤之一
+     # Android不需要preverify，去掉这一步可以加快混淆速度
+     -dontpreverify
+     
+     # 不优化输入的类文件
+     -dontoptimize
+     
+     # 混淆时生成日志文件，即映射文件
+     -verbose
+     
+     # 指定映射文件的名称
+     -printmapping proguardMapping.txt
+     
+     #混淆时所采用的算法
+     -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+     
+     # 保护代码中的Annotation不被混淆
+     -keepattributes *Annotation*
     
+        
   
 
 
