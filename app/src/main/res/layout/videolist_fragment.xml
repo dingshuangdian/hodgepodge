@@ -8,8 +8,6 @@
             name="videosview"
             type="com.lsqidsd.hodgepodge.viewmodel.VideosViewModule"></variable>
     </data>
-
-
         <com.lsqidsd.hodgepodge.diyview.refresh.SmartRefreshLayout
             android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
