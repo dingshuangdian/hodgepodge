@@ -1,5 +1,4 @@
 package com.lsqidsd.hodgepodge.api;
-
 import com.lsqidsd.hodgepodge.base.BaseConstant;
 import com.lsqidsd.hodgepodge.bean.NewsHot;
 import com.lsqidsd.hodgepodge.bean.NewsItem;
@@ -8,12 +7,9 @@ import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.http.RxHttpManager;
 import com.lsqidsd.hodgepodge.http.download.DownService;
 import com.lsqidsd.hodgepodge.http.download.FileInfo;
-
 import java.util.HashMap;
-
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
-
 public class HttpGet {
     private static RxHttpManager rxHttpManager = RxHttpManager.getInstance();
 

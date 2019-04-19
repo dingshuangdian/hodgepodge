@@ -1,9 +1,5 @@
 package com.lsqidsd.hodgepodge.http.download;
 
-
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -11,8 +7,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -21,9 +15,12 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.bean.DownVideo;
 import com.lsqidsd.hodgepodge.utils.NotificationUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
@@ -37,8 +34,9 @@ public class DownloadService extends Service {
     private static final int CORE_POOL_SIZE = Math.max(3, CPU_COUNT / 2);
     private static final int MAX_POOL_SIZE = CORE_POOL_SIZE * 2;
     private static final long KEEP_ALIVE_TIME = 0L;
-    private DownloadExecutor executor = new DownloadExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.MILLISECONDS, new LinkedBlockingDeque<Runnable>());
+    private DownloadExecutor executor = new DownloadExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.MILLISECONDS, new LinkedBlockingDeque<>());
     private HashMap<String, DownloadTask> taskHashMap = new HashMap<>();
+    private List<RequestInfo> videoList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -62,7 +60,6 @@ public class DownloadService extends Service {
             RequestInfo requestInfo = (RequestInfo) intent.getSerializableExtra(InnerConstant.Inner.SERVICE_INTENT_EXTRA);
             executeDownload(requestInfo);
             showNotification(false);
-            Toast.makeText(context, "已添加到下载队列", Toast.LENGTH_SHORT).show();
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -95,6 +92,8 @@ public class DownloadService extends Service {
             if (requestInfo.getDictate() == InnerConstant.Request.loading) {
                 task = new DownloadTask(this, downloadInfo, holder);
                 taskHashMap.put(downloadInfo.getUniqueId(), task);
+                videoList.add(requestInfo);
+                Toast.makeText(context, "已添加到下载队列", Toast.LENGTH_SHORT).show();
             }
         } else {
             Log.e("task=", "不为空");
