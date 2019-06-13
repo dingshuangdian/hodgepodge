@@ -2,7 +2,6 @@ package com.lsqidsd.hodgepodge.service;
 
 import android.app.Activity;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -25,8 +24,6 @@ import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.api.HttpGet;
 import com.lsqidsd.hodgepodge.http.HttpOnNextListener;
 import com.lsqidsd.hodgepodge.http.MyDisposableObserver;
-import com.lsqidsd.hodgepodge.http.download.FileCallBack;
-import com.lsqidsd.hodgepodge.http.download.InstalledReceiver;
 import com.lsqidsd.hodgepodge.utils.NotificationUtil;
 
 import java.io.File;

@@ -1,9 +1,12 @@
 package com.lsqidsd.hodgepodge.http;
+
 import com.lsqidsd.hodgepodge.base.BaseApplication;
-import com.lsqidsd.hodgepodge.http.download.Platform;
+import com.lsqidsd.hodgepodge.service.Platform;
+
 import java.io.File;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
@@ -17,6 +20,7 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 public class RxHttpManager {
     private final int DEFAULT_TIME_OUT = 10;
     private final String CACHE_NAME = "cache_news";

@@ -5,8 +5,6 @@ import com.lsqidsd.hodgepodge.bean.NewsItem;
 import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsTop;
 import com.lsqidsd.hodgepodge.http.RxHttpManager;
-import com.lsqidsd.hodgepodge.http.download.DownService;
-import com.lsqidsd.hodgepodge.http.download.FileInfo;
 import java.util.HashMap;
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
@@ -78,14 +76,6 @@ public class HttpGet {
      */
     public static void updata(DisposableObserver observer) {
         Observable observable = rxHttpManager.create(HttpApi.class, BaseConstant.UPDATA_URL).download();
-        rxHttpManager.subscribe(observable, observer);
-    }
-
-    /**
-     * 视频下载
-     */
-    public static void download(DisposableObserver observer, FileInfo info) {
-        Observable observable = rxHttpManager.create(DownService.class, BaseConstant.DOWNLOAD_URL).download("bytes=" + info.getDownloadLocation() + "-", info.getDownloadUrl());
         rxHttpManager.subscribe(observable, observer);
     }
 }

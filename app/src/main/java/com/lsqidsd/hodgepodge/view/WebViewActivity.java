@@ -26,7 +26,6 @@ import com.lsqidsd.hodgepodge.http.NetUtil;
 public class WebViewActivity extends BaseActivity {
     private ActivityWebViewBinding webViewBinding;
     private WebView webView;
-    private ProgressBar progressBar;
 
     @Override
     public int getLayout() {
@@ -35,7 +34,7 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        webViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_web_view);
+        webViewBinding = DataBindingUtil.setContentView(this, getLayout());
         initWebView();
     }
 

@@ -1,14 +1,16 @@
 package com.lsqidsd.hodgepodge.base;
+
 import android.app.Application;
 import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.lsqidsd.hodgepodge.diyview.refresh.ClassicsHeader;
+import com.lsqidsd.hodgepodge.http.downserver.OkGo;
 import com.lsqidsd.hodgepodge.utils.DynamicTimeFormat;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 public class BaseApplication extends Application {
-    private  static Context mContext;
+    private static Context mContext;
 
     static {
         //启用矢量图兼容
@@ -33,6 +35,7 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+        OkGo.getInstance().init(this);
     }
 
     public static Context getmContext() {

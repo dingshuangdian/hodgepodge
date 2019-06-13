@@ -15,5 +15,5 @@
     <color name="black">#000</color>
 
     <color name="edit_background">#f2f6f9</color>
-    <color name="edit_stroke">#fff</color>
+    <color name="edit_stroke">#ffffff</color>
 </resources>

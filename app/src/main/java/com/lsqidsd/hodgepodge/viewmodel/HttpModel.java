@@ -1,12 +1,9 @@
 package com.lsqidsd.hodgepodge.viewmodel;
-
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.lsqidsd.hodgepodge.api.HttpGet;
 import com.lsqidsd.hodgepodge.api.InterfaceListenter;
@@ -19,24 +16,17 @@ import com.lsqidsd.hodgepodge.bean.NewsMain;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
 import com.lsqidsd.hodgepodge.http.HttpOnNextListener;
 import com.lsqidsd.hodgepodge.http.MyDisposableObserver;
-
-import com.lsqidsd.hodgepodge.http.download.FileCallBack;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
 import okhttp3.Call;
-import okhttp3.ResponseBody;
 
 
 public class HttpModel {

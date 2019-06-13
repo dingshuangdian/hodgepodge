@@ -1,18 +1,26 @@
 package com.lsqidsd.hodgepodge.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+
 import com.bumptech.glide.Glide;
 import com.lsqidsd.hodgepodge.R;
 import com.lsqidsd.hodgepodge.bean.DailyVideos;
 import com.lsqidsd.hodgepodge.bean.NewsVideoItem;
-import com.lsqidsd.hodgepodge.http.download.DownloadHelper;
+import com.lsqidsd.hodgepodge.http.downserver.OkDownload;
+import com.lsqidsd.hodgepodge.http.downserver.OkGo;
+import com.lsqidsd.hodgepodge.http.downserver.request.GetRequest;
+import com.lsqidsd.hodgepodge.service.LogDownloadListener;
 import com.lsqidsd.hodgepodge.utils.Jump;
 import com.lsqidsd.hodgepodge.utils.TimeUtil;
+import com.lsqidsd.hodgepodge.utils.ToastUtils;
+import com.lsqidsd.hodgepodge.view.DownloadActivity;
+
 import java.io.File;
 
 public class VideosViewModule<T> {
@@ -24,7 +32,7 @@ public class VideosViewModule<T> {
     private DailyVideos.IssueListBean.ItemListBean adVieos;
     private File dir;
     private static final String DOWN_ACTION = "download";
-    private DownloadHelper downloadHelper;
+    private static final int REQUEST_PERMISSION_STORAGE = 0x01;
 
     public VideosViewModule(T videos, Context context) {
         if (videos instanceof NewsVideoItem.DataBean) {
@@ -37,7 +45,6 @@ public class VideosViewModule<T> {
             thisVideo = false;
             showVideo.set(View.VISIBLE);
             showPicture.set(View.GONE);
-            downloadHelper = DownloadHelper.getInstance();
         }
         this.context = context;
     }
@@ -132,7 +139,21 @@ public class VideosViewModule<T> {
                 }
                 break;
             case R.id.download:
-                downloadHelper.addTask(adVieos.getData().getPlayUrl(), new File(getDir(), adVieos.getData().getTitle() + ".mp4"), DOWN_ACTION).submit(context);
+
+                if (OkDownload.getInstance().getTask(adVieos.getData().getPlayUrl()) != null) {
+                    Intent intent = new Intent(context, DownloadActivity.class);
+                    intent.putExtra("videos", adVieos.getData());
+                    context.startActivity(intent);
+                } else {
+                    ToastUtils.showToast(context, "已添加到下载队列");
+                    OkDownload.getInstance().setFileName(adVieos.getData().getTitle() + ".mp4");
+                    GetRequest<File> request = OkGo.<File>get(adVieos.getData().getPlayUrl());
+                    OkDownload.request(adVieos.getData().getPlayUrl(), request)
+                            .extra1(adVieos.getData())
+                            .save()
+                            .register(new LogDownloadListener())
+                            .start();
+                }
                 break;
         }
     }
@@ -147,5 +168,4 @@ public class VideosViewModule<T> {
         }
         return dir;
     }
-
 }

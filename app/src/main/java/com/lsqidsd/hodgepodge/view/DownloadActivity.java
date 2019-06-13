@@ -1,25 +1,19 @@
 package com.lsqidsd.hodgepodge.view;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.lsqidsd.hodgepodge.R;
+import com.lsqidsd.hodgepodge.adapter.DownloadAdapter;
 import com.lsqidsd.hodgepodge.base.BaseActivity;
 import com.lsqidsd.hodgepodge.databinding.ActivityDownloadBinding;
-import com.lsqidsd.hodgepodge.http.download.DownloadConstant;
-import com.lsqidsd.hodgepodge.http.download.DownloadHelper;
-import com.lsqidsd.hodgepodge.http.download.FileInfo;
+import com.lsqidsd.hodgepodge.http.downserver.OkDownload;
+import com.lsqidsd.hodgepodge.http.downserver.task.XExecutor;
+import com.lsqidsd.hodgepodge.utils.ToastUtils;
 
-import java.io.File;
-
-public class DownloadActivity extends BaseActivity {
-
-    private DownloadHelper downloadHelper;
+public class DownloadActivity extends BaseActivity implements XExecutor.OnAllTaskEndListener {
     private ActivityDownloadBinding binding;
-
+    private DownloadAdapter adapter;
+    private OkDownload okDownload;
 
     @Override
     public int getLayout() {
@@ -28,10 +22,24 @@ public class DownloadActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        String[] url = getIntent().getStringArrayExtra("extra");
-        downloadHelper = DownloadHelper.getInstance();
         binding = getBinding(binding);
-        //binding.recyview.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new DownloadAdapter(this);
+        okDownload = OkDownload.getInstance();
+        adapter.updateData(DownloadAdapter.TYPE_ALL);
+        binding.recyview.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyview.setAdapter(adapter);
+        okDownload.addOnAllTaskEndListener(this);
     }
 
+    @Override
+    public void onAllTaskEnd() {
+        ToastUtils.showToast(this, "所有下载任务已结束");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        okDownload.removeOnAllTaskEndListener(this);
+        adapter.unRegister();
+    }
 }
